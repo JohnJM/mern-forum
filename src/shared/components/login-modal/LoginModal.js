@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 // import Backdrop from './Backdrop';
 import Modal from '../ui/Modal';
 
-import './LoginModal.scss';
+import './LoginModal.css';
 
 const LoginModal = props => {
     const [loginIsOpen,

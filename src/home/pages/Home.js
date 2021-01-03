@@ -5,6 +5,8 @@ import LoginModal from '../../shared/components/login-modal/LoginModal';
 
 const Home = () => {
 
+    
+
 
     // let rngbool;
 

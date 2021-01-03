@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import {CSSTransition} from 'react-transition-group';
 
-import './SideDrawer.scss';
+import './SideDrawer.css';
 
 const SideDrawer = props => {
      const content = (
