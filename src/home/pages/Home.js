@@ -1,5 +1,4 @@
 import React from 'react';
-import LoginModal from '../../shared/components/login-modal/LoginModal';
 
 
 
@@ -10,8 +9,6 @@ const Home = () => {
 
     return (
         <div>
-            <LoginModal show={false} header='login header help'></LoginModal>
-
             <p>home works</p>
         </div>
     )

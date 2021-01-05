@@ -19,8 +19,8 @@ const NavLinks = props => {
             <NavLink to="/user/uidgoeshere">Account name</NavLink>
         </li>
 
-        <li className="mx-1 ml-9" id="nav-login"><button className="text-white btn">Login</button></li>
-        <li className="mx-1 mr-0" id="nav-register"><button className="text-white btn">Register</button></li>
+        <li className="mx-1 ml-9" id="nav-login"><button className="text-white">Login</button></li>
+        <li className="mx-1 mr-0" id="nav-register"><button className="text-white">Register</button></li>
 
     </ul>
 }

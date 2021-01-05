@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Backdrop from '../ui/Backdrop';
 import SideDrawer from '../ui/SideDrawer';
 import NavLinks from '../nav/NavLinks';
+import FormLogin from '../form-login/FormLogin'
 
 // 
 
@@ -18,16 +19,21 @@ const MainNavigation = props => {
         setDrawerIsOpen(false);
     }
 
+
+
+
     // I think the next step is to 
     //have global state decide whats going in the side drawer...
+    ///btw I want to try using react query in this project.
 
+    // I need to use a reducr to figure out what to load inside sidrDrawer...
 
     return (
         <React.Fragment>
             {drawerIsOpen && <Backdrop onClick={closeDrawerHandler}/>}
 
             <SideDrawer show={drawerIsOpen}>
-                <p>side Drawer content</p>
+                <FormLogin/>
             </SideDrawer>
 
             <nav className="main-navigation__drawer-nav flex justify-between bg-green-500">
