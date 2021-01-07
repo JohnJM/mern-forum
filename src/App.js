@@ -6,23 +6,17 @@ import MainNavigation from './shared/components/nav/MainNavigation'
 import Users from './user/pages/Users';
 import Home from './home/pages/Home';
 import Vip from './vip/pages/Vip';
-import {AuthContext} from './shared/context/AuthContext';
+import {AuthContext, GetAuthFunc} from './shared/context/AuthContext';
+import {SideDrawerContext} from './shared/context/SideDrawerContext';
+
 
 function App() {
-    const [isLoggedIn,
-        setIsLoggedIn] = useState(false);
 
-    const login = useCallback(() => {
-        setIsLoggedIn(true);
-    }, [])
-
-    const logout = useCallback(() => {
-        setIsLoggedIn(false);
-    }, [])
+    const authFunc = GetAuthFunc();
 
     let routes;
 
-    if (isLoggedIn) {
+    if (authFunc.isLoggedIn) {
         routes = (
             <Switch>
                 <Route path="/" exact>
@@ -54,9 +48,9 @@ function App() {
     return (
         <AuthContext.Provider
             value={{
-            isLoggedIn: isLoggedIn,
-            login: login,
-            logout: logout
+            isLoggedIn: authFunc.isLoggedIn,
+            login: authFunc.login,
+            logout: authFunc.logout
         }}>
             <Router>
                 <MainNavigation/>
