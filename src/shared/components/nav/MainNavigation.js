@@ -1,26 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Backdrop from '../ui/Backdrop';
 import SideDrawer from '../ui/SideDrawer';
 import NavLinks from '../nav/NavLinks';
-import FormLogin from '../form-login/FormLogin'
-import FormRegister from '../form-register/FormRegister'
+import FormLogin from '../form-login/FormLogin';
+import FormRegister from '../form-register/FormRegister';
+import {useSideDrawer} from '../../hooks/SideDrawerHook';
 
-// 
 
 const MainNavigation = props => {
 
-    // use context for the drawer being open or closed!
+    const [sideState, toggleOpen, displayOnSide] = useSideDrawer();
 
-    const [drawerIsOpen,
-        setDrawerIsOpen] = useState(false);
-
-    const openDrawerHandler = () => {
-        setDrawerIsOpen(true);
-    }
-
-    const closeDrawerHandler = () => {
-        setDrawerIsOpen(false);
-    }
+    const goReg = useCallback(()=>{
+        displayOnSide(<FormRegister/>);
+    }, [])
 
     
     // state needs to be 
@@ -32,16 +25,15 @@ const MainNavigation = props => {
 
     return (
         <React.Fragment>
-            {drawerIsOpen && <Backdrop onClick={closeDrawerHandler}/>}
+            {sideState.isOpen && <Backdrop onClick={toggleOpen}/>}
 
-            <SideDrawer show={drawerIsOpen}>
-                <FormLogin/>
-                <FormRegister/>
-                
+            <SideDrawer show={sideState.isOpen}>
+                <span onClick={goReg}>Go reg</span>
+                {sideState.content}
             </SideDrawer>
 
             <nav className="main-navigation__drawer-nav flex justify-between bg-green-500">
-                <span className="mr-auto" onClick={openDrawerHandler}>open sidebar</span>
+                <span className="mr-auto" onClick={toggleOpen}>open sidebar</span>
                 <NavLinks/>
             </nav>
 

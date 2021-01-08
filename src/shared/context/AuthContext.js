@@ -6,6 +6,7 @@ export const AuthContext = createContext({
     logout: () => {}
 });
 
+// maybe this should be in its own "useAuth" hook? I think because it's not a reducer its fine in here?
 export const GetAuthFunc = () => {
     const [isLoggedIn,
         setIsLoggedIn] = useState(false);

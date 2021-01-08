@@ -8,11 +8,13 @@ import Home from './home/pages/Home';
 import Vip from './vip/pages/Vip';
 import {AuthContext, GetAuthFunc} from './shared/context/AuthContext';
 import {SideDrawerContext} from './shared/context/SideDrawerContext';
-
+import {useSideDrawer} from './shared/hooks/SideDrawerHook'
 
 function App() {
 
     const authFunc = GetAuthFunc();
+    const [sideDrawerState, togglesideDrawerOpen, displayOnSideDrawer] = useSideDrawer(false, <p>sidebar works</p>)
+
 
     let routes;
 
