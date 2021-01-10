@@ -1,15 +1,26 @@
-import React from 'react';
+import React, {useContext} from 'react';
+// import {FormLogin} from '../form-login/FormLogin';
+import Button from '../form-elements/Button';
+import FormLogin from '../form-login/FormLogin';
+import {SideDrawerContext} from '../../context/SideDrawerContext';
 
+const FormRegister = (props) => {
+    const side = useContext(SideDrawerContext);
 
+    let toggleLogin;
 
-const FormRegister = () => {
-    // let rngbool;
-
-    // Math.random() <= 0.5 ? rngbool = false : rngbool = true;
+    if (props.forSideDrawer) {
+        toggleLogin = <Button
+            className="btn"
+            onClick={() => {
+            side.setContent(<FormLogin forSideDrawer/>)
+        }}>Go Login</Button>
+    }
 
     return (
         <div>
             <p>form register works</p>
+            {toggleLogin}
         </div>
     )
 

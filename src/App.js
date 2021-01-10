@@ -13,8 +13,9 @@ import {useSideDrawer} from './shared/hooks/SideDrawerHook'
 function App() {
 
     const authFunc = GetAuthFunc();
-    const [sideDrawerState, togglesideDrawerOpen, displayOnSideDrawer] = useSideDrawer(false, <p>sidebar works</p>)
-
+    const [sideState,
+        toggleOpen,
+        displayContent, setContent] = useSideDrawer();
 
     let routes;
 
@@ -54,12 +55,22 @@ function App() {
             login: authFunc.login,
             logout: authFunc.logout
         }}>
-            <Router>
-                <MainNavigation/>
-                <main>
-                    {routes}
-                </main>
-            </Router>
+            <SideDrawerContext.Provider value={{
+                isOpen: sideState.isOpen,
+                content: sideState.content,
+                displayContent: displayContent,
+                setContent: setContent,
+                toggleOpen: toggleOpen
+            }}>
+
+                <Router>
+                    <MainNavigation/>
+                    <main>
+                        {routes}
+                    </main>
+                </Router>
+            </SideDrawerContext.Provider>
+
         </AuthContext.Provider>
     )
 }

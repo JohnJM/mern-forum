@@ -2,11 +2,15 @@ import React, {useContext, useCallback} from 'react';
 import {NavLink} from 'react-router-dom';
 
 import {AuthContext} from '../../context/AuthContext';
+import {SideDrawerContext} from '../../context/SideDrawerContext';
+import FormLogin from '../form-login/FormLogin';
+import FormRegister from '../form-register/FormRegister';
 
 // import './NavLinks.scss'; logic for what the nav links are will be in here.
 
 const NavLinks = props => {
     const auth = useContext(AuthContext);
+    const side = useContext(SideDrawerContext);
 
     return <ul className="nav-links flex">
         <li className="text-white mx-1 ml-0">
@@ -26,10 +30,18 @@ const NavLinks = props => {
         {!auth.isLoggedIn && (
             <React.Fragment>
                 <li className="mx-1 ml-9" id="nav-login">
-                    <button className="text-white">Login</button>
+                    <button
+                        onClick={() => {
+                        side.displayContent(<FormLogin forSideDrawer/>)
+                    }}
+                        className="text-white">Login</button>
                 </li>
                 <li className="mx-1 mr-0" id="nav-register">
-                    <button className="text-white">Register</button>
+                    <button
+                        onClick={() => {
+                        side.displayContent(<FormRegister forSideDrawer/>)
+                    }}
+                        className="text-white">Register</button>
                 </li>
             </React.Fragment>
         )}
