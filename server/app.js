@@ -20,8 +20,6 @@ mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then (() =>  app.listen(3001, () => console.log('listening on 3001')))
 .catch(err => console.log(err));
 
-
-
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -43,19 +41,13 @@ app.get('/login', (req, res) => {
     res.render('login')
 })
 
-
-
 //after this line the user must be logged in.
 app.get('*', checkUser);
-
-
 
 app.get('/logout', (req, res) => {
     res.clearCookie('jwt');
     res.locals.user = null;
     res.render('front', {msg: 'Successfully logged out'});
 })
-
-
 
 app.use(authRoutes);

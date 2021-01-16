@@ -11,8 +11,9 @@ import {SideDrawerContext} from './shared/context/SideDrawerContext';
 import {useSideDrawer} from './shared/hooks/SideDrawerHook'
 
 function App() {
-
+    
     const authFunc = GetAuthFunc();
+
     const [sideState,
         toggleOpen,
         displayContent, setContent] = useSideDrawer();

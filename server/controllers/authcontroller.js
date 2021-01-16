@@ -68,15 +68,3 @@ module.exports.vippage_get = (req, res) => {
     res.json(res.locals.user).status(200);
     // res.send('VIP hit !!');
 }
-
-
-// I think...
-// 
-// 
-// 
-// 
-// craete services folder
-//send upload details to that.
-
-
-

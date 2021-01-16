@@ -4,7 +4,7 @@ module.exports.listBoards = async () => {
     try {
         return Board.find({});
     }
-    catch (e){
-        throw e;
+    catch (err){
+        throw EvalError;
     }
 }

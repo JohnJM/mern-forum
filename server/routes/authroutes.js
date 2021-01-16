@@ -11,3 +11,5 @@ router.post('/login', authController.login_post);
 router.get('/vip', requireAuth, authController.vippage_get);
 
 module.exports = router;
+
+ 
