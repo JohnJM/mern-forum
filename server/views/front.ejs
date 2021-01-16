@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sc chat</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body> 
+
+   
+
+   <% if (locals.msg) { %>
+      <span><%= locals.msg %></span>
+    <% } %>
+
+    <% if (locals.user) { %>
+      <span>hey - you're logged in as <%= locals.user.username %></span>
+
+      <%- include('part/logout.ejs');  %>
+    <% } %>
+   
+
+   <!-- <form id="login"><h2>login</h2>
+        <span class="username-err"></span>
+        <input type="text" name="username" placeholder="username"></input>
+        <span class="password-err"></span>
+        <input type="password" name="password" placeholder="password"></input>
+        <input type="submit" name="submit" value="login" placeholder="submit"></input>  
+   </form> -->
+  <a href="/login">go login</a>
+
+   <form id="register"><h2>register</h2>   
+        <span class="username-err"></span>
+        <input type="text" name="username" placeholder="Username"></input>
+        <span class="password-err"></span>
+        <input type="password" name="password" placeholder="Password"></input>
+        <input type="submit" name="submit" value="register" placeholder="submit"></input>
+    </form>
+
+   <script src="./register.js"></script>
+
+</body> 
+</html>
