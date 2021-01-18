@@ -5,6 +5,7 @@ import NavLinks from '../nav/NavLinks';
 import FormRegister from '../form-register/FormRegister';
 import {SideDrawerContext} from '../../context/SideDrawerContext'
 import {AuthContext} from '../../context/AuthContext'
+import {CSSTransition} from 'react-transition-group';
 
 const MainNavigation = props => {
     const side = useContext(SideDrawerContext);
@@ -24,7 +25,15 @@ const MainNavigation = props => {
 
     return (
         <React.Fragment>
-            {side.isOpen && <Backdrop onClick={side.toggleOpen}/>}
+            {side.isOpen && <CSSTransition
+                in={side.isOpen}
+                appear={true}
+                timeout={100}
+                classNames="fade"
+                unmountOnExit>
+                <Backdrop onClick={side.toggleOpen}/>
+            </CSSTransition>
+}
 
             <SideDrawer show={side.isOpen}>
                 {side.content}

@@ -1,5 +1,4 @@
 import React, {useContext} from 'react';
-// import './FormLogin.css';
 import {useForm} from '../../hooks/FormHook';
 import {AuthContext} from '../../context/AuthContext';
 import {useSideDrawer} from '../../hooks/SideDrawerHook';
@@ -51,6 +50,7 @@ const FormLogin = props => {
 
             <form onSubmit={loginSubmitHandler}>
                 <Input
+                    autoFocus
                     element="input"
                     id="username"
                     type="text"
@@ -70,15 +70,10 @@ const FormLogin = props => {
                     onInput={inputHandler}></Input>
 
                 <Button type="submit" size="1" disabled={!formState.isValid}>Login</Button>
-                {toggleRegister}
-
             </form>
+            {toggleRegister}
+
         </React.Fragment>
-
-    // props.show && <Modal show={loginIsOpen} onCancel={closeLoginHandler}
-    // header={props.header}>     <h1>my login form</h1>         <input></input>
-    // </Modal>
-
     )
 
 };

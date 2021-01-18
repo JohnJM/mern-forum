@@ -70,6 +70,7 @@ const FormRegister = props => {
 
             <form onSubmit={registerSubmitHandler}>
                 <Input
+                    autoFocus
                     element="input"
                     id="username"
                     type="text"

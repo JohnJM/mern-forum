@@ -48,6 +48,7 @@ const Input = props => {
         ? (<input className="border-2 border-black-500"
             id={props.id}
             type={props.type}
+            autoFocus={props.autoFocus}
             placeholder={props.placeholder}
             onChange={changeHandler}
             onBlur={touchHandler}
@@ -55,6 +56,7 @@ const Input = props => {
         : (<textarea className="border-2 border-black-500"
             id={props.id}
             rows={props.rows || 3}
+            autoFocus={props.autoFocus}
             onChange={changeHandler}
             value={inputState.value}
             onBlur={touchHandler}/>);
