@@ -34,7 +34,7 @@ form.addEventListener('submit', async (e) => {
              
          else if (data.user){
              location.assign('/');
-         }""
+         }
      }
      catch(err) {
          console.log(`error: ${err}`);

@@ -5,7 +5,7 @@ const Post = require('./models/post');
 const User = require('./models/user');
 const fs = require('fs');
 const authRoutes = require('./routes/authroutes');
-const publicRoutes = require('./routes/publicroutes');
+const boardRoutes = require('./routes/boardroutes');
 const { checkUser } = require('./middleware/authMiddleware');
 const cors = require('cors');
 
@@ -31,7 +31,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 
-app.use(publicRoutes)
+app.use(boardRoutes)
 
 app.get('/', (req, res) => {
     res.render('front')
