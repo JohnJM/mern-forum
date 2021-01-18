@@ -28,7 +28,7 @@ const MainNavigation = props => {
             {side.isOpen && <CSSTransition
                 in={side.isOpen}
                 appear={true}
-                timeout={100}
+                timeout={500}
                 classNames="fade"
                 unmountOnExit>
                 <Backdrop onClick={side.toggleOpen}/>
@@ -39,8 +39,15 @@ const MainNavigation = props => {
                 {side.content}
             </SideDrawer>
 
-            <nav className="main-navigation__drawer-nav flex justify-between bg-green-500">
-                <span className="mr-auto" onClick={side.toggleOpen}>open sidebar</span>
+            <nav
+                className="main-navigation__drawer-nav flex justify-between bg-primary px-4 items-center">
+                {/* <span className="mr-auto" onClick={side.toggleOpen}>open sidebar</span> */}
+
+                <div className={`tham tham-e-squeeze tham-w-4`} onClick={side.toggleOpen}>
+                    <div className="tham-box">
+                        <div className="tham-inner bg-white"/>
+                    </div>
+                </div>
                 <NavLinks/>
             </nav>
         </React.Fragment>

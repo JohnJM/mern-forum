@@ -66,7 +66,7 @@ function App() {
 
                 <Router>
                     <MainNavigation/>
-                    <main>
+                    <main className="p-4">
                         {routes}
                     </main>
                 </Router>

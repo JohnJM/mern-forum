@@ -21,7 +21,7 @@ const SideDrawer = props => {
                     ref={nodeRef}
                     onClick={props.onClick}
                     // i think instead of props.children I need to give it a state result. (with some jsx?)
-                    className="side-drawer p-4 min-w-250">{props.children}</aside>
+                    className="absolute side-drawer p-4 min-w-250">{props.children}</aside>
             </CSSTransition>
 
         // </React.Fragment>
