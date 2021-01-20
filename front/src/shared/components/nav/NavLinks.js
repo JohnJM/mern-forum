@@ -1,10 +1,10 @@
-import React, {useContext, useCallback} from 'react';
+import React, {useContext} from 'react';
 import {NavLink} from 'react-router-dom';
 
 import {AuthContext} from '../../context/AuthContext';
 import {SideDrawerContext} from '../../context/SideDrawerContext';
-import FormLogin from '../form-login/FormLogin';
-import FormRegister from '../form-register/FormRegister';
+import FormLogin from '../form/FormLogin';
+import FormRegister from '../form/FormRegister';
 
 // import './NavLinks.scss'; logic for what the nav links are will be in here.
 

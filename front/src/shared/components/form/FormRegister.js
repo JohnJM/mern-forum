@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
-import FormLogin from '../form-login/FormLogin';
+import FormLogin from './FormLogin';
 import {useForm} from '../../hooks/FormHook';
 import {SideDrawerContext} from '../../context/SideDrawerContext';
-import {AuthContext} from '../../context/AuthContext';
+// import {AuthContext} from '../../context/AuthContext';
 
-import Input from '../form-elements/Input';
-import Button from '../form-elements/Button';
-import {VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH} from '../../components/util/Validators';
+import Input from './form-elements/Input';
+import Button from './form-elements/Button';
+import {VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH} from '../util/Validators';
 import {AppConfig} from '../../../App.config';
 
 const axios = require('axios');
@@ -14,7 +14,7 @@ const axios = require('axios');
 const FormRegister = props => {
 
     const side = useContext(SideDrawerContext);
-    const auth = useContext(AuthContext);
+    // const auth = useContext(AuthContext);
 
     const [formState,
         inputHandler] = useForm({

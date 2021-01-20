@@ -1,10 +1,8 @@
 import React, {useContext} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 import {SideDrawerContext} from '../../context/SideDrawerContext';
-import FormRegister from '../form-register/FormRegister';
-
-import Input from '../form-elements/Input';
-import Button from '../form-elements/Button';
+import FormRegister from './FormRegister';
+import Button from './form-elements/Button';
 
 const FormLogin = props => {
     const auth = useContext(AuthContext);

@@ -1,8 +1,8 @@
 import React, {useEffect, useContext} from 'react';
 import Backdrop from '../ui/Backdrop';
-import SideDrawer from '../ui/SideDrawer';
+import SideDrawer from '../side-drawer/SideDrawer';
 import NavLinks from '../nav/NavLinks';
-import FormRegister from '../form-register/FormRegister';
+import FormRegister from '../form/FormRegister';
 import {SideDrawerContext} from '../../context/SideDrawerContext'
 import {AuthContext} from '../../context/AuthContext'
 import {CSSTransition} from 'react-transition-group';

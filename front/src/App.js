@@ -16,7 +16,7 @@ function App() {
 
     const [sideState,
         toggleOpen,
-        displayContent, setContent] = useSideDrawer();
+        displayContent, setContent, displayAlertMsg] = useSideDrawer();
 
     let routes;
 
@@ -59,9 +59,11 @@ function App() {
             <SideDrawerContext.Provider value={{
                 isOpen: sideState.isOpen,
                 content: sideState.content,
+                alertMsg: sideState.alertMsg,
                 displayContent: displayContent,
                 setContent: setContent,
-                toggleOpen: toggleOpen
+                toggleOpen: toggleOpen,
+                displayAlertMsg: displayAlertMsg
             }}>
 
                 <Router>

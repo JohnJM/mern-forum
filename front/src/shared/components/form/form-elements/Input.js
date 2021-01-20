@@ -1,5 +1,5 @@
 import React, {useReducer, useEffect} from 'react';
-import {validate} from '../util/Validators';
+import {validate} from '../../util/Validators';
 const Input = props => {
     // i could use useState hook to manage "isvalid" and "enteredValue" as two
     // seperate instances of useState. But Reducer is better here because the logic
