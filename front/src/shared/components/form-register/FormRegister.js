@@ -57,20 +57,25 @@ const FormRegister = props => {
     let toggleLogin;
 
     if (props.forSideDrawer) {
-        toggleLogin = <Button
-            className="btn"
+        toggleLogin = <div className="block">
+        <span className="mr-2">
+            Already have an account?
+        </span>
+        <span
             onClick={() => {
             side.setContent(<FormLogin forSideDrawer/>)
-        }}>Go Login</Button>
+        }}
+            className="block underline decoration-color-primary cursor-pointer">Login
+        </span>
+    </div>
     }
 
     return (
         <React.Fragment>
             <span className="text-xl">Register</span>
 
-            <form onSubmit={registerSubmitHandler}>
+            <form onSubmit={registerSubmitHandler} className="my-6">
                 <Input
-                    autoFocus
                     element="input"
                     id="username"
                     type="text"

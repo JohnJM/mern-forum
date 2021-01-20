@@ -4,7 +4,7 @@ const Button = props => {
     if (props.href) {
         return (
             <a
-                className={`btn text-${props.size || 'base'} ${props.size && 'x1'}${props.inverse && 'button--inverse'}`}
+                className={`$btn text-${props.size || 'base'} ${props.size && 'x1'} ${props.inverse && 'button--inverse'}`}
                 href={props.href}>
                 {props.children}
             </a>

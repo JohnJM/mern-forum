@@ -1,46 +1,37 @@
 import React, {useContext} from 'react';
-import {useForm} from '../../hooks/FormHook';
 import {AuthContext} from '../../context/AuthContext';
-import {useSideDrawer} from '../../hooks/SideDrawerHook';
 import {SideDrawerContext} from '../../context/SideDrawerContext';
 import FormRegister from '../form-register/FormRegister';
 
 import Input from '../form-elements/Input';
 import Button from '../form-elements/Button';
-import {VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH} from '../../components/util/Validators'
 
 const FormLogin = props => {
     const auth = useContext(AuthContext);
     const side = useContext(SideDrawerContext);
 
-    const [formState,
-        inputHandler] = useForm({
-        username: {
-            value: '',
-            isValid: false
-        },
-        password: {
-            value: '',
-            isValid: false
-        }
-    }, false)
-
     const loginSubmitHandler = e => {
         e.preventDefault();
-        console.log(formState.inputs);
+        // console.log(formState.inputs);
         auth.login();
         side.setContent(
-            <p>Welcome back {formState.inputs.username.value}. Your profile will be displayed below. (Soon)</p>
+            <p>Welcome back api.username . Your profile will be displayed below. (Soon)</p>
         )
     }
 
     let toggleRegister;
     if (props.forSideDrawer) {
-        toggleRegister = <Button
-            className="btn"
-            onClick={() => {
-            side.setContent(<FormRegister forSideDrawer/>)
-        }}>Go Register</Button>
+        toggleRegister = <div className="block">
+            <span className="mr-2">
+                Don't have an account?
+            </span>
+            <span
+                onClick={() => {
+                side.setContent(<FormRegister forSideDrawer/>)
+            }}
+                className="block underline decoration-color-primary cursor-pointer">Register
+            </span>
+        </div>
     }
 
     return (
@@ -48,28 +39,28 @@ const FormLogin = props => {
 
             <span className="text-xl">Login</span>
 
-            <form onSubmit={loginSubmitHandler}>
-                <Input
-                    autoFocus
+            <form className="my-6" onSubmit={loginSubmitHandler}>
+                <label className="block" htmlFor="username">Username</label>
+                <input
+                    required
                     element="input"
                     id="username"
                     type="text"
                     label="username"
                     placeholder="Username"
-                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(2)]}
-                    errorText="Please enter a valid username"
-                    onInput={inputHandler}></Input>
-                <Input
+                    className="mb-3 border-2 border-black-500 w-full"></input>
+
+                <label className="block" htmlFor="password">Password</label>
+                <input
+                    required
+                    className="mb-3 border-2 border-black-500 block w-full"
                     element="input"
                     id="password"
-                    validators={[VALIDATOR_MINLENGTH(5), VALIDATOR_REQUIRE()]}
                     type="password"
-                    errorText="Please enter a valid password (min 5 chars)"
                     label="password"
-                    placeholder="Password"
-                    onInput={inputHandler}></Input>
+                    placeholder="Password"></input>
 
-                <Button type="submit" size="1" disabled={!formState.isValid}>Login</Button>
+                <Button type="submit" size="1">Login</Button>
             </form>
             {toggleRegister}
 

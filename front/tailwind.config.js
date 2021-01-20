@@ -1,5 +1,6 @@
+const _ = require('lodash');
+
 module.exports = {
-    //remove unused
     purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
     darkMode: 'media', 
     theme: {
@@ -38,6 +39,20 @@ module.exports = {
     },
     plugins: [
       require('tailwindcss-filters'),
-      require('tailwind-hamburgers')
+      require('tailwind-hamburgers'),
+
+      function({ addUtilities, e, theme, variants }) {
+        const colors = theme('colors', {})
+        const decorationVariants = variants('textDecoration', [])
+  
+        const textDecorationColorUtility = _.map(colors, (color, name) => ({
+          [`.decoration-color-${e(name)}`]: {
+            textDecorationColor: `${color}`
+          }
+        }))
+  
+        addUtilities(textDecorationColorUtility, decorationVariants)
+      }
+
     ]
   }
