@@ -56,7 +56,6 @@ export const useSideDrawer = () => {
     }, [])
 
 
-
     //should probably split these into grouped methods (alert.func , content.func ) if there's any more tbh
     return [sideDrawerState, toggleIsOpen, displayContent, setContent, displayAlertMsg];
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react';
 import Backdrop from '../ui/Backdrop';
-import SideDrawer from '../side-drawer/SideDrawer';
+import SideDrawer from '../ui/side-drawer/SideDrawer';
 import NavLinks from '../nav/NavLinks';
 import FormRegister from '../form/FormRegister';
 import {SideDrawerContext} from '../../context/SideDrawerContext'

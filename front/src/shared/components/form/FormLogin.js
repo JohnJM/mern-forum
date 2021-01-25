@@ -1,20 +1,47 @@
-import React, {useContext} from 'react';
+import React, {useContext, useRef} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 import {SideDrawerContext} from '../../context/SideDrawerContext';
 import FormRegister from './FormRegister';
 import Button from './form-elements/Button';
+import {AppConfig} from '../../../App.config';
+
+const axios = require('axios');
 
 const FormLogin = props => {
     const auth = useContext(AuthContext);
     const side = useContext(SideDrawerContext);
 
-    const loginSubmitHandler = e => {
+    const form = useRef(null);
+
+    const loginSubmitHandler = async e => {
         e.preventDefault();
-        // console.log(formState.inputs);
-        auth.login();
-        side.setContent(
-            <p>Welcome back api.username . Your profile will be displayed below. (Soon)</p>
-        )
+
+        const loginData = new FormData(form.current)
+
+        const headers = {
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*"
+        }
+
+        const data = {
+            "username": loginData.get('username'),
+            "password": loginData.get('password')
+        }
+
+        try {
+            const res = await axios.post(`${AppConfig.apiUrl}/login`, data, headers)
+
+            console.log('HERE BROS');
+
+            console.log(res.data);
+
+            auth.login(res.data);
+            side.displayAlertMsg(
+                <p>Welcome back,{res.data.username}</p>, 'green-500')
+
+        } catch (err) {
+            console.log('go handle error : ', err);
+        }
     }
 
     let toggleRegister;
@@ -37,14 +64,15 @@ const FormLogin = props => {
 
             <span className="text-xl">Login</span>
 
-            <form className="my-6" onSubmit={loginSubmitHandler}>
+            <form ref={form} className="my-6" onSubmit={loginSubmitHandler}>
                 <label className="block" htmlFor="username">Username</label>
                 <input
                     required
-                    element="input"
+                    element="inpu#t"
                     id="username"
                     type="text"
                     label="username"
+                    name="username"
                     placeholder="Username"
                     className="mb-3 border-2 border-black-500 w-full"></input>
 
@@ -53,6 +81,7 @@ const FormLogin = props => {
                     required
                     className="mb-3 border-2 border-black-500 block w-full"
                     element="input"
+                    name="password"
                     id="password"
                     type="password"
                     label="password"

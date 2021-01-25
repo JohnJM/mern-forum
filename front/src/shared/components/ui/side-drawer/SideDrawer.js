@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import {CSSTransition} from 'react-transition-group';
 
-import {SideDrawerContext} from '../../context/SideDrawerContext';
+import {SideDrawerContext} from '../../../context/SideDrawerContext';
 import SideDrawerAlertBox from './SideDrawerAlertBox';
 
 
@@ -30,14 +30,14 @@ const SideDrawer = props => {
 
                         <React.Fragment>
                             {side.alertMsg &&
-                            <SideDrawerAlertBox colour={side.alertMsg.colour || "primary"}>
+                            <SideDrawerAlertBox colour={side.alertMsg.colour}>
                                 {side.alertMsg.msg}
                             </SideDrawerAlertBox>
                             }
 
 
-                            <span onClick={()=>{side.displayAlertMsg(false)}}>go turn off</span>
-                            <span onClick={()=>{side.displayAlertMsg('primary')}}>go primary</span>
+                            {/* <span onClick={()=>{side.displayAlertMsg(false)}}>go turn off</span>
+                            <span onClick={()=>{side.displayAlertMsg(<p>jsx</p>, 'blue-300')}}>go jsx in the header</span> */}
 
                             <div className="p-4">
                                  {props.children}

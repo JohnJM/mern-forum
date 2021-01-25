@@ -28,6 +28,8 @@ const FormRegister = props => {
         }
     }, false)
 
+    
+
     const registerSubmitHandler = e => {
         e.preventDefault();
         const headers = {

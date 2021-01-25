@@ -42,7 +42,7 @@ module.exports.login_post = async (req, res) => {
         res.cookie('jwt', token, {maxAge: 28800000}) ; 
         
 
-        res.status(200).json({user: user._id})
+        res.status(200).json({id: user._id, username: user.username})
     }
     catch(err) {
 
