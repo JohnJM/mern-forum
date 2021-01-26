@@ -6,6 +6,8 @@ const winston = require('winston');
 
 module.exports.signup_post = async (req, res) => {
 
+ 
+
     // console.log(req.body);
     const {
         username,
@@ -13,7 +15,7 @@ module.exports.signup_post = async (req, res) => {
     } = req.body;
 
     userService.createUser(username, password).then(({user, token, maxAge}) => {
-            res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge})
+            res.cookie('Authorization', token, {httpOnly: true, maxAge: maxAge})
             
             // console.log('user ->> ', user);
             // console.log('obj destruc user ->>', {user})
@@ -39,10 +41,10 @@ module.exports.login_post = async (req, res) => {
     try {
         const {user, token} = await User.login(username, password);
 
-        res.cookie('jwt', token, {maxAge: 28800000}) ; 
+        res.cookie('Authorization', token, {maxAge: 28800000}) ; 
         
 
-        res.status(200).json({id: user._id, username: user.username})
+        res.status(200).json({id: user._id, username: user.username, token})
     }
     catch(err) {
 
@@ -60,11 +62,11 @@ module.exports.login_post = async (req, res) => {
 
 
 module.exports.vippage_get = (req, res) => {
-    console.log('res . locals', res.locals.user);
+    // console.log('res . locals', res.locals.user);
 
     //if you can get here you are past the auth :)
     
 
-    res.json(res.locals.user).status(200);
-    // res.send('VIP hit !!');
+    // res.json(res.locals.user).status(200);
+    res.status(200).json({content: 'THIS IS THE VIP CONTENT YOU REQUESTED'})
 }

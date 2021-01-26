@@ -6,30 +6,38 @@ import MainNavigation from './shared/components/nav/MainNavigation'
 import Users from './user/pages/Users';
 import Home from './home/pages/Home';
 import Vip from './vip/pages/Vip';
-import {AuthContext, GetAuthFunc} from './shared/context/AuthContext';
+import {AuthContext} from './shared/context/AuthContext';
 import {SideDrawerContext} from './shared/context/SideDrawerContext';
 import {useSideDrawer} from './shared/hooks/SideDrawerHook'
 import FormLogin from './shared/components/form/FormLogin';
 
 function App() {
 
+    //TO DO
+    //find a way to handle errors using a model (in the server too)
+    //persistent login on refesh (almost done now that the jwt is set and used on both ends.)
+    //create and use "useAxios()" hook on services
+    //clean up code / old comments in general.
+    //...
+    
+
     const [sideState,
         toggleOpen,
-        displayContent, setContent, displayAlertMsg, hideAlertMsg] = useSideDrawer();
+        displayContent, setContent, displayAlertMsg] = useSideDrawer();
 
 
     const [loginState,
         setIsLoggedIn] = useState({isLogged: false, id: 0, username: "", token: ""});
 
-    const login = useCallback((user) => {
-        const {id, username} = user;
+    const login = useCallback((id, username, token) => {
+        // const {id, username} = user;
 
         console.log('id is -> ', id);
         console.log('un is -> ', username);
+        console.log('token is -> ', token);
 
 
-        console.log('check below this one btw');
-        setIsLoggedIn({isLoggedIn: true, id, username});
+        setIsLoggedIn({isLoggedIn: true, id, username, token});
         // console.log( setIsLoggedIn([true, {id: id, username: username}]) ); 
     }, [])
 
@@ -42,8 +50,6 @@ function App() {
 
     
     // const [loginState, setIsLoggedIn, login, logout] = GetAuthFunc();
-
-
 
     let routes;
 

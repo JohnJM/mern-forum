@@ -34,7 +34,9 @@ const FormRegister = props => {
         e.preventDefault();
         const headers = {
             'Content-Type': 'application/json',
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "*",
+            "withCredentials": true
+
         };
 
         const username = formState.inputs.username.value;
@@ -49,6 +51,7 @@ const FormRegister = props => {
             .post(`${AppConfig.apiUrl}/signup`, data, headers)
             .then((res) => {
                 console.log(res);
+                side.displayAlertMsg('Account created. you can now sign in')
             })
             .catch((err) => {
                 //todo, add logic and make this appear at top of sidebar - probably need new dispatch option on sidebar hook

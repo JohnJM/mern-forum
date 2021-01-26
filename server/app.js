@@ -29,7 +29,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
+
 app.use(cors());
+
 
 app.use(boardRoutes)
 
@@ -42,12 +44,13 @@ app.get('/login', (req, res) => {
 })
 
 //after this line the user must be logged in.
-app.get('*', checkUser);
+// app.get('*', checkUser);
 
 app.get('/logout', (req, res) => {
-    res.clearCookie('jwt');
-    res.locals.user = null;
-    res.render('front', {msg: 'Successfully logged out'});
+    res.clearCookie('authorization');
+    // res.locals.user = null;
+    // res.render('front', {msg: 'Successfully logged out'});
+    res.status(200)
 })
 
 app.use(authRoutes);

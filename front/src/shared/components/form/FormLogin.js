@@ -20,7 +20,8 @@ const FormLogin = props => {
 
         const headers = {
             'Content-Type': 'application/json',
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "*",
+            withCredentials: true
         }
 
         const data = {
@@ -31,11 +32,11 @@ const FormLogin = props => {
         try {
             const res = await axios.post(`${AppConfig.apiUrl}/login`, data, headers)
 
-            console.log('HERE BROS');
 
-            console.log(res.data);
+            console.log(res.data.token);
 
-            auth.login(res.data);
+            auth.login(res.data.id, res.data.username, res.data.token);
+            
             side.displayAlertMsg(
                 <p>Welcome back,{res.data.username}</p>, 'green-500')
 
