@@ -41,7 +41,7 @@ module.exports.login_post = async (req, res) => {
     try {
         const {user, token} = await User.login(username, password);
 
-        res.cookie('Authorization', token, {maxAge: 28800000}) ; 
+        res.cookie('Authorization', token, {maxAge: 1000 * 60 * 60 * 2}) ; 
         
 
         res.status(200).json({id: user._id, username: user.username, token})

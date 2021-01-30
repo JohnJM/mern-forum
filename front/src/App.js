@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react'
+import React, {useState, useCallback, useEffect} from 'react'
 import './App.css';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
@@ -11,45 +11,77 @@ import {SideDrawerContext} from './shared/context/SideDrawerContext';
 import {useSideDrawer} from './shared/hooks/SideDrawerHook'
 import FormLogin from './shared/components/form/FormLogin';
 
+let logoutTimer;
+
 function App() {
 
-    //TO DO
-    //find a way to handle errors using a model (in the server too)
-    //persistent login on refesh (almost done now that the jwt is set and used on both ends.)
-    //create and use "useAxios()" hook on services
-    //clean up code / old comments in general.
-    //...
-    
+    // TO DO add all this auth into a hook? find a way to handle errors using a
+    // model (in the server too) persistent login on refesh (almost done now that
+    // the jwt is set and used on both ends.) create and use "useAxios()" hook on
+    // services clean up code / old comments in general. ...
 
     const [sideState,
         toggleOpen,
-        displayContent, setContent, displayAlertMsg] = useSideDrawer();
+        displayContent,
+        setContent,
+        displayAlertMsg] = useSideDrawer();
 
+    const [tokenExpirationDate,
+        setTokenExpirationDate] = useState();
 
     const [loginState,
         setIsLoggedIn] = useState({isLogged: false, id: 0, username: "", token: ""});
 
-    const login = useCallback((id, username, token) => {
+    const login = useCallback((id, username, token, expirationDate) => {
         // const {id, username} = user;
 
         console.log('id is -> ', id);
         console.log('un is -> ', username);
         console.log('token is -> ', token);
 
+        const tokenExpiry = expirationDate || new Date(new Date().getTime() + (1000 * 60 * 60 * 2));
+        setTokenExpirationDate(tokenExpiry);
 
+        localStorage.setItem('user', JSON.stringify({
+            id,
+            username,
+            token,
+            expires: tokenExpiry.toISOString()
+        }))
         setIsLoggedIn({isLoggedIn: true, id, username, token});
-        // console.log( setIsLoggedIn([true, {id: id, username: username}]) ); 
+        // console.log( setIsLoggedIn([true, {id: id, username: username}]) );
     }, [])
 
     const logout = useCallback(() => {
         setIsLoggedIn({isLoggedIn: false});
+        setTokenExpirationDate(null);
+        localStorage.removeItem('user');
         displayAlertMsg('Logged out succesfully');
-        displayContent(<FormLogin forSideBar/>)
+        displayContent(<FormLogin forSideBar/>);
+
     }, [])
 
-
+    useEffect(() => {
     
-    // const [loginState, setIsLoggedIn, login, logout] = GetAuthFunc();
+        const storedUser = JSON.parse(localStorage.getItem('user') || null);
+
+        // console.log('effec thit', new Date(storedUser.expires).getTime(), new Date().getTime());
+
+        if (storedUser && storedUser.token && new Date(storedUser.expires).getTime() > new Date().getTime()) {
+            console.log('got here');
+            login(storedUser.id, storedUser.username, storedUser.token, new Date(storedUser.expires))
+        }
+
+    }, [login])
+
+    useEffect(() => {
+        if (loginState.token && tokenExpirationDate) {
+            const timeTillInvalid = tokenExpirationDate.getTime() - new Date().getTime();
+            logoutTimer = setTimeout(logout, timeTillInvalid)
+        } else {
+            clearTimeout(logoutTimer);
+        }
+    }, [loginState.token, logout, tokenExpirationDate])
 
     let routes;
 
@@ -89,7 +121,8 @@ function App() {
             login: login,
             logout: logout
         }}>
-            <SideDrawerContext.Provider value={{
+            <SideDrawerContext.Provider
+                value={{
                 isOpen: sideState.isOpen,
                 content: sideState.content,
                 alertMsg: sideState.alertMsg,

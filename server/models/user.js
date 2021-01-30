@@ -50,9 +50,7 @@ userSchema.statics.login = async function (username, password) {
       const auth = await bcrypt.compare( password, user.password );
 
       if(auth){
-
-        console.log('is this better in a service file? idk where to put this function but heres user --->', user) 
-        const [token] = createToken(user._id);
+        const [token] = createToken(user._id, '2hr');
 
 
         return {user , token};
