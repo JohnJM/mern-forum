@@ -31,7 +31,7 @@ module.exports.handleError = (err) => {
     }
   
     // console.log( 'errors -->> ', err.typeOf())
-    console.log( 'errors 2 -->> ', err.message)
+    console.log( 'errors -->> ', err.message)
 
 
 

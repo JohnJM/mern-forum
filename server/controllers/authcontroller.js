@@ -52,6 +52,7 @@ module.exports.login_post = async (req, res) => {
         const errors = handleError(err);
 
         // console.log('2nd err = ' +  Object.values(errors))
+        console.log('errors found -> ', err);
 
         res.status(400).json({
             errors

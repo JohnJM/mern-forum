@@ -1,15 +1,23 @@
-import React, {useContext, useRef} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {AuthContext} from '../../context/AuthContext';
 import {SideDrawerContext} from '../../context/SideDrawerContext';
 import FormRegister from './FormRegister';
 import Button from './form-elements/Button';
 import {AppConfig} from '../../../App.config';
+import SideDrawer from '../ui/side-drawer/SideDrawer';
+import ProfileSide from '../profile-side/ProfileSide';
 
 const axios = require('axios');
+
+//should refactor all of this with use axios hook really.
 
 const FormLogin = props => {
     const auth = useContext(AuthContext);
     const side = useContext(SideDrawerContext);
+
+    //redo with useAxios
+    const [loginLoading,
+        setIsLoginLoading] = useState(false);
 
     const form = useRef(null);
 
@@ -29,19 +37,41 @@ const FormLogin = props => {
             "password": loginData.get('password')
         }
 
-        try {
-            const res = await axios.post(`${AppConfig.apiUrl}/login`, data, headers)
+        setIsLoginLoading(true);
 
+        try {
+            side.displayAlertMsg(false);
+            const res = await axios.post(`${AppConfig.apiUrl}/login`, data, headers);
+            setIsLoginLoading(false);
 
             console.log(res.data.token);
 
             auth.login(res.data.id, res.data.username, res.data.token);
-            
+
             side.displayAlertMsg(
                 <p>Welcome back,{res.data.username}</p>, 'green-500')
 
+            side.setContent(<ProfileSide />);
+
         } catch (err) {
-            console.log('go handle error : ', err);
+            setIsLoginLoading(false);
+            //need a helper "handle error" for this
+
+            console.log(err);
+
+            if (err.response) {
+                let error = err.response.data.errors;
+
+                console.log(error.password);
+
+                if (error.password === 'incorrect password') {
+                    side.displayAlertMsg('Incorrect username or password', 'danger');
+                }
+            } else {
+                side.displayAlertMsg('Server error - please try again later', 'danger');
+            }
+
+   
         }
     }
 
@@ -58,6 +88,12 @@ const FormLogin = props => {
                 className="block underline decoration-color-primary cursor-pointer">Register
             </span>
         </div>
+    }
+
+    if (loginLoading) {
+        return (
+            <span>loading spinner</span>
+        )
     }
 
     return (

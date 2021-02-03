@@ -10,14 +10,15 @@ import {AuthContext} from './shared/context/AuthContext';
 import {SideDrawerContext} from './shared/context/SideDrawerContext';
 import {useSideDrawer} from './shared/hooks/SideDrawerHook'
 import FormLogin from './shared/components/form/FormLogin';
+import SideProfile from './shared/components/profile-side/ProfileSide';
 
 let logoutTimer;
 
 function App() {
 
-    // TO DO add all this auth into a hook? find a way to handle errors using a
-    // model (in the server too) persistent login on refesh (almost done now that
-    // the jwt is set and used on both ends.) create and use "useAxios()" hook on
+    // TO DO add all this auth into a hook? 
+    //find a way to handle errors using model (in the server too)
+    //  create and use "useAxios()" hook
     // services clean up code / old comments in general. ...
 
     const [sideState,
@@ -49,6 +50,7 @@ function App() {
             expires: tokenExpiry.toISOString()
         }))
         setIsLoggedIn({isLoggedIn: true, id, username, token});
+        setContent(<SideProfile />);
         // console.log( setIsLoggedIn([true, {id: id, username: username}]) );
     }, [])
 
@@ -58,7 +60,6 @@ function App() {
         localStorage.removeItem('user');
         displayAlertMsg('Logged out succesfully');
         displayContent(<FormLogin forSideBar/>);
-
     }, [])
 
     useEffect(() => {
@@ -68,7 +69,6 @@ function App() {
         // console.log('effec thit', new Date(storedUser.expires).getTime(), new Date().getTime());
 
         if (storedUser && storedUser.token && new Date(storedUser.expires).getTime() > new Date().getTime()) {
-            console.log('got here');
             login(storedUser.id, storedUser.username, storedUser.token, new Date(storedUser.expires))
         }
 

@@ -11,9 +11,9 @@ import './SideDrawer.css';
 
 const SideDrawer = props => {
 
-    const side = useContext(SideDrawerContext)
+    const side = useContext(SideDrawerContext);
 
-    const nodeRef = React.useRef(null)
+    const nodeRef = React.useRef(null);
     const content = (
         /* <React.Fragment>*/
             <CSSTransition 

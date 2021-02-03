@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import FormLogin from './FormLogin';
 import {useForm} from '../../hooks/FormHook';
 import {SideDrawerContext} from '../../context/SideDrawerContext';
@@ -14,6 +14,10 @@ const axios = require('axios');
 const FormRegister = props => {
 
     const side = useContext(SideDrawerContext);
+
+    const [registerLoading,
+        setIsRegisterLoading] = useState(false);
+
     // const auth = useContext(AuthContext);
 
     const [formState,
@@ -27,8 +31,6 @@ const FormRegister = props => {
             isValid: false
         }
     }, false)
-
-    
 
     const registerSubmitHandler = e => {
         e.preventDefault();
@@ -47,15 +49,33 @@ const FormRegister = props => {
             "password": password
         }
 
+        setIsRegisterLoading(true);
+        side.displayAlertMsg(false);
         axios
             .post(`${AppConfig.apiUrl}/signup`, data, headers)
             .then((res) => {
                 console.log(res);
-                side.displayAlertMsg('Account created. you can now sign in')
+                side.displayAlertMsg('Account created. you can now sign in with it')
+                setIsRegisterLoading(false);
+
             })
             .catch((err) => {
-                //todo, add logic and make this appear at top of sidebar - probably need new dispatch option on sidebar hook
-                console.log(JSON.parse(err.response.request.response).errors);
+                setIsRegisterLoading(false);
+
+                if (err.response) {
+
+                    console.log('error. responsse hit', err.response.data.errors.username);
+
+                    if (err.response.data.errors.username === 'Username already exists') {
+                        side.displayAlertMsg('username already exists', 'danger');
+                    }
+                } else {
+                    side.displayAlertMsg('Server error - please try again later', 'danger');
+                }
+
+                // todo, add logic and make this appear at top of sidebar - probably need new
+                // dispatch option on sidebar hook
+                // console.log(JSON.parse(err.response.request.response).errors);
             })
     }
 
@@ -63,16 +83,22 @@ const FormRegister = props => {
 
     if (props.forSideDrawer) {
         toggleLogin = <div className="block">
-        <span className="mr-2">
-            Already have an account?
+            <span className="mr-2">
+                Already have an account?
+            </span>
+            <span
+                onClick={() => {
+                side.setContent(<FormLogin forSideDrawer/>)
+            }}
+                className="block underline decoration-color-primary cursor-pointer">Login
+            </span>
+        </div>
+    }
+
+    if (registerLoading) {
+        return <span>
+            loading spinner
         </span>
-        <span
-            onClick={() => {
-            side.setContent(<FormLogin forSideDrawer/>)
-        }}
-            className="block underline decoration-color-primary cursor-pointer">Login
-        </span>
-    </div>
     }
 
     return (
