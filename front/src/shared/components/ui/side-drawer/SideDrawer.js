@@ -19,7 +19,7 @@ const SideDrawer = props => {
             <CSSTransition 
                 nodeRef={nodeRef}
                 in={props.show}
-                timeout={6000}
+                timeout={600}
                 classNames="alert"
                 mountOnEnter
                 unmountOnExit>

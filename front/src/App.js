@@ -92,7 +92,7 @@ function App() {
                     <Home/>
                 </Route>
 
-                <Route path="/user/:uid" exact>
+                <Route path="/account/" exact>
                     <Users/>
                 </Route>
 

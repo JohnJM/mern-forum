@@ -6,8 +6,6 @@ const winston = require('winston');
 
 module.exports.signup_post = async (req, res) => {
 
- 
-
     // console.log(req.body);
     const {
         username,
@@ -61,6 +59,26 @@ module.exports.login_post = async (req, res) => {
 }
 
 
+module.exports.changePwd_post = async (req, res) => {
+
+    const {oldPwd, id, newPwd} = req.body;
+
+
+    userService.changePwd(newPwd, oldPwd, id).then(doc => {
+        
+    res.status(200);
+
+
+    }).catch(err => {
+        console.log(err);
+        res.status(400);
+    })
+
+
+}
+
+
+
 
 module.exports.vippage_get = (req, res) => {
     // console.log('res . locals', res.locals.user);
@@ -70,4 +88,4 @@ module.exports.vippage_get = (req, res) => {
 
     // res.json(res.locals.user).status(200);
     res.status(200).json({content: 'THIS IS THE VIP CONTENT YOU REQUESTED'})
-}
+} 

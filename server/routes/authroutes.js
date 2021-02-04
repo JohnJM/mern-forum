@@ -10,6 +10,8 @@ router.post('/login', authController.login_post);
 
 router.get('/vip', requireAuth, authController.vippage_get);
 
+router.post('/changePwd', requireAuth, authController.changePwd_post);
+
 module.exports = router;
 
  

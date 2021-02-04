@@ -24,7 +24,7 @@ const NavLinks = props => {
 
         {auth.loginState.isLoggedIn && (
             <li className="text-white mx-1">
-                <NavLink to="/user/uidgoeshere">Account name</NavLink>
+                <NavLink to='/account/'> {auth.loginState.username}</NavLink>
             </li>
         )}
         {!auth.loginState.isLoggedIn && (

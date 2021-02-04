@@ -14,7 +14,6 @@ module.exports.handleError = (err) => {
     //validation errors
     if(err.message.includes('user validation failed')){
        Object.values(err.errors).forEach( ({properties} ) => {
-            
             //properties.path provides either "username" or "password" here.
             errors[properties.path] = properties.message;
             // console.log(properties.message);
