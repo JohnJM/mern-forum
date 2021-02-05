@@ -38,7 +38,6 @@ const FormRegister = props => {
             'Content-Type': 'application/json',
             "Access-Control-Allow-Origin": "*",
             "withCredentials": true
-
         };
 
         const username = formState.inputs.username.value;

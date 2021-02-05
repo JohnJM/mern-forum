@@ -45,7 +45,7 @@ module.exports.changePwd = async ( newPwd, oldPwd, id ) => {
                 // const [token] = createToken(user._id, '2hr');
 
                 const salt = await bcrypt.genSalt();
-                const password = await bcrypt.hash(newPwd, salt)
+                const password = await bcrypt.hash(newPwd, salt);
 
 
                 User.findByIdAndUpdate(id, {password: password},{useFindAndModify: false}, (err, doc) => {

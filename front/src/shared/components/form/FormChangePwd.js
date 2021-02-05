@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext, useEffect} from 'react';
 import {useForm} from '../../hooks/FormHook';
 import {AuthContext} from '../../context/AuthContext';
 
@@ -7,13 +7,19 @@ import Input from '../../components/form/form-elements/Input';
 import {VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH} from '../util/Validators';
 import useAxios from 'axios-hooks';
 import {AppConfig} from '../../../App.config';
+import {SideDrawerContext} from '../../context/SideDrawerContext';
 
 const FormChangePwd = props => {
 
     const auth = useContext(AuthContext);
+    const side = useContext(SideDrawerContext);
+
+    let successMsg, errorMsg;
+
 
     const [formState,
-        inputHandler] = useForm({
+        inputHandler,
+        setFormData] = useForm({
         oldPwd: {
             value: '',
             isValid: false
@@ -23,13 +29,13 @@ const FormChangePwd = props => {
             isValid: false
         }
     }, false)
-    
+
+
     const [
         {
             data,
             loading,
-            error,
-            response
+            error
         },
         postChangePwd] = useAxios({
         url: `${AppConfig.apiUrl}/changePwd`,
@@ -38,42 +44,71 @@ const FormChangePwd = props => {
         withCredentials: true
     }, {manual: true});
 
-
     const pwdSubmitHandler = e => {
         e.preventDefault();
 
-        postChangePwd({data: {
-            oldPwd: formState.inputs.oldPwd.value,
-            newPwd: formState.inputs.newPwd.value,
-            id: auth.loginState.id
-        }}).catch(err => {
+        postChangePwd({
+            data: {
+                oldPwd: formState.inputs.oldPwd.value,
+                newPwd: formState.inputs.newPwd.value,
+                id: auth.loginState.id
+            }
+        }).catch(err => {
             console.log('error here-> ', err);
+            errorMsg = <p>There was an error. Handle it later</p>
+            successMsg = null;
         })
 
-
+        //no errors after here. Update state?
+        setFormData({
+            oldPwd: {
+                value: '',
+                isValid: false
+            },
+            newPwd: {
+                value: '',
+                isValid: false
+            }
+        }, false);
 
     }
+    // const onUpdated = useCallback(() => {     side.displayAlertMsg('Password
+    // Changed');     setFormData({         oldPwd: {             value: '',
+    //     isValid: false         },         newPwd: {             value: '',
+    //      isValid: false         }     }, false); }, [])
 
-
-    if(loading) {
+    if (loading) {
         return <span>loading spinner</span>
     }
-    
-    if (response){
-        <span> passworcd changed! </span>
+
+    if (error) {
+        console.log(error);
+        errorMsg = <p>There was an error. Handle it later</p>
+        successMsg = null;
+    } else if (data){
+        successMsg = <p>Password Changed Successfully</p>
+        errorMsg =  null;
     }
 
-   if(error){
-       console.log(error);
-       return <span>error</span>
-   }
+    // this one previously modified the sidebar state - triggers a re-render, data always hits
+    // on re-render how to best fix? create a handleSuccess inside useEffect?
+    if (data) {
+        // side.displayAlertMsg('Password Changed');
+        // setFormData({
+        //     oldPwd: {
+        //         value: '',
+        //         isValid: false
+        //     },
+        //     newPwd: {
+        //         value: '',
+        //         isValid: false
+        //     }
+        // }, false);
+    }
 
-
-   data && console.log(data);
-
-
-
-    return <form className="w-6/12" onSubmit={pwdSubmitHandler}>
+    return (
+    <>
+    <form className="w-6/12" onSubmit={pwdSubmitHandler}>
         <Input
             type="password"
             id="oldPwd"
@@ -90,6 +125,12 @@ const FormChangePwd = props => {
             onInput={inputHandler}></Input>
         <Button>Change Password</Button>
     </form>
+    <br />
+    {successMsg}
+    {errorMsg}
+
+    </>
+    )
 }
 
 export default FormChangePwd;

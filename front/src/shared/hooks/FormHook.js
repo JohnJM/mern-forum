@@ -46,7 +46,6 @@ export const useForm = (initInputs, initValidity) => {
           inputs: initInputs,
           isValid: initValidity
         });
-
         
     //useCallback so that a new function object is not creted on rerender. (input -> useEffect will rerender the input)
       const inputHandler = useCallback((id, value, isValid) => {
