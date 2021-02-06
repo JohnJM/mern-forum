@@ -54,7 +54,6 @@ userSchema.statics.login = async function (username, password) {
       if(auth){
         const [token] = createToken(user._id, '2hr');
 
-
         return {user , token};
       } else {
         throw Error('incorrect password');

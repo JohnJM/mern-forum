@@ -2,41 +2,16 @@ import React, {useContext, useEffect, useState} from 'react';
 // import {useSideDrawer} from '../../shared/hooks/SideDrawerHook'
 import {listBoards} from '../../service/BoardService';
 import {AuthContext} from '../../shared/context/AuthContext';
-
+import BoardsNav from '../components/boardsNav';
 
 const Home = () => {
 
-    const auth = useContext(AuthContext);
 
-  let [boardList, setBoardList] = useState(null);
-
-    
-    useEffect(() => {
-        listBoards().then(res => {
-           setBoardList(res.data.boards);
-        }).catch(err => {
-            console.log(`error ${err}`);
-            
-        })
-    },[])
-
-
-    if (!boardList){
-        return 'loading boards'
-    }
-    
     return (
-        <div>
-
-            <p>auth context bugs -- {auth.loginState.username}</p>
-
-            <p>home works, list of boards below</p>
-
-           <ul>{boardList.map(board => {
-               return (<li key={board._id}>{board.title}</li>)
-           })} </ul>
-
-        </div>
+        <>
+        <BoardsNav />
+          <p>Home hit!</p>
+        </>
     )
 }
 

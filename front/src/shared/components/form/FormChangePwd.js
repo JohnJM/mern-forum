@@ -126,7 +126,6 @@ const FormChangePwd = props => {
     <br />
     {successMsg}
     {errorMsg}
-
     </>
     )
 }

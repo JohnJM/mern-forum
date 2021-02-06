@@ -29,5 +29,5 @@ const threadSchema = new Schema({
 
 
 
-const Board = mongoose.model('Board', boardSchema);
-module.exports = Board;
+const Thread = mongoose.model('Thread', threadSchema);
+module.exports = Thread;

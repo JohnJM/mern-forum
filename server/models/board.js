@@ -15,6 +15,11 @@ const boardSchema = new Schema({
     text_only: {
         type: Boolean,
         required: [true, 'please provide bool board.text_only']
+    },
+    per_page: {
+        type: Number,
+        max: 6,
+        required: true
     }
 })
 
