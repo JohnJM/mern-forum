@@ -12,7 +12,8 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        minlength: [2, 'Username must be at least 2 characters']
+        minlength: [2, 'Username must be at least 2 characters'],
+        maxlength: [10, 'Username must be at most 10 characters']
         // validate: [isEmail, 'Please enter a valid email']
     },
     password: {

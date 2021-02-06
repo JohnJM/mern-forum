@@ -1,14 +1,15 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
+ObjectId = Schema.ObjectId;
 
 const postSchema = new Schema({
-    poster: {
-        type: String,
-        required: [true, 'no poster value']
+    user_id: {
+        type: ObjectId,
+        required: true
     },
-    subject: {
-        type: String,
-        required: false
+    thread_id: {
+        type: ObjectId,
+        required: true
     },
     content: {
         type: String,
@@ -18,18 +19,19 @@ const postSchema = new Schema({
         type: Number,
         required: true
     },
-    repliesTo: {
-        type: Number,
+    img: {type: String, required: false},
+    repliesToId: {
+        type: ObjectId,
         required: false
     },
-    OP: {
-        type: Boolean,
-        required: true
-    },
-    online: {
-        type: Boolean,
-        required: true
-    }
+    // OP: {
+    //     type: Boolean,
+    //     required: true
+    // },
+    // online: {
+    //     type: Boolean,
+    //     required: true
+    // }
 
 }, {timestamps: true});
 

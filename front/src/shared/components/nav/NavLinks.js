@@ -12,43 +12,43 @@ const NavLinks = props => {
     const auth = useContext(AuthContext);
     const side = useContext(SideDrawerContext);
 
-    return <ul className="nav-links flex">
-        <li className="text-white mx-1 ml-0">
+    return <ul className="nav-links flex divide-x divide-white">
+        <li className="text-white px-4 pl-0">
             <NavLink to="/" exact>home</NavLink>
         </li>
         {auth.loginState.isLoggedIn && (
-            <li className="text-white mx-1">
+            <li className="text-white px-4">
                 <NavLink to="/vip">vip</NavLink>
             </li>
         )}
 
         {auth.loginState.isLoggedIn && (
-            <li className="text-white mx-1">
+            <li className="text-white px-4">
                 <NavLink to='/account/'> {auth.loginState.username}</NavLink>
             </li>
         )}
         {!auth.loginState.isLoggedIn && (
             <React.Fragment>
-                <li className="mx-1 ml-9" id="nav-login">
+                <li className="px-4 pl-4" id="nav-login">
                     <button
                         onClick={() => {
                         side.displayContent(<FormLogin forSideDrawer/>)
                     }}
-                        className="text-white">Login</button>
+                        className="text-white">login</button>
                 </li>
-                <li className="mx-1 mr-0" id="nav-register">
+                <li className="px-4 pr-0" id="nav-register">
                     <button
                         onClick={() => {
                         side.displayContent(<FormRegister forSideDrawer/>)
                     }}
-                        className="text-white">Register</button>
+                        className="text-white">register</button>
                 </li>
             </React.Fragment>
         )}
 
         {auth.loginState.isLoggedIn && (
-            <li className="mx-1 ml-9" id="nav-login">
-                <button onClick={auth.logout} className="text-white">Logout</button>
+            <li className="px-0 pl-4" id="nav-login">
+                <button onClick={auth.logout} className="text-white">logout</button>
             </li>
         )}
 

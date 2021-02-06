@@ -6,7 +6,7 @@ import {SideDrawerContext} from '../../context/SideDrawerContext';
 
 import Input from './form-elements/Input';
 import Button from './form-elements/Button';
-import {VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH} from '../util/Validators';
+import {VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MAXLENGTH} from '../util/Validators';
 import {AppConfig} from '../../../App.config';
 
 const axios = require('axios');
@@ -17,8 +17,6 @@ const FormRegister = props => {
 
     const [registerLoading,
         setIsRegisterLoading] = useState(false);
-
-    // const auth = useContext(AuthContext);
 
     const [formState,
         inputHandler] = useForm({
@@ -56,7 +54,6 @@ const FormRegister = props => {
                 console.log(res);
                 side.displayAlertMsg('Account created. you can now sign in with it')
                 setIsRegisterLoading(false);
-
             })
             .catch((err) => {
                 setIsRegisterLoading(false);
@@ -111,7 +108,7 @@ const FormRegister = props => {
                     type="text"
                     label="username"
                     placeholder="username"
-                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(2)]}
+                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(10)]}
                     errorText="Please enter a username (min 2 chars)"
                     onInput={inputHandler}></Input>
 

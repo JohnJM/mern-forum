@@ -16,7 +16,6 @@ const FormChangePwd = props => {
 
     let successMsg, errorMsg;
 
-
     const [formState,
         inputHandler,
         setFormData] = useForm({
@@ -29,7 +28,6 @@ const FormChangePwd = props => {
             isValid: false
         }
     }, false)
-
 
     const [
         {
