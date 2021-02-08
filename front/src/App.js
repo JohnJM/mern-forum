@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom
 import MainNavigation from './shared/components/nav/MainNavigation'
 import Users from './user/pages/Users';
 import Home from './home/pages/Home';
+import SingleBoardIndex from './home/pages/SingleBoardIndex';
 import Vip from './vip/pages/Vip';
 import {AuthContext} from './shared/context/AuthContext';
 import {SideDrawerContext} from './shared/context/SideDrawerContext';
@@ -92,9 +93,19 @@ function App() {
                     <Home/>
                 </Route>
 
+                <Route path="/board/:board/:index?">
+                    <SingleBoardIndex />
+                </Route>
+
+                <Route path="/board/:board/thread/:thread">
+                    <SingleBoardIndex />
+                </Route>
+
                 <Route path="/account/" exact>
                     <Users/>
                 </Route>
+
+
 
                 <Route path="/vip" exact>
                     <Vip/>
@@ -109,6 +120,15 @@ function App() {
                 <Route path="/" exact>
                     <Home/>
                 </Route>
+
+                <Route path="/board/:board/:index?">
+                    <SingleBoardIndex />
+                </Route>
+
+                <Route path="/board/:board/thread/:thread">
+                    <SingleBoardIndex />
+                </Route>
+
                 <Redirect to="/"/>
             </Switch>
         )

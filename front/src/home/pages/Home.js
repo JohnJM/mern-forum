@@ -3,45 +3,43 @@ import React, {useContext, useEffect, useCallback, useState} from 'react';
 import {listBoards} from '../../service/BoardService';
 import {AuthContext} from '../../shared/context/AuthContext';
 import BoardsNav from '../components/BoardsNav';
-import SingleBoardIndex from '../components/SingleBoardIndex';
-import BoardIndexNav from '../components/BoardPageNav';
+import BoardIndexNav from '../components/BoardIndexNav';
 
 
 const Home = () => {
 
-
-    const [boardState, setBoardState] = useState({
-        boardId: false,
-        index: false
-    })
+    // const [boardState, setBoardState] = useState({
+    //     boardId: false,
+    //     index: false
+    // })
 
     
-    const userSelectedBoard = useCallback((boardId) =>  {
-        console.log('on home, user selected ', boardId);
+    // const userSelectedBoard = useCallback((boardId) =>  {
+    //     console.log('on home, user selected ', boardId);
 
-        setBoardState({
-            boardId: boardId,
-            index: 1
-        })
+    //     setBoardState({
+    //         boardId: boardId,
+    //         index: 1
+    //     })
         
-    }, []);
+    // }, []);
 
-    const userSelectedIndex = useCallback((pageNo) => {
-        setBoardState({
-            boardId: boardState.boardId,
-            index: pageNo
-        })
-    }, [])
-
-
+    // const userSelectedIndex = useCallback((pageNo) => {
+    //     setBoardState({
+    //         boardId: boardState.boardId,
+    //         index: pageNo
+    //     })
+    // }, [])
 
 
     return (
         <>
-            <BoardsNav selectBoard={userSelectedBoard} />
+            <p className="text-right">Home hit. Choose a board below</p>
+
+            <BoardsNav />
             <br/>
-            <SingleBoardIndex boardInfo={boardState} />
-            <BoardIndexNav selectIndex={userSelectedIndex} />
+            {/* <SingleBoardIndex boardInfo={boardState} /> */}
+            {/* <BoardIndexNav selectIndex={userSelectedIndex} /> */}
         </>
     )
 }

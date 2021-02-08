@@ -1,9 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
+import {NavLink} from 'react-router-dom';
 // import {useSideDrawer} from '../../shared/hooks/SideDrawerHook'
 import {listBoards} from '../../service/BoardService';
 import {AuthContext} from '../../shared/context/AuthContext';
 
-const BoardsNav = props => {
+const BoardsNav = () => {
 
     // const auth = useContext(AuthContext);
 
@@ -29,12 +30,16 @@ const BoardsNav = props => {
         <div>
             <ul className="flex justify-end">{boardList.map((board, i) => {
                 return (
-                    <li
-                        onClick={() => props.selectBoard(board._id)}
+
+                    <li 
                         className={`mx-3 underline decoration-color-primary cursor-pointer
                         ${boardList.length === i + 1 ? ' mr-0' : null} 
                         ${i === 0 ? 'ml-0' : null}`}
-                        key={board._id}>{board.title}
+                        key={board._id}
+                    >
+                        <NavLink to={`/board/${board.title}`}>
+                            {board.title}
+                        </NavLink>
                     </li>
                 )
                 })}
