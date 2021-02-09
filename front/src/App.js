@@ -17,10 +17,13 @@ let logoutTimer;
 
 function App() {
 
-    // TO DO add all this auth into a hook? 
-    //find a way to handle errors using model (in the server too)
-    //  create and use "useAxios()" hook
-    // services clean up code / old comments in general. ...
+    //     TO DO 
+    //          add all this auth below into a hook? 
+    //          find a way to handle errors using a model (in the server too)
+    //          confirm password on register form and change password
+    //          find a good way of cleaning up react code / JSX automatically. 
+    //
+    
 
     const [sideState,
         toggleOpen,
@@ -104,8 +107,6 @@ function App() {
                 <Route path="/account/" exact>
                     <Users/>
                 </Route>
-
-
 
                 <Route path="/vip" exact>
                     <Vip/>
