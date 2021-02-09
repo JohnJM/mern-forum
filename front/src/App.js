@@ -22,8 +22,6 @@ function App() {
     //          find a way to handle errors using a model (in the server too)
     //          confirm password on register form and change password
     //          find a good way of cleaning up react code / JSX automatically. 
-    //
-    
 
     const [sideState,
         toggleOpen,

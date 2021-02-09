@@ -7,6 +7,6 @@ const router = Router();
 
 router.get('/boards', boardController.boards_get);
 
-router.get('/board/:boardId/:page', boardController.index_get);
+router.get('/board/:board/:page', boardController.index_get);
 
 module.exports = router;

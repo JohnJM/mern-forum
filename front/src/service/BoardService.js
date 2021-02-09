@@ -11,3 +11,12 @@ export const listBoards = async () => {
         throw err
     }
 }
+
+export const getSingleBoardIndex = async (board, index) => {
+    try {
+        let content = await axios.get(`${AppConfig.apiUrl}/board/${board}/${index}`);
+        return content.data || null;
+    } catch (err) {
+        throw err;
+    }
+}

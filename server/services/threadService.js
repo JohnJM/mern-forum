@@ -1,20 +1,23 @@
 const Thread = require('../models/thread');
 const Post = require('../models/post');
 const Board = require('../models/board');
-
+var ObjectId = require('mongoose').Types.ObjectId;
 
 // A list of threads and their preview replies from a specified index page. Index pages start at 1. The maximum number of pages may vary depending on the board.
-module.exports.getThreadsAndPreviewPostsFromIndex = async (board_id, page_id /*1-5*/) => {
+module.exports.getThreadsFromIndex = async (boardTitle, page_id /*1-5*/ ) => {
     try {
-        const limit = await Board.find({ _id: board_id }).exec();
+        const board = await Board.findOne({
+            title: boardTitle
+        }).exec();
+        let limit = board.per_page || 6;
 
-        console.log('board id we want is', limit);
+        const threads = await Thread.find({
+            board_id: ObjectId(board._id)
+        }).sort({
+            createdAt: 'desc'
+        }).limit(limit).exec();
 
-        return limit;
-
-        // const threads = await Thread.find({ });
-            
-        
+        return threads;
     } catch (e) {
         throw e;
     }
@@ -24,15 +27,15 @@ module.exports.getThreadsAndPreviewPostsFromIndex = async (board_id, page_id /*1
 // A summarized list of all threads on a board
 
 //returns array of {
-    // page eg 1
-    // threads {
-        //thread_id
-        //last_modified
-        //replies
-    //},
-    //...
-    // 
-    //
+// page eg 1
+// threads {
+//thread_id
+//last_modified
+//replies
+//},
+//...
+// 
+//
 //}
 module.exports.getSummaryOfAllThreads = async (board) => {
     try {
@@ -48,5 +51,3 @@ module.exports.getSummaryOfAllThreads = async (board) => {
 module.exports.createThread = async (user_id) => {
 
 }
-
-

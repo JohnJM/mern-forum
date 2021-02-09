@@ -15,14 +15,14 @@ module.exports.boards_get = async (req, res) => {
 
 module.exports.index_get = async (req, res) => {
 
-    const { boardId, page } = req.params;
+    const { board, page } = req.params;
 
-    console.log('boardController index_get hit. id and page ->', boardId, page);
+    console.log( 'HERERERRRRRRRRRRRRRRRRRRRRRRRRR',  req.params);
 
+    console.log('boardController index_get hit. id and page ->', board, page);
 
-
-    threadService.getThreadsAndPreviewPostsFromIndex(boardId, page).then(content => {
-        res.status(200).json({content});
+    threadService.getThreadsFromIndex(board, page).then(threads => {
+        res.status(200).json(threads);
     }).catch(err => {
         console.log('error on boardController - index_get', err);
         res.status(400);
