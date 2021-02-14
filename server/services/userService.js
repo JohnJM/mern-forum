@@ -80,13 +80,10 @@ module.exports.getPublicUserInfoById = async (id) => {
         });
 
         if (user){
-            console.log('get public user hit - user is', user);
             return user
         } else {
             throw Error('Cant find that user');
         }
-
-
     } catch (e) {
         throw e
     }

@@ -5,8 +5,6 @@ import BoardsNav from '../components/BoardsNav';
 import { getSingleBoardIndex } from '../../service/BoardService';
 import SingleThread from '../components/SingleThread';
 
-
-
 const SingleBoardIndex = props => {
 
     let { board, index } = useParams();
@@ -21,9 +19,7 @@ const SingleBoardIndex = props => {
     } else if(status === 'error'){
        mainContent = <p className="mt-4">error - {error.message} </p>
     } else {
-        console.log(data);
-
-        mainContent = data.length === 0 ? <p className="mt-8">No threads. Sad</p> : <div className="mt-8">
+        mainContent = data.length === 0 ? <p className="mt-8">No threads.</p> : <div className="mt-8">
             {data.map(thread => {
                 return <SingleThread key={thread._id} content={thread}/>
             })}

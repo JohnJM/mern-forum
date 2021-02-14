@@ -2,7 +2,7 @@
 import {AppConfig} from '../App.config';
 const axios = require('axios');
 
-module.exports.getPublicDataById = async (uid) => {
+export const getPublicDataById = async (uid) => {
     try {
         let user = await axios.get(`${AppConfig.apiUrl}/user/${uid}`);
         return user;
