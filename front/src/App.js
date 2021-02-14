@@ -13,6 +13,11 @@ import {useSideDrawer} from './shared/hooks/SideDrawerHook'
 import FormLogin from './shared/components/form/FormLogin';
 import SideProfile from './shared/components/profile-side/ProfileSide';
 
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient();
+
+
 let logoutTimer;
 
 function App() {
@@ -134,32 +139,35 @@ function App() {
     }
 
     return (
-        <AuthContext.Provider
-            value={{
-            loginState: loginState,
-            login: login,
-            logout: logout
-        }}>
-            <SideDrawerContext.Provider
+        <QueryClientProvider client={queryClient}>
+            <AuthContext.Provider
                 value={{
-                isOpen: sideState.isOpen,
-                content: sideState.content,
-                alertMsg: sideState.alertMsg,
-                displayContent: displayContent,
-                setContent: setContent,
-                toggleOpen: toggleOpen,
-                displayAlertMsg: displayAlertMsg
+                loginState: loginState,
+                login: login,
+                logout: logout
             }}>
+                <SideDrawerContext.Provider
+                    value={{
+                    isOpen: sideState.isOpen,
+                    content: sideState.content,
+                    alertMsg: sideState.alertMsg,
+                    displayContent: displayContent,
+                    setContent: setContent,
+                    toggleOpen: toggleOpen,
+                    displayAlertMsg: displayAlertMsg
+                }}>
 
-                <Router>
-                    <MainNavigation/>
-                    <main className="p-4">
-                        {routes}
-                    </main>
-                </Router>
-            </SideDrawerContext.Provider>
+                    <Router>
+                        <MainNavigation/>
+                        <main className="p-4">
+                            {routes}
+                        </main>
+                    </Router>
+                </SideDrawerContext.Provider>
 
-        </AuthContext.Provider>
+            </AuthContext.Provider>
+        </QueryClientProvider>
+
     )
 }
 

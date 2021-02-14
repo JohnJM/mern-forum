@@ -15,7 +15,7 @@ export const listBoards = async () => {
 export const getSingleBoardIndex = async (board, index) => {
     try {
         let content = await axios.get(`${AppConfig.apiUrl}/board/${board}/${index}`);
-        return content.data || null;
+        return content.data || false;
     } catch (err) {
         throw err;
     }
