@@ -27,6 +27,8 @@ function App() {
     //          find a way to handle errors using a model (in the server too)
     //          confirm password on register form and change password
     //          find a good way of cleaning up react code / JSX automatically. 
+    //          add isFetching loading spinner as portal on btm right (via react query)
+    //          add loading spinners in geenral.
 
     const [sideState,
         toggleOpen,
