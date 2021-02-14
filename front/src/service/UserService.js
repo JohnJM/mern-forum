@@ -1,18 +1,12 @@
 // import { useQuery } from 'react-query'
 import {AppConfig} from '../App.config';
-import useAxios from 'axios-hooks'
+const axios = require('axios');
 
-
-// export const getPr = async (id) => {
-
-// const { data, loading, error } = useAxios({ url: `${AppConfig.apiUrl}/users/id` })
-  
-
-//     try {
-//         // let boards =  await axios.get(`${AppConfig.apiUrl}/boards`);
-//         // return boards;
-//     } catch (err) {
-//         throw err
-//     }
-// }
-
+module.exports.getPublicDataById = async (uid) => {
+    try {
+        let user = await axios.get(`${AppConfig.apiUrl}/user/${uid}`);
+        return user;
+    } catch (err) {
+        throw err;
+    }
+}

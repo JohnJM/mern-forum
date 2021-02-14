@@ -4,6 +4,22 @@ const User = require('../models/user');
 const winston = require('winston');
 
 
+
+
+module.exports.publicUserInfo_get = (req, res) => {
+    console.log('hit get public user controller');
+
+    const { uid } = req.params;
+    
+    
+    userService.getPublicUserInfoById(uid).then(data => {
+        res.status(200).json(data);
+    }).catch(err => {
+        console.log('error on controller,', err);
+        res.status(400).json({err})
+    })
+}
+
 module.exports.signup_post = async (req, res) => {
 
     // console.log(req.body);
@@ -14,22 +30,16 @@ module.exports.signup_post = async (req, res) => {
 
     userService.createUser(username, password).then(({user, token, maxAge}) => {
             res.cookie('Authorization', token, {httpOnly: true, maxAge: maxAge})
-            
-            // console.log('user ->> ', user);
-            // console.log('obj destruc user ->>', {user})
 
             //override the full user object with just the id
             //send user id back to compare against jwt.
             res.status(203).json({user: user._id});
         })
         .catch(err => {
-            // console.log(err);
            const errors = handleError(err);
             res.status(400).json({ errors });
         });
-    // res.send('signup hit');
 }
-
 
 
 module.exports.login_post = async (req, res) => {
@@ -69,12 +79,7 @@ module.exports.changePwd_post = async (req, res) => {
         console.log(err);
         res.status(400).json({err});
     })
-
-
 }
-
-
-
 
 module.exports.vippage_get = (req, res) => {
     // console.log('res . locals', res.locals.user);
@@ -85,3 +90,4 @@ module.exports.vippage_get = (req, res) => {
     // res.json(res.locals.user).status(200);
     res.status(200).json({content: 'THIS IS THE VIP CONTENT YOU REQUESTED'})
 } 
+

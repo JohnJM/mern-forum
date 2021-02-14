@@ -27,6 +27,7 @@ module.exports.createUser = async (username, password) => {
     }
 }
 
+
 module.exports.changePwd = async ( newPwd, oldPwd, id ) => {
     try {
 
@@ -70,4 +71,24 @@ module.exports.changePwd = async ( newPwd, oldPwd, id ) => {
     }
 }
 
+module.exports.getPublicUserInfoById = async (id) => {
+    try {
+        const user = await User.findById(id, {
+            _id: 0,
+            password: 0,
+            updatedAt: 0
+        });
+
+        if (user){
+            console.log('get public user hit - user is', user);
+            return user
+        } else {
+            throw Error('Cant find that user');
+        }
+
+
+    } catch (e) {
+        throw e
+    }
+}
 

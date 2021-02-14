@@ -12,6 +12,8 @@ router.get('/vip', requireAuth, authController.vippage_get);
 
 router.post('/changePwd', requireAuth, authController.changePwd_post);
 
+router.get('/user/:uid', authController.publicUserInfo_get);
+
 module.exports = router;
 
  
