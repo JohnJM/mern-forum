@@ -4,10 +4,13 @@ import { useParams } from "react-router-dom";
 import BoardsNav from '../components/BoardsNav';
 import { getSingleBoardIndex } from '../../service/BoardService';
 import SingleThread from '../components/SingleThread';
-
+import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
+import CreateThread from '../components/CreateThread';
+ 
 const SingleBoardIndex = props => {
 
     let { board, index } = useParams();
+    const side = useContext(SideDrawerContext);
     index = index || 1;
 
     const { status, data, error, isFetching } = useQuery(['threads', [board, index]], () => getSingleBoardIndex(board, index))
@@ -30,7 +33,11 @@ const SingleBoardIndex = props => {
         <>
             <BoardsNav />
             {isFetching ? <p>Fetching</p> : null}
-            <p className="text-2xl">{board}</p>
+            <p>
+                <span className="text-2xl">{board}</span>
+                - [<span onClick={() => side.displayContent(<CreateThread board={board}/>)} className="text-primary cursor-pointer">Start a new {board} thread</span>]
+            </p>
+            <p></p>
             {mainContent}
         </>
     )

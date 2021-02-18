@@ -17,10 +17,6 @@ module.exports.index_get = async (req, res) => {
 
     const { board, page } = req.params;
 
-    console.log( 'HERERERRRRRRRRRRRRRRRRRRRRRRRRR',  req.params);
-
-    console.log('boardController index_get hit. id and page ->', board, page);
-
     threadService.getThreadsFromIndex(board, page).then(threads => {
         res.status(200).json(threads);
     }).catch(err => {
