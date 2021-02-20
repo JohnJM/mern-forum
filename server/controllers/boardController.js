@@ -23,5 +23,4 @@ module.exports.index_get = async (req, res) => {
         console.log('error on boardController - index_get', err);
         res.status(400);
     })
-
 }

@@ -6,6 +6,7 @@ const User = require('./models/user');
 const fs = require('fs');
 const authRoutes = require('./routes/authroutes');
 const boardRoutes = require('./routes/boardroutes');
+const threadRoutes = require('./routes/threadroutes');
 const { checkUser } = require('./middleware/authMiddleware');
 const cors = require('cors');
 
@@ -32,20 +33,8 @@ app.use(express.json());
 
 app.use(cors());
 
-
 app.use(boardRoutes);
-// app.use(threadRoutes);
-
-// app.get('/', (req, res) => {
-//     res.render('front')
-// })
-
-// app.get('/login', (req, res) => {
-//     res.render('login')
-// })
-
-//after this line the user must be logged in.
-// app.get('*', checkUser);
+app.use(threadRoutes);
 
 app.get('/logout', (req, res) => {
     res.clearCookie('authorization');
