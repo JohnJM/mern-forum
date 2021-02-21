@@ -23,6 +23,7 @@ let logoutTimer;
 function App() {
 
     //     TO DO 
+    //          match_input(...inputs) func in form hook / validatiors 
     //          add all this auth below into a hook? 
     //          find a way to handle errors using a model (in the server too)
     //          confirm password on register form and change password

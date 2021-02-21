@@ -18,7 +18,7 @@ const SingleBoardIndex = props => {
     let mainContent;
 
     if(status === 'loading'){
-       mainContent  = <p class="mt-4">loading</p>
+       mainContent  = <p className="mt-4">loading</p>
     } else if(status === 'error'){
        mainContent = <p className="mt-4">error - {error.message} </p>
     } else {

@@ -44,3 +44,9 @@ export const validate = (value, validators) => {
   }
   return isValid;
 };
+
+export const inputMatch = (...inputs) => {
+  // let inputs = [{}];
+
+  // for (let input of inputs)
+}
