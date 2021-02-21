@@ -8,13 +8,14 @@ module.exports.getThreadsFromIndex = async (boardTitle, page_id /*1-5*/ ) => {
     try {
         const board = await Board.findOne({
             title: boardTitle
-        }).exec();
+        }).exec();  
         let limit = board.per_page || 6;
 
         const threads = await Thread.find({
             board_id: ObjectId(board._id)
         }).sort({
             createdAt: 'desc'
+            //need also change the index 
         }).limit(limit).exec();
 
         return threads;
@@ -48,6 +49,6 @@ module.exports.getSummaryOfAllThreads = async (board) => {
 }
 
 // Create a new thread
-module.exports.createThread = async (user_id) => {
+module.exports.createThread = async (user_id, board) => {
 
 }

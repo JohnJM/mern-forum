@@ -1,10 +1,13 @@
 const { Router } = require('express');
+const { check } = require('express-validator');
+
 // const authController = require('../controllers/authController');
 // const { requireAuth } = require('../middleware/authMiddleware');
 const threadController = require('../controllers/threadController');
-import fileUpload from '../middleware/file-upload';
+const fileUpload = require('../middleware/file-upload');
 
 const router = Router();
+
 
 router.post('/thread/create',
 fileUpload.single('image'),

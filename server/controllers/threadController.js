@@ -1,7 +1,7 @@
 const boardService = require('../services/boardService');
 const threadService = require('../services/threadService');
 
-const Thread = require('../models/Thread');
+const Thread = require('../models/thread');
 
 
 module.exports.createThread_post = async (req, res) => {
