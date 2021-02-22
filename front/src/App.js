@@ -17,7 +17,6 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 
 const queryClient = new QueryClient();
 
-
 let logoutTimer;
 
 function App() {

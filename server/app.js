@@ -1,14 +1,15 @@
+const fs = require('fs')
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Post = require('./models/post');
 const User = require('./models/user');
-const fs = require('fs');
 const authRoutes = require('./routes/authroutes');
 const boardRoutes = require('./routes/boardroutes');
 const threadRoutes = require('./routes/threadroutes');
 const { checkUser } = require('./middleware/authMiddleware');
 const cors = require('cors');
+const multer = require('multer');
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -32,6 +33,13 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(cors());
+app.use((error, req, res, next) => {
+    if(req.file){
+        fs.unlink(req.file.path, (err) => {
+            console.log(err);
+        });
+    }
+})
 
 app.use(boardRoutes);
 app.use(threadRoutes);
@@ -40,7 +48,7 @@ app.get('/logout', (req, res) => {
     res.clearCookie('authorization');
     // res.locals.user = null;
     // res.render('front', {msg: 'Successfully logged out'});
-    res.status(200)
+    res.status(200);
 })
 
 app.use(authRoutes);

@@ -10,9 +10,11 @@ const SingleThread = props => {
     const [content, setContent] = useState([]);
 
     useEffect(()=>{
-        getPublicDataById(thread.user_id).then(res => {
-            setOP(res.data.username);
-        })
+        if(thread.user_id){
+            getPublicDataById(thread.user_id).then(res => {
+                setOP(res.data.username);
+            })
+        }
     }, [])
 
     const isoDate = new Date(thread.createdAt);

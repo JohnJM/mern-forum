@@ -1,5 +1,5 @@
 
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 
 import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
 import {useForm} from '../../shared/hooks/FormHook';
@@ -12,12 +12,16 @@ import ImageUpload from '../../shared/components/form/form-elements/ImageUpload'
 import {useQuery} from 'react-query';
 import { AppConfig } from '../../App.config';
 import axios from 'axios';
+import {AuthContext} from '../../shared/context/AuthContext';
+
 
 
 
 const CreateThread = props => {
+    console.log(props);
 
-    const side = useContext(SideDrawerContext)
+    const side = useContext(SideDrawerContext);
+    const auth = useContext(AuthContext);
 
     const [formState,
         inputHandler] = useForm({
@@ -35,28 +39,41 @@ const CreateThread = props => {
         }
     }, false)
 
-    const { isLoading, data, error, isFetching, refetch } = useQuery('createThread',
+    let { isLoading, data, error, isFetching, refetch } = useQuery('createThread',
   async () =>  { try {
-      const data = await axios.post(`${AppConfig.apiUrl}/thread/create`, {
-        "subject":formState.inputs.subject,
-        "content": formState.inputs.content,
-        "image": formState.inputs.image
-}, {'Content-Type': 'application/json',
-    "Access-Control-Allow-Origin": "*",
-    "withCredentials": true}  
+    console.log("refetch-hit");
+    const formData = new FormData();
+    formData.append('subject', formState.inputs.subject.value);
+    formData.append('content', formState.inputs.content.value);
+    formData.append('image', formState.inputs.image.value);
+    if(auth.loginState.id){
+        formData.append('user_id', auth.loginState.id);
+    }
+    formData.append('board_id', props.board_id)
+
+      const data = await axios.post(`${AppConfig.apiUrl}/thread/create`, formData, {'Content-Type': 'multipart/form-data;',
+    "Access-Control-Allow-Origin": "*"}  
         );
-    console.log('use Query triggered.');
-    return data;
-} catch (err) {
-    return err;
-}
+
+    setTimeout(()=> {
+        side.displayAlertMsg(false);
+        side.toggleOpen();
+        props.refresh();
+    }, 1500)
+    side.displayAlertMsg('upload success!');
+    side.setContent('...');
+
+        return data;
+    } catch (err) {
+        return err;
+    }
   }, {manual: true, enabled: false})
+
 
 
 if (isLoading) return 'Loading...'
 
-if (error) return 'An error has occurred: ' + error.message
-
+if (error) return 'An error has occurred: ' + error.message;
 
     const createThreadSubmitHandler = (e) => {
         e.preventDefault();
@@ -66,9 +83,7 @@ if (error) return 'An error has occurred: ' + error.message
         refetch();
     }
 
-
     return <>
-
         <p className="">Start a new {props.board} thread</p>
         <br />
         <form onSubmit={createThreadSubmitHandler}>
@@ -96,7 +111,6 @@ if (error) return 'An error has occurred: ' + error.message
             <ImageUpload id="image" onInput={inputHandler}/>
             <br />
             <Button type="submit" disabled={!formState.isValid} >
-
                 Create Thread
             </Button>
         </form>

@@ -11,17 +11,17 @@ const threadSchema = new Schema({
     },
     user_id: {
         type: ObjectId,
-        required: [true, 'please provide user_id']
+        required: [false, 'please provide user_id']
     },
     board_id: {
-        type: ObjectId,
-        required: [true, 'please provide board_id']
+        type: String,
+        required: [true, 'please provide board']
     },
     content: {
         type: String,
         required: [true, 'Please enter some content...']
     },
-    img: {
+    image: {
         type: String,
         required: false
     }

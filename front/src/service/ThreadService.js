@@ -11,7 +11,6 @@ export const GetVipContent = async (jwt) => {
     const headers = {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
-        "Authorization": `Bearer ${jwt}`,
         "withCredentials": true
     }
 

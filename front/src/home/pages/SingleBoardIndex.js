@@ -6,14 +6,16 @@ import { getSingleBoardIndex } from '../../service/BoardService';
 import SingleThread from '../components/SingleThread';
 import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
 import CreateThread from '../components/CreateThread';
+import { useLocation } from 'react-router-dom';
  
 const SingleBoardIndex = props => {
 
     let { board, index } = useParams();
     const side = useContext(SideDrawerContext);
     index = index || 1;
+    let location = useLocation();
 
-    const { status, data, error, isFetching } = useQuery(['threads', [board, index]], () => getSingleBoardIndex(board, index))
+    const { status, data, error, isFetching, refetch } = useQuery(['threads', [board, index]], () => getSingleBoardIndex(board, index))
 
     let mainContent;
 
@@ -29,13 +31,15 @@ const SingleBoardIndex = props => {
         </div>
     }
 
+    console.log(location);
+
     return (
         <>
             <BoardsNav />
             {isFetching ? <p>Fetching</p> : null}
             <p>
                 <span className="text-2xl">{board}</span>
-                - [<span onClick={() => side.displayContent(<CreateThread board={board}/>)} className="text-primary cursor-pointer">Start a new {board} thread</span>]
+                - [<span onClick={() => side.displayContent(<CreateThread refresh={refetch} board_id={location.state.board_id}/>)} className="text-primary cursor-pointer">Start a new {board} thread</span>]
             </p>
             <p></p>
             {mainContent}
