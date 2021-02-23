@@ -1,4 +1,5 @@
-const fs = require('fs')
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -33,6 +34,9 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(cors());
+
+app.use('/uploads/images', express.static(path.join('uploads/images')));
+
 app.use((error, req, res, next) => {
     if(req.file){
         fs.unlink(req.file.path, (err) => {

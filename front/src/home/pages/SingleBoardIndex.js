@@ -14,6 +14,8 @@ const SingleBoardIndex = props => {
     const side = useContext(SideDrawerContext);
     index = index || 1;
     let location = useLocation();
+    const {board_title, board_id } = location.state
+    console.log(board_title, 'XD');
 
     const { status, data, error, isFetching, refetch } = useQuery(['threads', [board, index]], () => getSingleBoardIndex(board, index))
 
@@ -31,15 +33,13 @@ const SingleBoardIndex = props => {
         </div>
     }
 
-    console.log(location);
-
     return (
         <>
             <BoardsNav />
             {isFetching ? <p>Fetching</p> : null}
             <p>
                 <span className="text-2xl">{board}</span>
-                - [<span onClick={() => side.displayContent(<CreateThread refresh={refetch} board_id={location.state.board_id}/>)} className="text-primary cursor-pointer">Start a new {board} thread</span>]
+                - [<span onClick={() => side.displayContent(<CreateThread refresh={refetch} board_title={board_title}  board_id={board_id}/>)} className="text-primary cursor-pointer">Start a new {board_title} thread</span>]
             </p>
             <p></p>
             {mainContent}

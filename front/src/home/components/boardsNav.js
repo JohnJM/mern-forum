@@ -24,12 +24,13 @@ const BoardsNav = () => {
         return <p className="text-right">loading boards</p>;
     }
 
-    
 
     return (
         <div>
             <ul className="flex justify-end">{boardList.map((board, i) => {
+                // console.log('here, ', board);
                 return (
+                    
 
                     <li 
                         className={`mx-3 underline decoration-color-primary cursor-pointer
@@ -38,7 +39,7 @@ const BoardsNav = () => {
                         key={board._id}
                     >
                         <NavLink to={{pathname: `/board/${board.title}`, state:
-                             {board_id: board._id}
+                             {board_id: board._id, board_title: board.title}
                         }}>
                             {board.title}
                         </NavLink>

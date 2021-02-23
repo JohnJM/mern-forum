@@ -14,12 +14,7 @@ import { AppConfig } from '../../App.config';
 import axios from 'axios';
 import {AuthContext} from '../../shared/context/AuthContext';
 
-
-
-
 const CreateThread = props => {
-    console.log(props);
-
     const side = useContext(SideDrawerContext);
     const auth = useContext(AuthContext);
 
@@ -84,7 +79,7 @@ if (error) return 'An error has occurred: ' + error.message;
     }
 
     return <>
-        <p className="">Start a new {props.board} thread</p>
+        <p className="">Start a new {props.board_title} thread</p>
         <br />
         <form onSubmit={createThreadSubmitHandler}>
             <Input
