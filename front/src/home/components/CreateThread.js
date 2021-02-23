@@ -94,7 +94,7 @@ if (error) return 'An error has occurred: ' + error.message;
 
 
             <Input
-                element="input"
+                element=""
                 id="content"
                 type="text"
                 label="content"

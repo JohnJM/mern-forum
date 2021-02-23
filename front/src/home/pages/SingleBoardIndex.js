@@ -15,7 +15,6 @@ const SingleBoardIndex = props => {
     index = index || 1;
     let location = useLocation();
     const {board_title, board_id } = location.state
-    console.log(board_title, 'XD');
 
     const { status, data, error, isFetching, refetch } = useQuery(['threads', [board, index]], () => getSingleBoardIndex(board, index))
 

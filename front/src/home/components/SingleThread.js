@@ -18,7 +18,7 @@ const SingleThread = props => {
                 setOP(res.data.username);
             })
         }
-    }, [])
+    }, [thread.user_id])
 
     const isoDate = new Date(thread.createdAt);
     let date = isoDate.toISOString().substring(0, 10);
@@ -29,21 +29,26 @@ const SingleThread = props => {
 
     date = date + isoDate.toLocaleTimeString();
 
+    function ThreadContent(props){
+        const { content } = props;
+        const formatContent = content.split('\n').map(str => <p>{str}</p>);
+        return formatContent;
+    }
 
     return <>
         <div className="border-2 border-secondary container mb-3 py-2 px-4 text-black">
-
             <div>
                 <img src={`${AppConfig.apiUrl}/${thread.image}`}/>
             </div>
 
+            <div>
+              <span className="text-primary"> {thread.subject}</span> |    {threadOP} | {date}
+            </div>
+
+            <br/>
 
             <div>
-           <span className="text-primary"> {thread.subject}</span> |    {threadOP} | {date}
-            </div>
-            <br/>
-            <div>
-                {thread.content}
+                <ThreadContent content={thread.content}/>
             </div>
         </div>
     </>

@@ -30,8 +30,6 @@ const BoardsNav = () => {
             <ul className="flex justify-end">{boardList.map((board, i) => {
                 // console.log('here, ', board);
                 return (
-                    
-
                     <li 
                         className={`mx-3 underline decoration-color-primary cursor-pointer
                         ${boardList.length === i + 1 ? ' mr-0' : null} 
