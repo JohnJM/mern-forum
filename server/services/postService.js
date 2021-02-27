@@ -1,10 +1,19 @@
 const Post = require('../models/post');
+const Thread = require('../models/Thread');
 
 
 // A list of threads and their preview replies from a specified index page. Index pages start at 1. The maximum number of pages may vary depending on the board.
-module.exports.getAllPostsInAThread = async (thread_id) => {
+module.exports.getOPAndPosts = async (thread_id) => {
     try {
-        return Post.findById({}) //return array
+
+        let OP; let listOfPosts = [];
+
+        OP = await Thread.findById(thread_id);
+        let listOfPosts = Post.findById({thread_id});
+        console.log(OP);
+
+        return OP;
+
     } catch (e) {
         throw e;
     }
