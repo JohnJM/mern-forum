@@ -23,14 +23,13 @@ module.exports.createThread_post = async(req, res) => {
 }
 
 
-module.exports.get_OPAndPosts = async(req, res) => {
+module.exports.OPAndPosts_get = async(req, res) => {
     try {
         const { thread_id } = req.params;
 
-        console.log('thread_id ', thread_id);
-
         const OP = await Thread.findById( thread_id );
-        res.status(200).json({OP})
+        const Posts = await Post.find({ thread_id: mongoose.Types.ObjectId(thread_id)});
+        res.status(200).json({OP, Posts})
 
     } catch (err) {
         throw Error('can\'t get OPAndPosts', err);

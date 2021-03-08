@@ -17,7 +17,7 @@ fileUpload.single('image'),
 threadController.createThread_post);
 
 
-router.get('/thread/:thread_id', threadController.get_OPAndPosts);
+router.get('/thread/:thread_id', threadController.OPAndPosts_get);
 
 module.exports = router;
 
