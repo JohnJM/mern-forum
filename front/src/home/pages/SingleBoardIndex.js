@@ -27,7 +27,7 @@ const SingleBoardIndex = props => {
     } else {
         mainContent = data.length === 0 ? <p className="mt-8">No threads.</p> : <div className="mt-8">
             {data.map(thread => {
-                return <SingleThread key={thread._id} content={thread}/>
+                return <SingleThread key={thread._id} content={thread} board_title={board_title}/>
             })}
         </div>
     }

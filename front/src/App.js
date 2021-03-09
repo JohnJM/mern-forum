@@ -6,6 +6,7 @@ import MainNavigation from './shared/components/nav/MainNavigation'
 import Users from './user/pages/Users';
 import Home from './home/pages/Home';
 import SingleBoardIndex from './home/pages/SingleBoardIndex';
+import SingleThreadAndPosts from './home/pages/SingleThreadAndPosts';
 import Vip from './vip/pages/Vip';
 import {AuthContext} from './shared/context/AuthContext';
 import {SideDrawerContext} from './shared/context/SideDrawerContext';
@@ -21,7 +22,7 @@ let logoutTimer;
 
 function App() {
 
-    //     TO DO 
+    // TO DO 
     //          match_input(...inputs) func in form hook / validatiors 
     //          add all this auth below into a hook? 
     //          find a way to handle errors using a model (in the server too)
@@ -29,7 +30,7 @@ function App() {
     //          find a good way of cleaning up react code / JSX automatically. 
     //          add isFetching loading spinner as portal on btm right (with react query)
     //          add loading spinners in geenral.
-
+    //          esc closes sidebar
 
     const [sideState,
         toggleOpen,
@@ -102,11 +103,11 @@ function App() {
                     <Home/>
                 </Route>
 
-                <Route path="/board/:board/:index?">
-                    <SingleBoardIndex />
+                <Route path="/board/:board/thread/:thread">
+                    <SingleThreadAndPosts />
                 </Route>
 
-                <Route path="/board/:board/thread/:thread">
+                <Route path="/board/:board/:index?">
                     <SingleBoardIndex />
                 </Route>
 
@@ -128,11 +129,11 @@ function App() {
                     <Home/>
                 </Route>
 
-                <Route path="/board/:board/:index?">
-                    <SingleBoardIndex />
+                <Route path="/board/:board/thread/:thread">
+                    <SingleThreadAndPosts />
                 </Route>
 
-                <Route path="/board/:board/thread/:thread">
+                <Route path="/board/:board/:index?">
                     <SingleBoardIndex />
                 </Route>
 
