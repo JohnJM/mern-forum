@@ -35,7 +35,7 @@ const SingleThreadAndPosts = (props) => {
                <div className="block mb-8">
                   <span className="text-2xl text-primary">{opContent.subject}</span>
                   <span className="text-2xl"> | {board} | </span>
-                  <span className="text-2xl"> {opContent.Author} </span>
+                  <span className="text-2xl text-secondary"> {opContent.author.username} </span>
                </div>
          <div class={`flex ${isFullThreadImage ? 'flex-col' : 'flex-row'}`}>
             <div class="mb-8">
