@@ -29,10 +29,14 @@ export const getOPAndPosts = async (thread_id) => {
 
         if(content.data.OP.user_id){
             content.data.OP.author = await axios.get(`${AppConfig.apiUrl}/user/${content.data.OP.user_id}`);
-
+            
             content.data.OP.author = content.data.OP.author.data;
         } else {
-            content.data.OP.author.username = 'Anonymous';
+            // content.data.OP
+            content.data.OP.author = {};
+            content.data.OP.author.usernane = 'Anonymous';
+            // content.data.OP.author = content.data.OP.author.data;
+
         }
 
         return content;
