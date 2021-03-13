@@ -8,7 +8,7 @@ const SingleThread = props => {
     
     const { content: thread,board_title } = props;
 
-    const [threadOP, setOP] = useState('Anonymous');
+    const [threadOP, setOP] = useState('not registered');
     const [content, setContent] = useState([]);
 
     useEffect(()=>{ 
@@ -39,7 +39,7 @@ const SingleThread = props => {
             <div className="max-w-250">
                 <img src={`${AppConfig.apiUrl}/${thread.image}`} alt={thread.image.split('/')[2]}/>
             </div>
-            <div class="w-3/4 pl-2">
+            <div className="w-3/4 pl-2">
                 <div>
                     <span className="text-primary"> {thread.subject}</span> |    {threadOP} | {date} [<NavLink className="text-secondary" to={{
                             pathname: `/board/${board_title}/thread/${thread._id}`,

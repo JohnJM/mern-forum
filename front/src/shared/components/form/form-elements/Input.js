@@ -57,6 +57,7 @@ const Input = props => {
             id={props.id}
             rows={props.rows || 3}
             autoFocus={props.autoFocus}
+            placeholder={props.placeholder}
             onChange={changeHandler}
             value={inputState.value}
             onBlur={touchHandler}/>);

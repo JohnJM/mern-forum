@@ -20,8 +20,9 @@ const formReducer = (state, action) => {
           ...state,//spread to copy existing state obj
           inputs: {
             ...state.inputs, //spread to copy existing inner inputs object
-            [action.inputid]: {value: action.value, isValid: action.isValid} //this overrides any which were changed, 
-                                                                             //but we keep old values too because we spread the object
+            [action.inputid]: {value: action.value, isValid: action.isValid} 
+            //this overrides any which were changed, 
+            //but we keep old values too because we spread the object
           },
           isValid: formIsValid
         };

@@ -34,7 +34,7 @@ export const getOPAndPosts = async (thread_id) => {
         } else {
             // content.data.OP
             content.data.OP.author = {};
-            content.data.OP.author.usernane = 'Anonymous';
+            content.data.OP.author.usernane = 'not registered';
             // content.data.OP.author = content.data.OP.author.data;
 
         }

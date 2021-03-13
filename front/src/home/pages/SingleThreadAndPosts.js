@@ -1,20 +1,22 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query'
 // import Thread from '../../../../server/models/thread';
 import { getOPAndPosts } from '../../service/ThreadService';
 import SinglePost from '../../home/components/SinglePost';
+import CreatePost from '../../home/components/CreatePost';
 import BoardsNav from '../components/BoardsNav';
-
+import { SideDrawerContext } from '../../shared/context/SideDrawerContext';
 
 import { AppConfig } from '../../App.config';
+import { useSideDrawer } from '../../shared/hooks/SideDrawerHook';
 
 
 const SingleThreadAndPosts = (props) => {
    const { board, thread } = useParams();
    const [ isFullThreadImage,  setIsFullThreadImage] = useState(false);
+   const side = useContext(SideDrawerContext);
    
-   //let location = useLocation();
    let opContent = {};
    let postsArr = [];
 
@@ -35,15 +37,26 @@ const SingleThreadAndPosts = (props) => {
                <div className="block mb-8">
                   <span className="text-2xl text-primary">{opContent.subject}</span>
                   <span className="text-2xl"> | {board} | </span>
-                  <span className="text-2xl text-secondary"> {opContent.author.username || 'anonymous user'} </span>
+                  <span className="text-2xl text-secondary"> {opContent.author.username || 'not-registered'} </span>
+                  <span> - [
+                     <span 
+                        class="text-primary cursor-pointer" 
+                        onClick={() => {
+                           side.setContent(<CreatePost />);
+                           side.toggleOpen();
+                        }}
+                        >
+                        Post a reply
+                     </span>]
+                  </span>
                </div>
-         <div class={`flex ${isFullThreadImage ? 'flex-col' : 'flex-row'}`}>
-            <div class="mb-8">
-                  <img onClick={() => setIsFullThreadImage(!isFullThreadImage)} class={`${!isFullThreadImage && 'max-w-250'}`} src={`${AppConfig.apiUrl}/${opContent.image}`} alt={opContent.subject}/>
+         <div className={`flex ${isFullThreadImage ? 'flex-col' : 'flex-row'}`}>
+            <div className="mb-8">
+                  <img onClick={() => setIsFullThreadImage(!isFullThreadImage)} className={`${!isFullThreadImage && 'max-w-250'}`} src={`${AppConfig.apiUrl}/${opContent.image}`} alt={opContent.subject}/>
                   <p>{opContent.content}</p>
             </div>
 
-            <div class={`flex flex-col flex-grow ${!isFullThreadImage && 'pl-4'}`} >
+            <div className={`flex flex-col flex-grow ${!isFullThreadImage && 'pl-4'}`} >
                {postsArr.length > 0 && postsArr.map(post => <div key={post._id} className="mb-4 w-full border-2 border-primary">
                      <SinglePost key={post._id} content={post}/>
                   </div>
