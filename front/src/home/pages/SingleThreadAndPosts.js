@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext, useRef } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query'
 // import Thread from '../../../../server/models/thread';
@@ -16,6 +16,55 @@ const SingleThreadAndPosts = (props) => {
    const { board, thread } = useParams();
    const [ isFullThreadImage,  setIsFullThreadImage] = useState(false);
    const side = useContext(SideDrawerContext);
+
+   const CreatePostContent = useRef({
+      inputs: {
+         options:{
+            value: '',
+            isValid: true
+         },
+         comment: {
+            value: '',
+            isValid: false 
+         }
+      },
+      isValid: false
+   }, );
+
+   const createPostInputHandler = (...post) => {
+      
+      //get it here into useRef above. Then use that for initFormState
+      // CreatePostContent.current = post;
+      console.log(...post);
+      
+
+      CreatePostContent.current = {inputs: {
+         options: {
+            value: post[0],
+            isValid: true
+         },
+         comment: {
+            value: post[1],
+            isValid: true
+         }
+      }, isValid: true}
+
+
+      console.log(CreatePostContent.current);
+      
+   }
+
+
+   const setCreatePost = () => {
+      side.setContent(
+      <CreatePost 
+      updateCreatePostContent={(...i) => createPostInputHandler(...i)}
+      initFormState={CreatePostContent.current} 
+   />
+      );
+      side.toggleOpen(); 
+   }
+
    
    let opContent = {};
    let postsArr = [];
@@ -30,7 +79,7 @@ const SingleThreadAndPosts = (props) => {
       opContent = data.data.OP;
       postsArr = data.data.Posts;
 
-      console.log(data.data);
+      // console.log(data.data);
 
       return <>
          <BoardsNav />
@@ -41,11 +90,7 @@ const SingleThreadAndPosts = (props) => {
                   <span> - [
                      <span 
                         class="text-primary cursor-pointer" 
-                        onClick={() => {
-                           side.setContent(<CreatePost />);
-                           side.toggleOpen();
-                        }}
-                        >
+                        onClick={()=>setCreatePost()}>
                         Post a reply
                      </span>]
                   </span>

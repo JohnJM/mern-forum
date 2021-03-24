@@ -1,5 +1,5 @@
 
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
 
 import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
 import {useForm} from '../../shared/hooks/FormHook';
@@ -15,11 +15,15 @@ import axios from 'axios';
 import {AuthContext} from '../../shared/context/AuthContext';
 
 const CreatePost = props => {
+
     const side = useContext(SideDrawerContext);
     const auth = useContext(AuthContext);
+    let { initFormState } = props;
+    const comment = useRef();
+    const options = useRef();
 
     const [formState,
-        inputHandler] = useForm({
+        inputHandler, setFormData] = useForm({
         options: {
             value: '',
             isValid: true
@@ -29,6 +33,18 @@ const CreatePost = props => {
             isValid: false
         }
     }, false)
+
+   const updateRefs = (e) => {
+        const refOptions = e.target.parentNode.parentNode[0].value;
+        const refComment = e.target.parentNode.parentNode[1].value;
+
+        comment.current = refComment;
+        options.current = refOptions;
+    }
+
+    useEffect(() => {
+        return () => { props.updateCreatePostContent(options.current, comment.current) };
+    }, [props.updateCreatePostContent])
 
 //     let { isLoading, data, error, isFetching, refetch } = useQuery('createThread',
 //   async () =>  { try {
@@ -74,15 +90,16 @@ const CreatePost = props => {
 //         refetch();
 //     }
 
-    return <>
-        <form onSubmit={() => {}}>
+return <>
+        <form onChange={(e) => updateRefs(e)} onSubmit={() => {}}>
             <Input
                 element="input"
                 id="options"
+                initialValue={initFormState.inputs.options.value}
                 type="text"
                 label="options"
                 placeholder="options"
-                initialValid="true"
+                initialValid='truthy'
                 validators={[]}
                 onInput={inputHandler}></Input>
             
@@ -91,6 +108,7 @@ const CreatePost = props => {
                 id="comment"
                 type="text"
                 label="comment *"
+                initialValue={initFormState.inputs.comment.value}
                 placeholder="comment"
                 validators={[VALIDATOR_REQUIRE(),VALIDATOR_MINLENGTH(5), VALIDATOR_MAXLENGTH(400)]}
                 errorText="Min 5 chars"
