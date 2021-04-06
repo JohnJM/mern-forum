@@ -11,7 +11,6 @@ import { SideDrawerContext } from '../../shared/context/SideDrawerContext';
 import { AppConfig } from '../../App.config';
 import { useSideDrawer } from '../../shared/hooks/SideDrawerHook';
 
-
 const SingleThreadAndPosts = (props) => {
    const { board, thread } = useParams();
    const [ isFullThreadImage,  setIsFullThreadImage] = useState(false);
@@ -32,12 +31,6 @@ const SingleThreadAndPosts = (props) => {
    }, );
 
    const createPostInputHandler = (...post) => {
-      
-      //get it here into useRef above. Then use that for initFormState
-      // CreatePostContent.current = post;
-      console.log(...post);
-      
-
       CreatePostContent.current = {inputs: {
          options: {
             value: post[0],
@@ -48,23 +41,18 @@ const SingleThreadAndPosts = (props) => {
             isValid: true
          }
       }, isValid: true}
-
-
-      console.log(CreatePostContent.current);
-      
    }
-
 
    const setCreatePost = () => {
       side.setContent(
       <CreatePost 
-      updateCreatePostContent={(...i) => createPostInputHandler(...i)}
-      initFormState={CreatePostContent.current} 
-   />
-      );
+        refresh={refetch}
+        updateCreatePostContent={(...i) => createPostInputHandler(...i)}
+        initFormState={CreatePostContent.current} 
+        thread_id={thread}
+      />);
       side.toggleOpen(); 
    }
-
    
    let opContent = {};
    let postsArr = [];
@@ -79,7 +67,7 @@ const SingleThreadAndPosts = (props) => {
       opContent = data.data.OP;
       postsArr = data.data.Posts;
 
-      // console.log(data.data);
+      console.log(postsArr);
 
       return <>
          <BoardsNav />
@@ -111,8 +99,6 @@ const SingleThreadAndPosts = (props) => {
       </>
    }
 }
-
-
 
 export default SingleThreadAndPosts;
 

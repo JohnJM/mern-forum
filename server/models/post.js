@@ -5,25 +5,21 @@ ObjectId = Schema.ObjectId;
 const postSchema = new Schema({
     user_id: {
         type: ObjectId,
-        required: true
+        required: false
     },
     thread_id: {
         type: ObjectId,
         required: true
     },
-    content: {
+    comment: {
         type: String,
         required: false
     },
-    postNumber: {
-        type: Number,
-        required: true
-    },
-    img: {type: String, required: false},
-    repliesToId: {
-        type: ObjectId,
+    options: {
+        type: String,
         required: false
     },
+    img: {type: String, required: false}
     // OP: {
     //     type: Boolean,
     //     required: true

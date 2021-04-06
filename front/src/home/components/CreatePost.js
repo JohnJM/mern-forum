@@ -34,7 +34,7 @@ const CreatePost = props => {
         }
     }, false)
 
-   const updateRefs = (e) => {
+   const updatePostRef = (e) => {
         const refOptions = e.target.parentNode.parentNode[0].value;
         const refComment = e.target.parentNode.parentNode[1].value;
 
@@ -46,52 +46,67 @@ const CreatePost = props => {
         return () => { props.updateCreatePostContent(options.current, comment.current) };
     }, [props.updateCreatePostContent])
 
-//     let { isLoading, data, error, isFetching, refetch } = useQuery('createThread',
-//   async () =>  { try {
-//     console.log("refetch-hit");
-//     const formData = new FormData();
-//     formData.append('subject', formState.inputs.subject.value);
-//     formData.append('content', formState.inputs.content.value);
-//     formData.append('image', formState.inputs.image.value);
-//     if(auth.loginState.id){
-//         formData.append('user_id', auth.loginState.id);
-//     }
-//     formData.append('board_id', props.board_id)
 
-//       const data = await axios.post(`${AppConfig.apiUrl}/thread/create`, formData, {'Content-Type': 'multipart/form-data;',
-//     "Access-Control-Allow-Origin": "*"}  
-//         );
-
-//     setTimeout(()=> {
-//         side.displayAlertMsg(false);
-//         side.toggleOpen();
-//         props.refresh();
-//     }, 1500)
-//     side.displayAlertMsg('upload success!');
-//     side.setContent('...');
-
-//         return data;
-//     } catch (err) {
-//         return err;
-//     }
-//   }, {manual: true, enabled: false})
+    let { isLoading, data, error, isFetching, refetch } = useQuery('createPost',
+  async () =>  { try {
+    // console.log("refetch-hit");
+    // const formData = new FormData();
+    // formData.append('comment', comment.current);
+    
+    // formData.append('options', options.current);
+    // if(auth.loginState.id){
+    //     formData.append('user_id', auth.loginState.id);
+    // } else {
+    //     formData.append('user_id', '100');
+    // }
+    // formData.append('thread_id', props.thread_id)
 
 
+    let formData = {
+        "comment": comment.current,
+        "options": options.current,
+        "thread_id": props.thread_id
+    }
 
-// if (isLoading) return 'Loading...'
+    if(auth.loginState.id){
+        formData["user_id"] = auth.loginState.id;
+    }
 
-// if (error) return 'An error has occurred: ' + error.message;
+      const submitPostData = await axios.post(`${AppConfig.apiUrl}/post/create`, formData, {'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": "*", withCredentials: true}  
+        );
 
-//     const createThreadSubmitHandler = (e) => {
-//         e.preventDefault();
+    setTimeout(()=> {
+        side.displayAlertMsg(false);
+        side.toggleOpen();
+        props.refresh();
+    }, 1500)
+    side.displayAlertMsg('upload success!');
+    side.setContent('...');
 
-//         console.log(formState);
+        return submitPostData;
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+  }, {manual: true, enabled: false})
 
-//         refetch();
-//     }
+
+
+if (isLoading) return 'Loading...'
+
+if (error) return 'An error has occurred: ' + error.message;
+
+    const createPostSubmitHandler = (e) => {
+        e.preventDefault();
+
+        console.log(formState);
+
+        refetch();
+    }
 
 return <>
-        <form onChange={(e) => updateRefs(e)} onSubmit={() => {}}>
+        <form onChange={(e) => updatePostRef(e)} onSubmit={(e) => createPostSubmitHandler(e)}>
             <Input
                 element="input"
                 id="options"

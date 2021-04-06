@@ -25,12 +25,13 @@ function App() {
     // TO DO 
     //          match_input(...inputs) func in form hook / validatiors 
     //          add all this auth below into a hook? 
-    //          find a way to handle errors using a model (in the server too)
+    //          how to best handle errors using a model (in the server too)
     //          confirm password on register form and change password
     //          find a good way of cleaning up react code / JSX automatically. 
     //          add isFetching loading spinner as portal on btm right (with react query)
     //          add loading spinners in geenral.
     //          esc closes sidebar
+    //          
 
     const [sideState,
         toggleOpen,

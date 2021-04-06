@@ -12,8 +12,6 @@ module.exports.createUser = async (username, password) => {
             'role': 'basic'
         })
 
-        // console.log(' we in userServuce.kjs Test here _____>', user, user._id);
-
         console.log('creating user -> ', user);
 
         const [token, maxAge] = createToken(user._id);

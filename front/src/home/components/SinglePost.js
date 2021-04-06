@@ -1,13 +1,25 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { getPublicDataById } from '../../service/UserService';
 
 const SinglePost = props => {
 
-const { _id, user_id, thread_id, content } = props.content;
+const { _id, user_id, thread_id, comment } = props.content;
 
-// console.log(props,content);
+//should use user object with everything instead of string
+let [username, setUsername] = useState('not-registered');
+
+if(user_id){
+    getPublicDataById(user_id).then(res => {
+        // console.log(res);
+        setUsername(res.data.username);
+    }).catch((err)=> {
+        throw err;
+    });
+}
 
 return <div id={user_id}>
-    <p>{content}</p>
+    <p>{username} </p>
+    <p>{comment}</p>
 </div>
 }
 
