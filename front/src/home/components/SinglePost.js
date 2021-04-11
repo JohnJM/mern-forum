@@ -17,9 +17,9 @@ if(user_id){
     });
 }
 
-return <div id={user_id}>
-    <p>{username} </p>
-    <p>{comment}</p>
+return <div className="p-4" id={user_id}>
+    <p>{username} - {_id} </p>
+    <p className="mt-2 p-1 bg-gray-200 whitespace-pre-line">{comment}</p>
 </div>
 }
 

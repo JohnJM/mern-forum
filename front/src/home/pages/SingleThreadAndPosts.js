@@ -57,7 +57,7 @@ const SingleThreadAndPosts = (props) => {
    let opContent = {};
    let postsArr = [];
 
-   const { status, data, error, isFetching, refetch } = useQuery(['OPAndPosts', ['thread_id']], () => getOPAndPosts(thread));
+   const { status, data, refetch } = useQuery(['OPAndPosts', ['thread_id']], () => getOPAndPosts(thread));
 
    if(status === 'loading'){
       return 'loading';
@@ -67,35 +67,53 @@ const SingleThreadAndPosts = (props) => {
       opContent = data.data.OP;
       postsArr = data.data.Posts;
 
-      console.log(postsArr);
 
+      let floatingPosts = []; let remainingPosts = [];
+
+      for(let i = 0; i < postsArr.length; i++){
+         if(i < 2){
+            floatingPosts.push(postsArr[i])
+         } else if (i >= 2){
+            remainingPosts.push(postsArr[i])
+         }
+      }
+   
       return <>
          <BoardsNav />
-               <div className="block mb-8">
-                  <span className="text-2xl text-primary">{opContent.subject}</span>
-                  <span className="text-2xl"> | {board} | </span>
-                  <span className="text-2xl text-secondary"> {opContent.author.username || 'not-registered'} </span>
-                  <span> - [
-                     <span 
-                        class="text-primary cursor-pointer" 
-                        onClick={()=>setCreatePost()}>
-                        Post a reply
-                     </span>]
-                  </span>
-               </div>
-         <div className={`flex ${isFullThreadImage ? 'flex-col' : 'flex-row'}`}>
-            <div className="mb-8">
-                  <img onClick={() => setIsFullThreadImage(!isFullThreadImage)} className={`${!isFullThreadImage && 'max-w-250'}`} src={`${AppConfig.apiUrl}/${opContent.image}`} alt={opContent.subject}/>
-                  <p>{opContent.content}</p>
+            <div className="block mb-8">
+               <span className="text-2xl text-primary">{opContent.subject}</span>
+               <span className="text-2xl"> | {board} | </span>
+               <span className="text-2xl text-secondary"> {opContent.author.username || 'not-registered'} </span>
+               <span> - [
+                  <span 
+                     class="text-primary cursor-pointer" 
+                     onClick={()=>setCreatePost()}>
+                     Post a reply
+                  </span>]
+               </span>
             </div>
 
-            <div className={`flex flex-col flex-grow ${!isFullThreadImage && 'pl-4'}`} >
-               {postsArr.length > 0 && postsArr.map(post => <div key={post._id} className="mb-4 w-full border-2 border-primary">
+             <div className={`flex-col flex ${isFullThreadImage ? 'sm:flex-col' : 'sm:flex-row'}`}>
+               <div className="mb-8">
+                     <img onClick={() => setIsFullThreadImage(!isFullThreadImage)} className={`${!isFullThreadImage && 'max-w-250'}`} src={`${AppConfig.apiUrl}/${opContent.image}`} alt={opContent.subject}/>
+                     <p>{opContent.content}</p>
+               </div>
+
+               <div className={`flex flex-col flex-grow ${!isFullThreadImage && 'sm:pl-4'}`} >
+                {floatingPosts.length > 0 && floatingPosts.map(post => <div key={post._id} className="mb-4 w-full border-2 border-primary">
                      <SinglePost key={post._id} content={post}/>
                   </div>
                )}
-         </div>
-         </div>
+               </div>
+             </div>
+
+             {remainingPosts && <div>
+               <div class="flex flex-col">
+                  {remainingPosts.map(post => <div key={post._id} className="mb-4 w-full border-2 border-primary">
+                     <SinglePost key={post._id} content={post}/>
+                  </div>)}
+               </div>
+             </div>}
       </>
    }
 }

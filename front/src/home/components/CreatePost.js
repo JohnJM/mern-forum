@@ -1,4 +1,3 @@
-
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
 
 import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
@@ -84,7 +83,8 @@ const CreatePost = props => {
     side.displayAlertMsg('upload success!');
     side.setContent('...');
 
-        return submitPostData;
+    return submitPostData;
+    
     } catch (err) {
         console.log(err);
         return err;
@@ -92,16 +92,13 @@ const CreatePost = props => {
   }, {manual: true, enabled: false})
 
 
+    if (isLoading) return 'Loading...';
 
-if (isLoading) return 'Loading...'
-
-if (error) return 'An error has occurred: ' + error.message;
+    if (error) return 'An error has occurred: ' + error.message;
 
     const createPostSubmitHandler = (e) => {
         e.preventDefault();
-
         console.log(formState);
-
         refetch();
     }
 
@@ -122,9 +119,9 @@ return <>
                 element=""
                 id="comment"
                 type="text"
-                label="comment *"
+                label="reply *"
                 initialValue={initFormState.inputs.comment.value}
-                placeholder="comment"
+                placeholder="reply"
                 validators={[VALIDATOR_REQUIRE(),VALIDATOR_MINLENGTH(5), VALIDATOR_MAXLENGTH(400)]}
                 errorText="Min 5 chars"
                 onInput={inputHandler}></Input>
