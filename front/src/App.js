@@ -23,15 +23,12 @@ let logoutTimer;
 function App() {
 
     // TO DO 
-    //          match_input(...inputs) func in form hook / validatiors 
-    //          add all this auth below into a hook? 
-    //          how to best handle errors using a model (in the server too)
+    //          add a context / custom hook for persisting user post content whilst they are browsing
+    //          move let routes into its own file
+    //          refector the auth below into a hook? 
     //          confirm password on register form and change password
-    //          find a good way of cleaning up react code / JSX automatically. 
-    //          add isFetching loading spinner as portal on btm right (with react query)
-    //          add loading spinners in geenral.
-    //          esc closes sidebar
-    //          
+    //          add isFetching / loading spinner as portal on btm right (with react query?)
+    //          esc closes sidebar?
 
     const [sideState,
         toggleOpen,
@@ -63,7 +60,6 @@ function App() {
         }))
         setIsLoggedIn({isLoggedIn: true, id, username, token});
         setContent(<SideProfile />);
-        // console.log( setIsLoggedIn([true, {id: id, username: username}]) );
     }, [])
 
     const logout = useCallback(() => {

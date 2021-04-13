@@ -36,7 +36,7 @@ const BoardsNav = () => {
                         ${i === 0 ? 'ml-0' : null}`}
                         key={board._id}
                     >
-                        <NavLink to={{pathname: `/board/${board.title}`, state:
+                        <NavLink activeClassName="text-primary active"  to={{pathname: `/board/${board.title}`, state:
                              {board_id: board._id, board_title: board.title}
                         }}>
                             {board.title}
