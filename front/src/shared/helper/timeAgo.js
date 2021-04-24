@@ -25,8 +25,8 @@ export function timeAgo(date) {
     return Math.floor(interval) + " minutes ago";
   }
 
-  if(Math.floor(interval) === 1){
-    return 'Just now'
+  if (Math.floor(seconds) === 1) {
+    return ' moments ago'
   }
 
   return Math.floor(seconds) + " seconds ago";

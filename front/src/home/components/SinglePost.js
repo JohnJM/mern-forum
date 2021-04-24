@@ -3,12 +3,8 @@ import { getPublicDataById } from '../../service/UserService';
 import { timeAgo } from '../../shared/helper/timeAgo';
 
 const SinglePost = props => {
-    
+
     const { _id, user_id, createdAt, comment } = props.content;
-    console.log(props.content);
-
-    console.log(createdAt);
-
     const time = timeAgo(new Date(createdAt));
 
 

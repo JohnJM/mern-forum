@@ -6,7 +6,9 @@ import { getOPAndPosts } from '../../service/ThreadService';
 import SinglePost from '../../home/components/SinglePost';
 import CreatePost from '../../home/components/CreatePost';
 import BoardsNav from '../components/BoardsNav';
+
 import { SideDrawerContext } from '../../shared/context/SideDrawerContext';
+import { UserRepliesContext } from '../context/UserRepliesContext';
 
 import { AppConfig } from '../../App.config';
 import { useSideDrawer } from '../../shared/hooks/SideDrawerHook';
@@ -15,6 +17,7 @@ const SingleThreadAndPosts = (props) => {
    const { board, thread } = useParams();
    const [isFullThreadImage, setIsFullThreadImage] = useState(false);
    const side = useContext(SideDrawerContext);
+   const userReplies = useContext(UserRepliesContext);
 
    const CreatePostContent = useRef({
       inputs: {
@@ -31,18 +34,20 @@ const SingleThreadAndPosts = (props) => {
    });
 
    const createPostInputHandler = (...post) => {
-      CreatePostContent.current = {
-         inputs: {
-            options: {
-               value: post[0],
-               isValid: true
-            },
-            comment: {
-               value: post[1],
-               isValid: true
-            }
-         }, isValid: true
-      }
+      userReplies.addOrUpdateReply(thread, post[1]);
+
+      // CreatePostContent.current = {
+      //    inputs: {
+      //       options: {
+      //          value: post[0],
+      //          isValid: true
+      //       },
+      //       comment: {
+      //          value: post[1],
+      //          isValid: true
+      //       }
+      //    }, isValid: true
+      // }
    }
 
    const setCreatePost = () => {
@@ -89,7 +94,7 @@ const SingleThreadAndPosts = (props) => {
             <span className="text-2xl text-secondary"> {opContent.author.username || 'not-registered'} </span>
             <span> - [
                   <span
-                  class="text-primary cursor-pointer"
+                  className="text-primary cursor-pointer"
                   onClick={() => setCreatePost()}>
                   Post a reply
                   </span>]
@@ -111,7 +116,7 @@ const SingleThreadAndPosts = (props) => {
          </div>
 
          {remainingPosts && <div>
-            <div class="flex flex-col">
+            <div className="flex flex-col">
                {remainingPosts.map(post => <div key={post._id} className="mb-4 w-full border-2 border-primary">
                   <SinglePost key={post._id} content={post} />
                </div>)}
@@ -122,8 +127,3 @@ const SingleThreadAndPosts = (props) => {
 }
 
 export default SingleThreadAndPosts;
-
-//todo
-
-   //break this into smaller components?
-   //useFullImage could be a hook - reused on <SinglePost /> too? (instead of line 18)

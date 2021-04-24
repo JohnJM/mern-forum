@@ -6,17 +6,20 @@ import {useForm} from '../../shared/hooks/FormHook';
 import Input from '../../shared/components/form/form-elements/Input';
 import {VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MAXLENGTH} from '../../shared/components/util/Validators';
 import Button from '../../shared/components/form/form-elements/Button';
-import ImageUpload from '../../shared/components/form/form-elements/ImageUpload';
+// import ImageUpload from '../../shared/components/form/form-elements/ImageUpload';
 
 import {useQuery} from 'react-query';
 import { AppConfig } from '../../App.config';
 import axios from 'axios';
 import {AuthContext} from '../../shared/context/AuthContext';
+import { UserRepliesContext } from '../context/UserRepliesContext';
 
 const CreatePost = props => {
 
     const side = useContext(SideDrawerContext);
     const auth = useContext(AuthContext);
+    const userReplies = useContext(UserRepliesContext);
+
     let { initFormState } = props;
     const comment = useRef();
     const options = useRef();

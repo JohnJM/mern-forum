@@ -1,6 +1,6 @@
-import React, {useState, useCallback, useEffect} from 'react'
+import React, { useState, useCallback, useEffect, Fragment } from 'react'
 import './App.css';
-import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 import MainNavigation from './shared/components/nav/MainNavigation'
 import Users from './user/pages/Users';
@@ -8,9 +8,14 @@ import Home from './home/pages/Home';
 import SingleBoardIndex from './home/pages/SingleBoardIndex';
 import SingleThreadAndPosts from './home/pages/SingleThreadAndPosts';
 import Vip from './vip/pages/Vip';
-import {AuthContext} from './shared/context/AuthContext';
-import {SideDrawerContext} from './shared/context/SideDrawerContext';
-import {useSideDrawer} from './shared/hooks/SideDrawerHook'
+import { AuthContext } from './shared/context/AuthContext';
+
+import { SideDrawerContext } from './shared/context/SideDrawerContext';
+import { useSideDrawer } from './shared/hooks/SideDrawerHook'
+
+import { UserRepliesContext } from './home/context/UserRepliesContext';
+import { useUserReplies } from './home/hooks/UserRepliesHook';
+
 import FormLogin from './shared/components/form/FormLogin';
 import SideProfile from './shared/components/profile-side/ProfileSide';
 
@@ -36,11 +41,12 @@ function App() {
         setContent,
         displayAlertMsg] = useSideDrawer();
 
+    // login / logout hook
     const [tokenExpirationDate,
         setTokenExpirationDate] = useState();
 
     const [loginState,
-        setIsLoggedIn] = useState({isLogged: false, id: 0, username: "", token: ""});
+        setIsLoggedIn] = useState({ isLogged: false, id: 0, username: "", token: "" });
 
     const login = useCallback((id, username, token, expirationDate) => {
         // const {id, username} = user;
@@ -58,20 +64,20 @@ function App() {
             token,
             expires: tokenExpiry.toISOString()
         }))
-        setIsLoggedIn({isLoggedIn: true, id, username, token});
+        setIsLoggedIn({ isLoggedIn: true, id, username, token });
         setContent(<SideProfile />);
     }, [])
 
     const logout = useCallback(() => {
-        setIsLoggedIn({isLoggedIn: false});
+        setIsLoggedIn({ isLoggedIn: false });
         setTokenExpirationDate(null);
         localStorage.removeItem('user');
         displayAlertMsg('Logged out succesfully');
-        displayContent(<FormLogin forSideBar/>);
+        displayContent(<FormLogin forSideBar />);
     }, [])
 
     useEffect(() => {
-    
+
         const storedUser = JSON.parse(localStorage.getItem('user') || null);
 
         // console.log('effec thit', new Date(storedUser.expires).getTime(), new Date().getTime());
@@ -90,80 +96,70 @@ function App() {
             clearTimeout(logoutTimer);
         }
     }, [loginState.token, logout, tokenExpirationDate])
+    // /end of login / logout hook
 
-    let routes;
 
-    if (!!loginState.isLoggedIn) {
-        routes = (
-            <Switch>
-                <Route path="/" exact>
-                    <Home/>
-                </Route>
+    const [replyArr, addOrUpdateReply, removeReply] = useUserReplies();
 
-                <Route path="/board/:board/thread/:thread">
-                    <SingleThreadAndPosts />
-                </Route>
+    let routes = (
+        <Switch>
+            <Route path="/" exact>
+                <Home />
+            </Route>
 
-                <Route path="/board/:board/:index?">
-                    <SingleBoardIndex />
-                </Route>
+            <Route path="/board/:board/thread/:thread">
+                <SingleThreadAndPosts />
+            </Route>
 
+            <Route path="/board/:board/:index?">
+                <SingleBoardIndex />
+            </Route>
+            {!!loginState.isLoggedIn ? <>
                 <Route path="/account/" exact>
-                    <Users/>
+                    <Users />
                 </Route>
 
                 <Route path="/vip" exact>
-                    <Vip/>
+                    <Vip />
                 </Route>
+            </> : null}
 
-                <Redirect to="/"/>
-            </Switch>
-        )
-    } else {
-        routes = (
-            <Switch>
-                <Route path="/" exact>
-                    <Home/>
-                </Route>
-
-                <Route path="/board/:board/thread/:thread">
-                    <SingleThreadAndPosts />
-                </Route>
-
-                <Route path="/board/:board/:index?">
-                    <SingleBoardIndex />
-                </Route>
-
-                <Redirect to="/"/>
-            </Switch>
-        )
-    }
+            <Redirect to="/" />
+        </Switch>
+    );
 
     return (
         <QueryClientProvider client={queryClient}>
             <AuthContext.Provider
                 value={{
-                loginState: loginState,
-                login: login,
-                logout: logout
-            }}>
+                    loginState: loginState,
+                    login: login,
+                    logout: logout
+                }}>
                 <SideDrawerContext.Provider
                     value={{
-                    isOpen: sideState.isOpen,
-                    content: sideState.content,
-                    alertMsg: sideState.alertMsg,
-                    displayContent: displayContent,
-                    setContent: setContent,
-                    toggleOpen: toggleOpen,
-                    displayAlertMsg: displayAlertMsg
-                }}>
-
-                    <Router>
-                        <MainNavigation/>
-                        <main className="p-4">
-                            {routes}
-                        </main>
-                    </Router>
+                        isOpen: sideState.isOpen,
+                        content: sideState.content,
+                        
+                        alertMsg: sideState.alertMsg,
+                        displayContent: displayContent,
+                        setContent: setContent,
+                        toggleOpen: toggleOpen,
+                        displayAlertMsg: displayAlertMsg
+                    }}>
+                    {/* should really be in deeper nav component */}
+                    <UserRepliesContext.Provider value={{
+                        replyArr: replyArr,
+                        addOrUpdateReply: addOrUpdateReply,
+                        removeReply: removeReply
+                    }}>
+                        <Router>
+                            <MainNavigation />
+                            <main className="p-4">
+                                {routes}
+                            </main>
+                        </Router>
+                    </UserRepliesContext.Provider>
                 </SideDrawerContext.Provider>
 
             </AuthContext.Provider>

@@ -5,6 +5,6 @@ export const SideDrawerContext = createContext({
     alertMsg: {},
     setContent: () => {},
     displayAlertMsg: () => {},
-    displayContent: (content ) => {}
+    displayContent: (content) => {}
 });
 
