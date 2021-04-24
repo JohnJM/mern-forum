@@ -18,44 +18,26 @@ const SingleThreadAndPosts = (props) => {
    const [isFullThreadImage, setIsFullThreadImage] = useState(false);
    const side = useContext(SideDrawerContext);
    const userReplies = useContext(UserRepliesContext);
-
-   const CreatePostContent = useRef({
-      inputs: {
-         options: {
-            value: '',
-            isValid: true
-         },
-         comment: {
-            value: '',
-            isValid: false
-         }
-      },
-      isValid: false
-   });
+   
+   let foundReply = useRef(false);
 
    const createPostInputHandler = (...post) => {
       userReplies.addOrUpdateReply(thread, post[1]);
-
-      // CreatePostContent.current = {
-      //    inputs: {
-      //       options: {
-      //          value: post[0],
-      //          isValid: true
-      //       },
-      //       comment: {
-      //          value: post[1],
-      //          isValid: true
-      //       }
-      //    }, isValid: true
-      // }
    }
+
+   userReplies.replyArr.forEach(r => {
+      if (r.thread_id === thread) {
+         foundReply.current = r.content;
+      }
+   })
+
 
    const setCreatePost = () => {
       side.setContent(
          <CreatePost
             refresh={refetch}
             updateCreatePostContent={(...i) => createPostInputHandler(...i)}
-            initFormState={CreatePostContent.current}
+            initReplyContent={foundReply.current}
             thread_id={thread}
          />);
       side.toggleOpen();

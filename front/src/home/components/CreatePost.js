@@ -20,7 +20,8 @@ const CreatePost = props => {
     const auth = useContext(AuthContext);
     const userReplies = useContext(UserRepliesContext);
 
-    let { initFormState } = props;
+    let { initReplyContent, thread_id } = props;
+
     const comment = useRef();
     const options = useRef();
 
@@ -45,6 +46,10 @@ const CreatePost = props => {
     }
 
     useEffect(() => {
+        if(initReplyContent){
+            comment.current = initReplyContent
+        }
+
         return () => { props.updateCreatePostContent(options.current, comment.current) };
     }, [props.updateCreatePostContent])
 
@@ -110,7 +115,7 @@ return <>
             <Input
                 element="input"
                 id="options"
-                initialValue={initFormState.inputs.options.value}
+                initialValue={false}
                 type="text"
                 label="options"
                 placeholder="options"
@@ -123,7 +128,7 @@ return <>
                 id="comment"
                 type="text"
                 label="reply *"
-                initialValue={initFormState.inputs.comment.value}
+                initialValue={initReplyContent}
                 placeholder="reply"
                 validators={[VALIDATOR_REQUIRE(),VALIDATOR_MINLENGTH(5), VALIDATOR_MAXLENGTH(400)]}
                 errorText="Min 5 chars"

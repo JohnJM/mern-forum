@@ -11,7 +11,6 @@ const userRepliesReducer = (state, action) => {
                     state.splice(i,1);
                 }
             });
-            
             return state.concat([{thread_id, content}]);
 
         case 'REMOVE_REPLY':
@@ -20,6 +19,11 @@ const userRepliesReducer = (state, action) => {
             }
 
         case 'APPEND_QUOTE_TO_REPLY':
+            return {
+
+            }
+
+        case 'EMPTY_REPLY_ARRAY': 
             return {
 
             }
