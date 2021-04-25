@@ -16,6 +16,7 @@ import { useSideDrawer } from '../../shared/hooks/SideDrawerHook';
 const SingleThreadAndPosts = (props) => {
    const { board, thread } = useParams();
    const [isFullThreadImage, setIsFullThreadImage] = useState(false);
+   const [isViewed, setIsViewed] = useState(false);
    const side = useContext(SideDrawerContext);
    const userReplies = useContext(UserRepliesContext);
    
@@ -30,7 +31,6 @@ const SingleThreadAndPosts = (props) => {
          foundReply.current = r.content;
       }
    })
-
 
    const setCreatePost = () => {
       side.setContent(
@@ -67,6 +67,13 @@ const SingleThreadAndPosts = (props) => {
          }
       }
 
+      const handleViewReply = (reply_id) => {
+         console.log('here.', reply_id)
+         setIsViewed({id: reply_id});
+         setTimeout(() => { setIsViewed(false)}, 3000);
+         // setIsViewed(false);
+      }
+
       return <>
          <BoardsNav />
          <div className="block mb-8">
@@ -90,8 +97,13 @@ const SingleThreadAndPosts = (props) => {
             </div>
 
             <div className={`flex flex-col flex-grow ${!isFullThreadImage && 'sm:pl-4'}`} >
-               {floatingPosts.length > 0 && floatingPosts.map(post => <div key={post._id} className="mb-4 w-full border-2 border-primary">
-                  <SinglePost key={post._id} content={post} />
+               {floatingPosts.length > 0 && floatingPosts.map(post => <div key={post._id} className={`mb-4 w-full border-2 border-primary ${isViewed.id === post._id && 'animate__heartBeat'}
+               
+               `} id={post._id}>
+                  {console.log(isViewed.id, 'this')}
+                  {console.log(post._id, 'post id ')}
+
+                  <SinglePost viewReply={(id) => handleViewReply(id)} key={post._id} content={post} />
                </div>
                )}
             </div>
@@ -99,8 +111,8 @@ const SingleThreadAndPosts = (props) => {
 
          {remainingPosts && <div>
             <div className="flex flex-col">
-               {remainingPosts.map(post => <div key={post._id} className="mb-4 w-full border-2 border-primary">
-                  <SinglePost key={post._id} content={post} />
+               {remainingPosts.map(post => <div key={post._id} className={`mb-4 w-full border-2 border-primary ${isViewed.id === post._id && 'animate__heartBeat'}`} id={post._id}>
+                  <SinglePost viewReply={(id) => handleViewReply(id)} key={post._id} content={post} />
                </div>)}
             </div>
          </div>}

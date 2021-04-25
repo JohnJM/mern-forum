@@ -98,9 +98,9 @@ function App() {
     }, [loginState.token, logout, tokenExpirationDate])
     // /end of login / logout hook
 
-
     const [replyArr, addOrUpdateReply, removeReply] = useUserReplies();
 
+    // instead have a routes component which takes loginState as a prop
     let routes = (
         <Switch>
             <Route path="/" exact>
@@ -140,7 +140,6 @@ function App() {
                     value={{
                         isOpen: sideState.isOpen,
                         content: sideState.content,
-                        
                         alertMsg: sideState.alertMsg,
                         displayContent: displayContent,
                         setContent: setContent,
@@ -161,10 +160,8 @@ function App() {
                         </Router>
                     </UserRepliesContext.Provider>
                 </SideDrawerContext.Provider>
-
             </AuthContext.Provider>
         </QueryClientProvider>
-
     )
 }
 
