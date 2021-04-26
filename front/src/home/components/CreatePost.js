@@ -56,18 +56,6 @@ const CreatePost = props => {
 
     let { isLoading, data, error, isFetching, refetch } = useQuery('createPost',
   async () =>  { try {
-    // console.log("refetch-hit");
-    // const formData = new FormData();
-    // formData.append('comment', comment.current);
-    
-    // formData.append('options', options.current);
-    // if(auth.loginState.id){
-    //     formData.append('user_id', auth.loginState.id);
-    // } else {
-    //     formData.append('user_id', '100');
-    // }
-    // formData.append('thread_id', props.thread_id)
-
 
     let formData = {
         "comment": comment.current,
@@ -86,8 +74,11 @@ const CreatePost = props => {
     setTimeout(()=> {
         side.displayAlertMsg(false);
         side.toggleOpen();
+        userReplies.removeReply(props.thread_id);
+        props.clearReplyContent();
         props.refresh();
     }, 1500)
+
     side.displayAlertMsg('upload success!');
     side.setContent('...');
 
@@ -140,6 +131,5 @@ return <>
         </form>
     </>
 }
-
 
 export default CreatePost;

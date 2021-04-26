@@ -3,7 +3,7 @@ import {useCallback, useReducer} from 'react';
 
 const userRepliesReducer = (state, action) => {
     switch (action.type) {
-        case 'ADD_OR_UPDATE_REPLY':
+        case 'ADD_OR_UPDATE_REPLY': {
             const { thread_id, content } = action;
 
             state.forEach((userReply, i) => {
@@ -12,13 +12,22 @@ const userRepliesReducer = (state, action) => {
                 }
             });
             return state.concat([{thread_id, content}]);
+        }
 
-        case 'REMOVE_REPLY':
-            return {
+        case 'REMOVE_REPLY': {
+            const { thread_id } = action;
 
-            }
+            state.forEach((userReply, i) => {
+                if(userReply.thread_id === thread_id){
+                    state.splice(i, 1);
+                }
+            });
+            return state;
+        }
+
 
         case 'APPEND_QUOTE_TO_REPLY':
+
             return {
 
             }
@@ -44,7 +53,10 @@ export const useUserReplies = () => {
     })
 
     const removeReply = useCallback((thread_id) => {
-        
+        dispatch({
+            type: 'REMOVE_REPLY',
+            thread_id: thread_id,
+        })
     })
 
     const appendQuoteToReply = useCallback((thread_id, replyTo, highlightedText) => {

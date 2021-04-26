@@ -38,6 +38,7 @@ const SingleThreadAndPosts = (props) => {
             refresh={refetch}
             updateCreatePostContent={(...i) => createPostInputHandler(...i)}
             initReplyContent={foundReply.current}
+            clearReplyContent={() => {foundReply.current = ''}}
             thread_id={thread}
          />);
       side.toggleOpen();
@@ -97,12 +98,8 @@ const SingleThreadAndPosts = (props) => {
             </div>
 
             <div className={`flex flex-col flex-grow ${!isFullThreadImage && 'sm:pl-4'}`} >
-               {floatingPosts.length > 0 && floatingPosts.map(post => <div key={post._id} className={`mb-4 w-full border-2 border-primary ${isViewed.id === post._id && 'animate__heartBeat'}
-               
+               {floatingPosts.length > 0 && floatingPosts.map(post => <div key={post._id} className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'}
                `} id={post._id}>
-                  {console.log(isViewed.id, 'this')}
-                  {console.log(post._id, 'post id ')}
-
                   <SinglePost viewReply={(id) => handleViewReply(id)} key={post._id} content={post} />
                </div>
                )}
@@ -111,7 +108,7 @@ const SingleThreadAndPosts = (props) => {
 
          {remainingPosts && <div>
             <div className="flex flex-col">
-               {remainingPosts.map(post => <div key={post._id} className={`mb-4 w-full border-2 border-primary ${isViewed.id === post._id && 'animate__heartBeat'}`} id={post._id}>
+               {remainingPosts.map(post => <div key={post._id} className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'}`} id={post._id}>
                   <SinglePost viewReply={(id) => handleViewReply(id)} key={post._id} content={post} />
                </div>)}
             </div>
