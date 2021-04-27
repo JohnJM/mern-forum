@@ -98,7 +98,7 @@ function App() {
     }, [loginState.token, logout, tokenExpirationDate])
     // /end of login / logout hook
 
-    const [replyArr, addOrUpdateReply, removeReply] = useUserReplies();
+    const [replyArr, addOrUpdateReply, removeReply, appendQuoteToReply] = useUserReplies();
 
     // instead have a routes component which takes loginState as a prop
     let routes = (
@@ -132,25 +132,26 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <AuthContext.Provider
                 value={{
-                    loginState: loginState,
-                    login: login,
-                    logout: logout
+                    loginState,
+                    login,
+                    logout
                 }}>
                 <SideDrawerContext.Provider
                     value={{
                         isOpen: sideState.isOpen,
                         content: sideState.content,
                         alertMsg: sideState.alertMsg,
-                        displayContent: displayContent,
-                        setContent: setContent,
-                        toggleOpen: toggleOpen,
-                        displayAlertMsg: displayAlertMsg
+                        displayContent,
+                        setContent,
+                        toggleOpen,
+                        displayAlertMsg
                     }}>
                     {/* should really be in deeper nav component */}
                     <UserRepliesContext.Provider value={{
-                        replyArr: replyArr,
-                        addOrUpdateReply: addOrUpdateReply,
-                        removeReply: removeReply
+                        replyArr,
+                        addOrUpdateReply,
+                        appendQuoteToReply,
+                        removeReply
                     }}>
                         <Router>
                             <MainNavigation />

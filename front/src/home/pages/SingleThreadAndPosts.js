@@ -19,7 +19,7 @@ const SingleThreadAndPosts = (props) => {
    const [isViewed, setIsViewed] = useState(false);
    const side = useContext(SideDrawerContext);
    const userReplies = useContext(UserRepliesContext);
-   
+
    let foundReply = useRef(false);
 
    const createPostInputHandler = (...post) => {
@@ -38,7 +38,7 @@ const SingleThreadAndPosts = (props) => {
             refresh={refetch}
             updateCreatePostContent={(...i) => createPostInputHandler(...i)}
             initReplyContent={foundReply.current}
-            clearReplyContent={() => {foundReply.current = ''}}
+            clearReplyContent={() => { foundReply.current = '' }}
             thread_id={thread}
          />);
       side.toggleOpen();
@@ -70,9 +70,8 @@ const SingleThreadAndPosts = (props) => {
 
       const handleViewReply = (reply_id) => {
          console.log('here.', reply_id)
-         setIsViewed({id: reply_id});
-         setTimeout(() => { setIsViewed(false)}, 3000);
-         // setIsViewed(false);
+         setIsViewed({ id: reply_id });
+         setTimeout(() => { setIsViewed(false) }, 3000);
       }
 
       return <>
@@ -80,7 +79,7 @@ const SingleThreadAndPosts = (props) => {
          <div className="block mb-8">
             <p className="text-4xl my-6">{board}</p>
             <span className="text-2xl text-primary">{opContent.subject}</span>
-            <span className="text-2xl"> | {/** {board} |**/}</span>
+            <span className="text-2xl"> | </span>
             <span className="text-2xl text-secondary"> {opContent.author.username || 'not-registered'} </span>
             <span> - [
                   <span
