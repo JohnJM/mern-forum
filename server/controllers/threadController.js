@@ -47,6 +47,7 @@ module.exports.createPost_post = async(req, res) => {
 
         // const thread = await Thread.findById( thread_id );
         // const user  = await User.findById( user_id );
+        
         const createdPost = await Post.create({user_id, thread_id, comment, options});
 
         res.status(200).json(createdPost);

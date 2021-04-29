@@ -35,12 +35,10 @@ export const useSideDrawer = () => {
     const [sideDrawerState,
         dispatch] = useReducer(sideDrawerReducer, {isOpen: false});
 
-    // useCallback so that a new function object is not creted on rerender. (input ->
-    // useEffect will rerender the input)bv
+    // useCallback so that a new function object is not creted on rerender.
     const displayContent = useCallback((content) => {
         dispatch({type: 'DISPLAY_CONTENT', content: content});
-        // console.log(formState.inputs); //this one never changes - will always return
-        // default state
+
     }, []);
 
     const toggleIsOpen = useCallback((isOpen) => {

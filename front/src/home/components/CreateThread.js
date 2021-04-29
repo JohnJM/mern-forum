@@ -1,5 +1,4 @@
-
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, {useCallback, useContext, useEffect} from 'react';
 
 import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
 import {useForm} from '../../shared/hooks/FormHook';
@@ -10,7 +9,7 @@ import Button from '../../shared/components/form/form-elements/Button';
 import ImageUpload from '../../shared/components/form/form-elements/ImageUpload';
 
 import {useQuery} from 'react-query';
-import { AppConfig } from '../../App.config';
+import {AppConfig} from '../../App.config';
 import axios from 'axios';
 import {AuthContext} from '../../shared/context/AuthContext';
 
@@ -34,42 +33,46 @@ const CreateThread = props => {
         }
     }, false)
 
-    let { isLoading, data, error, isFetching, refetch } = useQuery('createThread',
-  async () =>  { try {
-    console.log("refetch-hit");
-    const formData = new FormData();
-    formData.append('subject', formState.inputs.subject.value);
-    formData.append('content', formState.inputs.content.value);
-    formData.append('image', formState.inputs.image.value);
-    if(auth.loginState.id){
-        formData.append('user_id', auth.loginState.id);
-    }
-    formData.append('board_id', props.board_id)
+    let {isLoading, data, error, isFetching, refetch} = useQuery('createThread', async() => {
+        try {
+            console.log("refetch-hit");
+            const formData = new FormData();
+            formData.append('subject', formState.inputs.subject.value);
+            formData.append('content', formState.inputs.content.value);
+            formData.append('image', formState.inputs.image.value);
+            if (auth.loginState.id) {
+                formData.append('user_id', auth.loginState.id);
+            }
+            formData.append('board_id', props.board_id)
 
-      const data = await axios.post(`${AppConfig.apiUrl}/thread/create`, formData, {'Content-Type': 'multipart/form-data;',
-    "Access-Control-Allow-Origin": "*"}  
-        );
+            const data = await axios.post(`${AppConfig.apiUrl}/thread/create`, formData, {
+                'Content-Type': 'multipart/form-data;',
+                "Access-Control-Allow-Origin": "*"
+            });
 
-    setTimeout(()=> {
-        side.displayAlertMsg(false);
-        side.toggleOpen();
-        props.refresh();
-    }, 1500)
-    side.displayAlertMsg('upload success!');
-    side.setContent('...');
+            setTimeout(() => {
+                side.displayAlertMsg(false);
+                side.toggleOpen();
+                props.refresh();
+            }, 1500)
+            side.displayAlertMsg('upload success!');
+            side.setContent('...');
 
-        return data;
-    } catch (err) {
-        return err;
-    }
-  }, {manual: true, enabled: false})
+            return data;
+        } catch (err) {
+            return err;
+        }
+    }, {
+        manual: true,
+        enabled: false
+    })
 
+    if (isLoading) 
+        return 'Loading...'
 
-
-if (isLoading) return 'Loading...'
-
-if (error) return 'An error has occurred: ' + error.message;
-
+    if (error) 
+        return 'An error has occurred: ' + error.message;
+    
     const createThreadSubmitHandler = (e) => {
         e.preventDefault();
 
@@ -78,9 +81,10 @@ if (error) return 'An error has occurred: ' + error.message;
         refetch();
     }
 
-    return <>
-        <p className="">Start a new {props.board_title} thread</p>
-        <br />
+    return <React.Fragment>
+        <p className="">Start a new {props.board_title}
+            thread</p>
+        <br/>
         <form onSubmit={createThreadSubmitHandler}>
             <Input
                 element="input"
@@ -92,11 +96,11 @@ if (error) return 'An error has occurred: ' + error.message;
                 errorText="Please enter a valid subject (min 3 chars)"
                 onInput={inputHandler}></Input>
 
-
             <Input
                 element=""
                 id="content"
                 type="text"
+                className="text-xs"
                 label="content"
                 placeholder="content"
                 initialValid='true'
@@ -104,13 +108,12 @@ if (error) return 'An error has occurred: ' + error.message;
                 onInput={inputHandler}></Input>
 
             <ImageUpload id="image" onInput={inputHandler}/>
-            <br />
-            <Button type="submit" disabled={!formState.isValid} >
+            <br/>
+            <Button type="submit" disabled={!formState.isValid}>
                 Create Thread
             </Button>
         </form>
-    </>
+    </React.Fragment>
 }
-
 
 export default CreateThread;

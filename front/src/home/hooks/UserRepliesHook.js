@@ -35,22 +35,27 @@ const userRepliesReducer = (state, action) => {
             {
                 const {thread_id, post_id, highlightedText} = action;
 
-                console.log(thread_id, post_id, highlightedText);
+                //setup new content to add to state
+                const updatedContent = `replyto:${post_id}\n${highlightedText
+                    ? '>'
+                    : ''}${highlightedText}`;
 
+                let replyExists = false;
                 state.forEach((userReply, i) => {
                     if (userReply.thread_id === thread_id) {
-                        state[i].content = `${state[i].content} replyto:${post_id}
-                        ${highlightedText
-                            ? '>'
-                            : ''} ${highlightedText}`
+                        replyExists = true;
+                        // add new content to existing reply
+                        state[i].content = `${state[i].content} ${updatedContent}`;
                     }
-                })
+                });
 
-                return state;
+                return replyExists
+                    ? state
+                    : state.concat({thread_id, content: updatedContent});
             }
 
-        case 'EMPTY_REPLY_ARRAY':
-            return {}
+        // case 'EMPTY_REPLY_ARRAY':
+        //     return {}
 
         default:
             return state;
@@ -58,20 +63,20 @@ const userRepliesReducer = (state, action) => {
 }
 
 export const useUserReplies = () => {
-    const [userRepliesState,
+    const [replyArr,
         dispatch] = useReducer(userRepliesReducer, []);
 
     const addOrUpdateReply = useCallback((thread_id, content) => {
         dispatch({type: 'ADD_OR_UPDATE_REPLY', thread_id, content: content})
-    })
+    }, [])
 
     const removeReply = useCallback((thread_id) => {
         dispatch({type: 'REMOVE_REPLY', thread_id})
-    })
+    }, [])
 
     const appendQuoteToReply = useCallback((thread_id, post_id, highlightedText) => {
         dispatch({type: 'APPEND_QUOTE_TO_REPLY', thread_id, post_id, highlightedText})
-    })
+    }, [])
 
-    return [userRepliesState, addOrUpdateReply, removeReply, appendQuoteToReply];
+    return [replyArr, addOrUpdateReply, removeReply, appendQuoteToReply];
 }

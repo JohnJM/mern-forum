@@ -1,10 +1,11 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import {getPublicDataById} from '../../service/UserService';
 import {timeAgo} from '../../shared/helper/timeAgo';
 import parse, {domToReact} from 'html-react-parser';
 import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
 import {UserRepliesContext} from '../context/UserRepliesContext';
+import CreatePost from './CreatePost';
 
 const SinglePost = props => {
 
@@ -15,6 +16,9 @@ const SinglePost = props => {
 
     const {_id, user_id, createdAt, comment} = props.content;
     const time = timeAgo(new Date(createdAt));
+
+    const [isNewReply,
+        setIsNewReply] = useState(false);
 
     let [username,
         setUsername] = useState('not-registered');
@@ -36,8 +40,24 @@ const SinglePost = props => {
         props.viewReply(id);
     }
 
+    useEffect(() => {
+        if (userReplies.replyArr.length !== 0 && !!isNewReply) {
+            userReplies
+                .replyArr
+                .forEach(reply => {
+                    if (reply.thread_id === thread) {
+                        props.setCreatePost(reply.content);
+                    }
+                });
+
+            setIsNewReply(false);
+        }
+
+    }, [userReplies.replyArr, thread, isNewReply, props])
+
     const handleReply = (reply_id, thread_id, highlightedText) => {
         userReplies.appendQuoteToReply(reply_id, thread_id, highlightedText);
+        setIsNewReply(true);
     }
 
     // parse comment for quotes and replies should have been done on the server I

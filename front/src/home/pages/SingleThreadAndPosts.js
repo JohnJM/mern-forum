@@ -1,119 +1,166 @@
-import React, { useState, useEffect, useCallback, useContext, useRef } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { useQuery } from 'react-query'
+import React, {useState, useEffect, useCallback, useContext, useRef} from 'react';
+import {useLocation, useParams} from 'react-router-dom';
+import {useQuery} from 'react-query'
 // import Thread from '../../../../server/models/thread';
-import { getOPAndPosts } from '../../service/ThreadService';
+import {getOPAndPosts} from '../../service/ThreadService';
 import SinglePost from '../../home/components/SinglePost';
 import CreatePost from '../../home/components/CreatePost';
 import BoardsNav from '../components/BoardsNav';
 
-import { SideDrawerContext } from '../../shared/context/SideDrawerContext';
-import { UserRepliesContext } from '../context/UserRepliesContext';
+import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
+import {UserRepliesContext} from '../context/UserRepliesContext';
 
-import { AppConfig } from '../../App.config';
-import { useSideDrawer } from '../../shared/hooks/SideDrawerHook';
+import {AppConfig} from '../../App.config';
+import {useSideDrawer} from '../../shared/hooks/SideDrawerHook';
 
 const SingleThreadAndPosts = (props) => {
-   const { board, thread } = useParams();
-   const [isFullThreadImage, setIsFullThreadImage] = useState(false);
-   const [isViewed, setIsViewed] = useState(false);
-   const side = useContext(SideDrawerContext);
-   const userReplies = useContext(UserRepliesContext);
+    const {board, thread} = useParams();
+    const [isFullThreadImage,
+        setIsFullThreadImage] = useState(false);
+    const [isViewed,
+        setIsViewed] = useState(false);
+    const side = useContext(SideDrawerContext);
+    const userReplies = useContext(UserRepliesContext);
 
-   let foundReply = useRef(false);
+    let foundReply = useRef(false);
 
-   const createPostInputHandler = (...post) => {
-      userReplies.addOrUpdateReply(thread, post[1]);
-   }
+    const createPostInputHandler = (...post) => {
+        userReplies.addOrUpdateReply(thread, post[1]);
+    }
 
-   userReplies.replyArr.forEach(r => {
-      if (r.thread_id === thread) {
-         foundReply.current = r.content;
-      }
-   })
+    userReplies
+        .replyArr
+        .forEach(r => {
+            if (r.thread_id === thread) {
+                foundReply.current = r.content;
+            }
+        })
 
-   const setCreatePost = () => {
-      side.setContent(
-         <CreatePost
-            refresh={refetch}
-            updateCreatePostContent={(...i) => createPostInputHandler(...i)}
-            initReplyContent={foundReply.current}
-            clearReplyContent={() => { foundReply.current = '' }}
-            thread_id={thread}
-         />);
-      side.toggleOpen();
-   }
+    const setCreatePost = (content = false) => {
 
-   let opContent = {};
-   let postsArr = [];
+        if (!content) {
+            console.log('set from OP.', foundReply.current);
 
-   const { status, data, refetch } = useQuery(['OPAndPosts', ['thread_id']], () => getOPAndPosts(thread));
+            side.setContent(<CreatePost
+                refresh={refetch}
+                updateCreatePostContent={(...i) => createPostInputHandler(...i)}
+                initReplyContent={foundReply.current}
+                clearReplyContent={() => {
+                foundReply.current = ''
+            }}
+                thread_id={thread}/>);
+            side.toggleOpen();
+        } else {
 
-   if (status === 'loading') {
-      return 'loading';
-   } else if (status === 'error') {
-      return 'error';
-   } else {
-      opContent = data.data.OP;
-      postsArr = data.data.Posts;
+         console.log('set from single-post', content);
 
+            side.setContent(<CreatePost
+                refresh={refetch}
+                updateCreatePostContent={(...i) => createPostInputHandler(...i)}
+                initReplyContent={content}
+                clearReplyContent={() => {
+                  foundReply.current = ''
+                }}
+                thread_id={thread}/>);
+            side.toggleOpen();
+        }
+    }
 
-      let floatingPosts = []; let remainingPosts = [];
+    let opContent = {};
+    let postsArr = [];
 
-      for (let i = 0; i < postsArr.length; i++) {
-         if (i < 2) {
-            floatingPosts.push(postsArr[i])
-         } else if (i >= 2) {
-            remainingPosts.push(postsArr[i])
-         }
-      }
+    const {status, data, refetch} = useQuery(['OPAndPosts', ['thread_id']
+    ], () => getOPAndPosts(thread));
 
-      const handleViewReply = (reply_id) => {
-         console.log('here.', reply_id)
-         setIsViewed({ id: reply_id });
-         setTimeout(() => { setIsViewed(false) }, 3000);
-      }
+    if (status === 'loading') {
+        return 'loading';
+    } else if (status === 'error') {
+        return 'error';
+    } else {
+        opContent = data.data.OP;
+        postsArr = data.data.Posts;
 
-      return <>
-         <BoardsNav />
-         <div className="block mb-8">
-            <p className="text-4xl my-6">{board}</p>
-            <span className="text-2xl text-primary">{opContent.subject}</span>
-            <span className="text-2xl"> | </span>
-            <span className="text-2xl text-secondary"> {opContent.author.username || 'not-registered'} </span>
-            <span> - [
-                  <span
-                  className="text-primary cursor-pointer"
-                  onClick={() => setCreatePost()}>
-                  Post a reply
-                  </span>]
-               </span>
-         </div>
+        let floatingPosts = [];
+        let remainingPosts = [];
 
-         <div className={`flex-col flex ${isFullThreadImage ? 'sm:flex-col' : 'sm:flex-row'}`}>
-            <div className="mb-8">
-               <img onClick={() => setIsFullThreadImage(!isFullThreadImage)} className={`cursor-pointer ${!isFullThreadImage && 'max-w-250'}`} src={`${AppConfig.apiUrl}/${opContent.image}`} alt={opContent.subject} />
-               <p>{opContent.content}</p>
+        for (let i = 0; i < postsArr.length; i++) {
+            if (i < 2) {
+                floatingPosts.push(postsArr[i])
+            } else if (i >= 2) {
+                remainingPosts.push(postsArr[i])
+            }
+        }
+
+        const handleViewReply = (reply_id) => {
+            console.log('here.', reply_id)
+            setIsViewed({id: reply_id});
+            setTimeout(() => {
+                setIsViewed(false)
+            }, 3000);
+        }
+
+        return <React.Fragment>
+            <BoardsNav/>
+            <div className="block mb-8">
+                <p className="text-4xl my-6">{board}</p>
+                <span className="text-2xl text-primary">{opContent.subject}</span>
+                <span className="text-2xl">
+                    |
+                </span>
+                <span className="text-2xl text-secondary">
+                    {opContent.author.username || 'not-registered'}
+                </span>
+                <span>
+                    - [
+                    <span className="text-primary cursor-pointer" onClick={() => setCreatePost()}>
+                        Post a reply
+                    </span>]
+                </span>
             </div>
 
-            <div className={`flex flex-col flex-grow ${!isFullThreadImage && 'sm:pl-4'}`} >
-               {floatingPosts.length > 0 && floatingPosts.map(post => <div key={post._id} className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'}
-               `} id={post._id}>
-                  <SinglePost viewReply={(id) => handleViewReply(id)} key={post._id} content={post} />
-               </div>
-               )}
-            </div>
-         </div>
+            <div
+                className={`flex-col flex ${isFullThreadImage
+                ? 'sm:flex-col'
+                : 'sm:flex-row'}`}>
+                <div className="mb-8">
+                    <img
+                        onClick={() => setIsFullThreadImage(!isFullThreadImage)}
+                        className={`cursor-pointer ${ !isFullThreadImage && 'max-w-250'}`}
+                        src={`${AppConfig.apiUrl}/${opContent.image}`}
+                        alt={opContent.subject}/>
+                    <p>{opContent.content}</p>
+                </div>
 
-         {remainingPosts && <div>
-            <div className="flex flex-col">
-               {remainingPosts.map(post => <div key={post._id} className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'}`} id={post._id}>
-                  <SinglePost viewReply={(id) => handleViewReply(id)} key={post._id} content={post} />
-               </div>)}
+                <div className={`flex flex-col flex-grow ${ !isFullThreadImage && 'sm:pl-4'}`}>
+                    {floatingPosts.length > 0 && floatingPosts.map(post => <div
+                        key={post._id}
+                        className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'} `}
+                        id={post._id}>
+                        <SinglePost
+                            setCreatePost={(content) => {console.log('hit here'); setCreatePost(content)}}
+                            viewReply={(id) => handleViewReply(id)}
+                            key={post._id}
+                            content={post}/>
+                    </div>)}
+                </div>
             </div>
-         </div>}
-      </>
-   }
+
+            {remainingPosts && <div>
+                <div className="flex flex-col">
+                    {remainingPosts.map(post => <div
+                        key={post._id}
+                        className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'}`}
+                        id={post._id}>
+                        <SinglePost
+                            setCreatePost={(content) => {setCreatePost(content); console.log('hit here');}}
+                            viewReply={(id) => handleViewReply(id)}
+                            key={post._id}
+                            content={post}/>
+                    </div>)}
+                </div>
+            </div>}
+        </React.Fragment>
+    }
 }
 
 export default SingleThreadAndPosts;

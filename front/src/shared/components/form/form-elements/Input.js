@@ -45,7 +45,8 @@ const Input = props => {
     }
 
     const element = props.element === 'input'
-        ? (<input className="border-2 border-black-500"
+        ? (<input
+            className={`border-2 border-black-500 ${props.className || ''}`}
             id={props.id}
             type={props.type}
             autoFocus={props.autoFocus}
@@ -53,7 +54,8 @@ const Input = props => {
             onChange={changeHandler}
             onBlur={touchHandler}
             value={inputState.value}/>)
-        : (<textarea className="border-2 border-black-500"
+        : (<textarea
+            className={`border-2 border-black-500 ${props.className || ''}`}
             id={props.id}
             rows={props.rows || 3}
             autoFocus={props.autoFocus}
