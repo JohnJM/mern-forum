@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect, Fragment} from 'react'
+import React, {useState, useCallback, useEffect} from 'react'
 import './App.css';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
@@ -27,11 +27,11 @@ let logoutTimer;
 
 function App() {
 
-    // TO DO          add a context / custom hook for persisting user post content
-    // whilst they are browsing          move let routes into its own file refector
-    // the auth below into a hook?          confirm password on register form and
-    // change password          add isFetching / loading spinner as portal on btm
-    // right (with react query?)          esc closes sidebar?
+    // TO DO 
+    // move let routes into its own file refector
+    // the auth below into a hook?
+    // add isFetching / loading spinner as portal on btm right (with react query?
+    // esc closes sidebar?
 
     const [sideState,
         toggleOpen,
@@ -47,11 +47,6 @@ function App() {
         setIsLoggedIn] = useState({isLogged: false, id: 0, username: "", token: ""});
 
     const login = useCallback((id, username, token, expirationDate) => {
-        // const {id, username} = user;
-
-        console.log('id is -> ', id);
-        console.log('un is -> ', username);
-        console.log('token is -> ', token);
 
         const tokenExpiry = expirationDate || new Date(new Date().getTime() + (1000 * 60 * 60 * 2));
         setTokenExpirationDate(tokenExpiry);
@@ -62,9 +57,10 @@ function App() {
             token,
             expires: tokenExpiry.toISOString()
         }))
+        
         setIsLoggedIn({isLoggedIn: true, id, username, token});
         setContent(<SideProfile/>);
-    }, [])
+    }, [setContent])
 
     const logout = useCallback(() => {
         setIsLoggedIn({isLoggedIn: false});
@@ -72,15 +68,10 @@ function App() {
         localStorage.removeItem('user');
         displayAlertMsg('Logged out succesfully');
         displayContent(<FormLogin forSideBar/>);
-    }, [])
+    }, [displayAlertMsg, displayContent])
 
     useEffect(() => {
-
         const storedUser = JSON.parse(localStorage.getItem('user') || null);
-
-        // console.log('effec thit', new Date(storedUser.expires).getTime(), new
-        // Date().getTime());
-
         if (storedUser && storedUser.token && new Date(storedUser.expires).getTime() > new Date().getTime()) {
             login(storedUser.id, storedUser.username, storedUser.token, new Date(storedUser.expires))
         }

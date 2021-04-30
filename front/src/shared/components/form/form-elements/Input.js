@@ -1,6 +1,7 @@
-import React, {useReducer, useEffect} from 'react';
+import React, {useReducer, useEffect, useRef} from 'react';
 import {validate} from '../../util/Validators';
 const Input = props => {
+    const textarea = useRef(null);
     // i could use useState hook to manage "isvalid" and "enteredValue" as two
     // seperate instances of useState. But Reducer is better here because the logic
     // is `slightly` more complex;
@@ -21,6 +22,14 @@ const Input = props => {
                 return state;
         }
     };
+
+    useEffect(() => {
+        if (props.autoresize && props.element !== 'input') {
+            let newHeight = textarea.current.scrollHeight;
+            textarea.current.style.height = newHeight + 3 + 'px';
+            textarea.current.style.overflowY = 'hidden';
+        }
+    }, [props])
 
     const [inputState,
         dispatch] = useReducer(inputReducer, {
@@ -55,6 +64,7 @@ const Input = props => {
             onBlur={touchHandler}
             value={inputState.value}/>)
         : (<textarea
+            ref={textarea}
             className={`border-2 border-black-500 ${props.className || ''}`}
             id={props.id}
             rows={props.rows || 3}

@@ -10,10 +10,10 @@
 }
 
 
-.side-drawer > div {
-width: 300px;
-position: fixed;
-height: 100%;
-background: white;
+.side-drawer > .side-drawer-inner {
+    width: 300px;
+    position: fixed;
+    height: 100%;
+    background: white;
 }
 

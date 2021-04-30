@@ -30,7 +30,7 @@ const SideDrawer = props => {
                     {side.alertMsg && <SideDrawerAlertBox colour={side.alertMsg.colour}>
                         {side.alertMsg.msg}
                     </SideDrawerAlertBox>
-}
+                    }           
                     <div className="p-4 side-drawer-inner">
                         {props.children}
                     </div>

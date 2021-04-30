@@ -36,28 +36,26 @@ const SingleThreadAndPosts = (props) => {
             }
         })
 
-    const setCreatePost = (content = false) => {
+    const setCreatePost = (initContent = false) => {
 
-        if (!content) {
-            console.log('set from OP.', foundReply.current);
+        // Instead have function with a var
 
+        if (!initContent) {
             side.setContent(<CreatePost
                 refresh={refetch}
                 updateCreatePostContent={(...i) => createPostInputHandler(...i)}
                 initReplyContent={foundReply.current}
                 clearReplyContent={() => {
-                foundReply.current = ''
-            }}
+                    foundReply.current = ''
+                }}
                 thread_id={thread}/>);
             side.toggleOpen();
         } else {
 
-         console.log('set from single-post', content);
-
             side.setContent(<CreatePost
                 refresh={refetch}
                 updateCreatePostContent={(...i) => createPostInputHandler(...i)}
-                initReplyContent={content}
+                initReplyContent={initContent}
                 clearReplyContent={() => {
                   foundReply.current = ''
                 }}
@@ -137,7 +135,7 @@ const SingleThreadAndPosts = (props) => {
                         className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'} `}
                         id={post._id}>
                         <SinglePost
-                            setCreatePost={(content) => {console.log('hit here'); setCreatePost(content)}}
+                            setCreatePost={(content) => {setCreatePost(content)}}
                             viewReply={(id) => handleViewReply(id)}
                             key={post._id}
                             content={post}/>
@@ -152,7 +150,7 @@ const SingleThreadAndPosts = (props) => {
                         className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'}`}
                         id={post._id}>
                         <SinglePost
-                            setCreatePost={(content) => {setCreatePost(content); console.log('hit here');}}
+                            setCreatePost={(content) => {setCreatePost(content);}}
                             viewReply={(id) => handleViewReply(id)}
                             key={post._id}
                             content={post}/>

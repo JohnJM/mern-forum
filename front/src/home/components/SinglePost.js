@@ -63,7 +63,7 @@ const SinglePost = props => {
     // parse comment for quotes and replies should have been done on the server I
     // think. I've gone too far with this approach now but should be refactored.
     const formatComment = (comment) => {
-        let parsedComment = comment;
+        let parsedComment = comment || '';
 
         const replyToRegex = /replyto:(.*)/g;
         const quoteRegex = /(.*)?(>.*)/g;
