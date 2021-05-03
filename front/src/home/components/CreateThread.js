@@ -82,8 +82,7 @@ const CreateThread = props => {
     }
 
     return <React.Fragment>
-        <p className="">Start a new {props.board_title}
-            thread</p>
+        <p className="">Start a new {props.board_title} thread</p>
         <br/>
         <form onSubmit={createThreadSubmitHandler}>
             <Input

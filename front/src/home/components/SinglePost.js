@@ -41,7 +41,7 @@ const SinglePost = props => {
     }
 
     useEffect(() => {
-        if (userReplies.replyArr.length !== 0 && !!isNewReply) {
+        if (userReplies.replyArr.length !== 0 && isNewReply) {
             userReplies
                 .replyArr
                 .forEach(reply => {
@@ -82,9 +82,17 @@ const SinglePost = props => {
         return parsedComment;
     }
 
+    const handleOpenUser = (user_id) => {
+        props.highlightUserPosts(user_id);
+    }
+
     return <div className="p-2 pb-0" id={user_id}>
-        <span className="text-sm text-secondary">{username}</span>
-        <span className="text-sm">({time})</span>
+        {user_id && '['}<span
+            onClick={() => handleOpenUser(user_id)}
+            className={`text-sm ${user_id && 'cursor-pointer'} text-secondary`}>{username}</span>{user_id && ']'} 
+        <span className="text-sm mx-1">
+            ({time}) 
+        </span>
         <span className="underline underline-color-primary text-sm">{_id}</span>
         [<span
             onMouseDown={() => handleReply(thread, _id, window.getSelection().toString())}

@@ -1,7 +1,9 @@
-import React, {useReducer, useEffect, useRef} from 'react';
+import React, {useReducer, useEffect, useRef, useContext} from 'react';
+import { SideDrawerContext } from '../../../context/SideDrawerContext';
 import {validate} from '../../util/Validators';
 const Input = props => {
     const textarea = useRef(null);
+    const side = useContext(SideDrawerContext);
     // i could use useState hook to manage "isvalid" and "enteredValue" as two
     // seperate instances of useState. But Reducer is better here because the logic
     // is `slightly` more complex;
@@ -25,11 +27,24 @@ const Input = props => {
 
     useEffect(() => {
         if (props.autoresize && props.element !== 'input') {
-            let newHeight = textarea.current.scrollHeight;
-            textarea.current.style.height = newHeight + 3 + 'px';
-            textarea.current.style.overflowY = 'hidden';
+            textarea.current.style.overflowY = 'auto';
+            let newHeight = textarea.current.scrollHeight + 3;
+            let textareaRect = textarea
+                .current
+                .getBoundingClientRect();
+                console.log(textareaRect);
+
+            // doesnt' work well. scroll height is too high on close and reopen. needs fixed
+            if (newHeight < window.innerHeight - textareaRect.y - 80) {
+                textarea.current.style.overflowY = 'hidden';
+                textarea.current.style.height = newHeight + 'px';
+            } else {
+                // if we are below the bottom of the window, enable the scroll bar
+                textarea.current.style.overflowY = 'auto';
+            }
+
         }
-    }, [props])
+    }, [props, side.isOpen])
 
     const [inputState,
         dispatch] = useReducer(inputReducer, {

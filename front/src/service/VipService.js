@@ -1,7 +1,5 @@
 // import { useQuery } from 'react-query'
-import {useContext} from 'react';
 import {AppConfig} from '../App.config';
-import {AuthContext} from '../shared/context/AuthContext'
 
 const axios = require('axios');
 

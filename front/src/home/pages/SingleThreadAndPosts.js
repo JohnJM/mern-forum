@@ -12,11 +12,14 @@ import {UserRepliesContext} from '../context/UserRepliesContext';
 
 import {AppConfig} from '../../App.config';
 import {useSideDrawer} from '../../shared/hooks/SideDrawerHook';
+import Backdrop from '../../shared/components/ui/Backdrop';
 
 const SingleThreadAndPosts = (props) => {
     const {board, thread} = useParams();
     const [isFullThreadImage,
         setIsFullThreadImage] = useState(false);
+    const [highligtedPost,
+        setHighlightedPost] = useState(false);
     const [isViewed,
         setIsViewed] = useState(false);
     const side = useContext(SideDrawerContext);
@@ -46,8 +49,8 @@ const SingleThreadAndPosts = (props) => {
                 updateCreatePostContent={(...i) => createPostInputHandler(...i)}
                 initReplyContent={foundReply.current}
                 clearReplyContent={() => {
-                    foundReply.current = ''
-                }}
+                foundReply.current = ''
+            }}
                 thread_id={thread}/>);
             side.toggleOpen();
         } else {
@@ -57,8 +60,8 @@ const SingleThreadAndPosts = (props) => {
                 updateCreatePostContent={(...i) => createPostInputHandler(...i)}
                 initReplyContent={initContent}
                 clearReplyContent={() => {
-                  foundReply.current = ''
-                }}
+                foundReply.current = ''
+            }}
                 thread_id={thread}/>);
             side.toggleOpen();
         }
@@ -97,6 +100,21 @@ const SingleThreadAndPosts = (props) => {
             }, 3000);
         }
 
+        const handleHighlightUserPosts = (user_id) => {
+            setHighlightedPost(user_id);
+        }
+
+        const singlePostGenerator = (post) => {
+            return <SinglePost
+                highlightUserPosts={(user_id) => handleHighlightUserPosts(user_id)}
+                setCreatePost={(content) => {
+                setCreatePost(content)
+            }}
+                viewReply={(id) => handleViewReply(id)}
+                key={post._id}
+                content={post}/>
+        }
+
         return <React.Fragment>
             <BoardsNav/>
             <div className="block mb-8">
@@ -132,13 +150,9 @@ const SingleThreadAndPosts = (props) => {
                 <div className={`flex flex-col flex-grow ${ !isFullThreadImage && 'sm:pl-4'}`}>
                     {floatingPosts.length > 0 && floatingPosts.map(post => <div
                         key={post._id}
-                        className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'} `}
+                        className={`${post.user_id === highligtedPost && 'z-50'} mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'} `}
                         id={post._id}>
-                        <SinglePost
-                            setCreatePost={(content) => {setCreatePost(content)}}
-                            viewReply={(id) => handleViewReply(id)}
-                            key={post._id}
-                            content={post}/>
+                        {singlePostGenerator(post)}
                     </div>)}
                 </div>
             </div>
@@ -147,16 +161,15 @@ const SingleThreadAndPosts = (props) => {
                 <div className="flex flex-col">
                     {remainingPosts.map(post => <div
                         key={post._id}
-                        className={`mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'}`}
+                        className={`${post.user_id === highligtedPost && 'z-50'} mb-4 w-full border-b-2 border-primary bg-gray-100 ${isViewed.id === post._id && 'animate__heartBeat'}`}
                         id={post._id}>
-                        <SinglePost
-                            setCreatePost={(content) => {setCreatePost(content);}}
-                            viewReply={(id) => handleViewReply(id)}
-                            key={post._id}
-                            content={post}/>
+                        {singlePostGenerator(post)}
                     </div>)}
                 </div>
             </div>}
+
+            {!!highligtedPost && <Backdrop onClick={() => setHighlightedPost(false)}/>}
+
         </React.Fragment>
     }
 }

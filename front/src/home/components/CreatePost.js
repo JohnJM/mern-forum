@@ -58,7 +58,6 @@ const CreatePost = props => {
 
     let {isLoading, error, refetch} = useQuery('createPost', async() => {
         try {
-
             let formData = {
                 "comment": comment.current,
                 "options": options.current,
@@ -132,7 +131,7 @@ const CreatePost = props => {
                 initialValue={initReplyContent}
                 placeholder="reply"
                 validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5), VALIDATOR_MAXLENGTH(400)]}
-                errorText="Min 5 chars"
+                errorText="Min 5 chars, max 400 chars"
                 onInput={inputHandler}></Input>
 
             <Button type="submit" disabled={!formState.isValid}>

@@ -48,8 +48,7 @@ const SingleBoardIndex = props => {
                 <span className="text-4xl mr-2">{board}</span>
                 [<span
                     onClick={() => side.displayContent(<CreateThread refresh={refetch} board_title={board_title} board_id={board_id}/>)}
-                    className="text-primary cursor-pointer">Start a new {board_title}
-                    thread</span>]
+                    className="text-primary cursor-pointer">Start a new {board_title} thread</span>]
             </p>
             {mainContent}
         </React.Fragment>
