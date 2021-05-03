@@ -25,24 +25,46 @@ const Input = props => {
         }
     };
 
+    // useEffect(() => {
+    //     if (props.autoresize && props.element !== 'input') {
+    //         textarea.current.style.overflowY = 'auto';
+    //         let contentHeight = textarea.current.scrollHeight + 3;
+    //         let textareaRect = textarea
+    //             .current
+    //             .getBoundingClientRect();
+    //             console.log(textareaRect);
+
+    //         // doesnt' work well. scroll height is too high on close and reopen. needs fixed
+    //         if (contentHeight < window.innerHeight - textareaRect.y - 80) {
+    //             textarea.current.style.overflowY = 'hidden';
+    //             textarea.current.style.height = contentHeight + 'px';
+    //         } else {
+    //             // if we are below the bottom of the window, enable the scroll bar
+    //             textarea.current.style.overflowY = 'auto';
+    //         }
+
+    //     }
+    // }, [props, side.isOpen])
+
+
+
     useEffect(() => {
         if (props.autoresize && props.element !== 'input') {
-            textarea.current.style.overflowY = 'auto';
-            let newHeight = textarea.current.scrollHeight + 3;
+            let contentHeight = textarea.current.scrollHeight + 3;
             let textareaRect = textarea
                 .current
                 .getBoundingClientRect();
-                console.log(textareaRect);
+                console.log(contentHeight);
 
             // doesnt' work well. scroll height is too high on close and reopen. needs fixed
-            if (newHeight < window.innerHeight - textareaRect.y - 80) {
+            if (contentHeight < window.innerHeight - textareaRect.y - 80) {
                 textarea.current.style.overflowY = 'hidden';
-                textarea.current.style.height = newHeight + 'px';
+                textarea.current.style.height = contentHeight + 'px';
             } else {
                 // if we are below the bottom of the window, enable the scroll bar
+                 textarea.current.style.height = window.innerHeight - textareaRect.y - 80 + 'px';
                 textarea.current.style.overflowY = 'auto';
             }
-
         }
     }, [props, side.isOpen])
 
