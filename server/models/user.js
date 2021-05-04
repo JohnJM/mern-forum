@@ -5,6 +5,7 @@ const { createToken } = require('../helper/jwtfunc.js');
 const winston = require('winston');
 
 const Schema = mongoose.Schema;
+const colorValidator = (v) => (/^#([0-9a-f]{3}){1,2}$/i).test(v);
 
 const userSchema = new Schema({
 
@@ -24,6 +25,11 @@ const userSchema = new Schema({
     role: {
         type: String,
         required: true
+    },
+    colour: {
+        type: String,
+        validator: [colorValidator, 'Invalid color hex'],
+        required: false
     }
 
 }, {timestamps: true});

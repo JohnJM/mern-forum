@@ -73,11 +73,20 @@ module.exports.changePwd_post = async (req, res) => {
 
     userService.changePwd(newPwd, oldPwd, id).then(doc => {
         
-    res.status(200).json({msg: 'success?????'});
+    res.status(200).json({msg: 'Success!'});
 
     }).catch(err => {
         console.log(err);
         res.status(400).json({err});
+    })
+}
+
+
+module.exports.colour_post = async (req, res) => {
+    const {user_id, colour} = req.body;
+
+    userService.updateColour(user_id, colour).then(doc => {
+        res.status(200).json({msg: 'Success!'});
     })
 }
 

@@ -13,7 +13,7 @@ const cors = require('cors');
 const multer = require('multer');
 
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
 const { dbURI } = require('./secretconfig');
 

@@ -28,7 +28,6 @@ module.exports.createUser = async (username, password) => {
 
 module.exports.changePwd = async ( newPwd, oldPwd, id ) => {
     try {
-
         console.log('got here');
 
         const user = await User.findById(id);
@@ -87,3 +86,22 @@ module.exports.getPublicUserInfoById = async (id) => {
     }
 }
 
+
+
+module.exports.updateColour = async (id, color) => {
+    try {
+
+        const user = await User.findById(id);
+        if(user){
+            User.findByIdAndUpdate(id, {"colour": color}, {upsert: true}, (err, doc) => {
+                if(err){
+                    throw Error('server error - please try again later.')
+                }
+                return doc;
+            })
+        }
+    } catch (e) {
+        throw e;
+    }
+
+}
