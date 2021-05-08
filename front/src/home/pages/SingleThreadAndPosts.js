@@ -3,6 +3,7 @@ import {useLocation, useParams} from 'react-router-dom';
 import {useQuery} from 'react-query'
 // import Thread from '../../../../server/models/thread';
 import {getOPAndPosts} from '../../service/ThreadService';
+import {getPublicDataById} from '../../service/UserService';
 import SinglePost from '../../home/components/SinglePost';
 import CreatePost from '../../home/components/CreatePost';
 import BoardsNav from '../components/BoardsNav';
@@ -93,7 +94,6 @@ const SingleThreadAndPosts = (props) => {
         }
 
         const handleViewReply = (reply_id) => {
-            console.log('here.', reply_id)
             setIsViewed({id: reply_id});
             setTimeout(() => {
                 setIsViewed(false)

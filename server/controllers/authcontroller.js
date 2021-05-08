@@ -50,7 +50,7 @@ module.exports.login_post = async (req, res) => {
         res.cookie('Authorization', token, {maxAge: 1000 * 60 * 60 * 2}) ; 
         
 
-        res.status(200).json({id: user._id, username: user.username, token})
+        res.status(200).json({id: user._id, username: user.username, token, colour: user.colour})
     }
     catch(err) {
 

@@ -44,9 +44,9 @@ const FormLogin = props => {
             const res = await axios.post(`${AppConfig.apiUrl}/login`, data, headers);
             setIsLoginLoading(false);
 
-            console.log(res.data.token);
+            console.log(res.data);
 
-            auth.login(res.data.id, res.data.username, res.data.token);
+            auth.login(res.data.id, res.data.username, res.data.token, undefined, res.data.colour);
 
             side.displayAlertMsg(
                 <p>Welcome back,{res.data.username}</p>, 'green-500')

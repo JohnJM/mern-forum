@@ -8,7 +8,9 @@ import Home from './home/pages/Home';
 import SingleBoardIndex from './home/pages/SingleBoardIndex';
 import SingleThreadAndPosts from './home/pages/SingleThreadAndPosts';
 import Vip from './vip/pages/Vip';
+
 import {AuthContext} from './shared/context/AuthContext';
+import {useAuth} from './shared/hooks/AuthHook';
 
 import {SideDrawerContext} from './shared/context/SideDrawerContext';
 import {useSideDrawer} from './shared/hooks/SideDrawerHook'
@@ -19,7 +21,7 @@ import {useUserReplies} from './home/hooks/UserRepliesHook';
 import FormLogin from './shared/components/form/FormLogin';
 import SideProfile from './shared/components/profile-side/ProfileSide';
 
-import {QueryClient, QueryClientProvider} from 'react-query'
+import {QueryClient, QueryClientProvider} from 'react-query';
 
 const queryClient = new QueryClient();
 
@@ -27,9 +29,7 @@ let logoutTimer;
 
 function App() {
 
-    // TO DO 
-    // move let routes into its own file refector
-    // the auth below into a hook?
+    // TO DO move let routes into its own file
     // add isFetching / loading spinner as portal on btm right (with react query?
     // esc closes sidebar?
 
@@ -43,37 +43,46 @@ function App() {
     const [tokenExpirationDate,
         setTokenExpirationDate] = useState();
 
-    const [loginState,
-        setIsLoggedIn] = useState({isLogged: false, id: 0, username: "", token: ""});
+    // const [loginState,
+        // setIsLoggedIn] = useState({isLogged: false, id: 0, username: "", token: ""});
 
-    const login = useCallback((id, username, token, expirationDate) => {
+    const [loginState, setLoginState, setLogoutState, setColour] = useAuth();
+
+    const login = useCallback((id, username, token, expirationDate, colour) => {
+
+        console.log(colour);
 
         const tokenExpiry = expirationDate || new Date(new Date().getTime() + (1000 * 60 * 60 * 2));
         setTokenExpirationDate(tokenExpiry);
+
 
         localStorage.setItem('user', JSON.stringify({
             id,
             username,
             token,
-            expires: tokenExpiry.toISOString()
+            expires: tokenExpiry.toISOString(),
+            colour
+
         }))
-        
-        setIsLoggedIn({isLoggedIn: true, id, username, token});
+
+        setLoginState({isLoggedIn: true, id, username, token, colour});
+
         setContent(<SideProfile/>);
-    }, [setContent])
+    }, [setContent, setLoginState])
 
     const logout = useCallback(() => {
-        setIsLoggedIn({isLoggedIn: false});
+        // setLoginState({isLoggedIn: false});
+        setLogoutState();
         setTokenExpirationDate(null);
         localStorage.removeItem('user');
         displayAlertMsg('Logged out succesfully');
         displayContent(<FormLogin forSideBar/>);
-    }, [displayAlertMsg, displayContent])
+    }, [displayAlertMsg, displayContent, setLogoutState])
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user') || null);
         if (storedUser && storedUser.token && new Date(storedUser.expires).getTime() > new Date().getTime()) {
-            login(storedUser.id, storedUser.username, storedUser.token, new Date(storedUser.expires))
+            login(storedUser.id, storedUser.username, storedUser.token, new Date(storedUser.expires), storedUser.colour || false);
         }
 
     }, [login])
@@ -81,7 +90,7 @@ function App() {
     useEffect(() => {
         if (loginState.token && tokenExpirationDate) {
             const timeTillInvalid = tokenExpirationDate.getTime() - new Date().getTime();
-            logoutTimer = setTimeout(logout, timeTillInvalid)
+            logoutTimer = setTimeout(logout, timeTillInvalid);
         } else {
             clearTimeout(logoutTimer);
         }
@@ -129,7 +138,8 @@ function App() {
                 value={{
                 loginState,
                 login,
-                logout
+                logout,
+                setColour
             }}>
                 <SideDrawerContext.Provider
                     value={{

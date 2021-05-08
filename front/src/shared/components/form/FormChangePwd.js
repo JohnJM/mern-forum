@@ -14,7 +14,8 @@ const FormChangePwd = props => {
     const auth = useContext(AuthContext);
     const side = useContext(SideDrawerContext);
 
-    let successMsg, errorMsg;
+    let successMsg,
+        errorMsg;
 
     const [formState,
         inputHandler,
@@ -53,7 +54,7 @@ const FormChangePwd = props => {
             }
         }).catch(err => {
             console.log('error here-> ', err);
-            errorMsg = <p>There was an error. Handle it later</p>
+            errorMsg = <p>There was an error which still needs handled.</p>
             successMsg = null;
         })
 
@@ -70,10 +71,7 @@ const FormChangePwd = props => {
         }, false);
 
     }
-    // const onUpdated = useCallback(() => {     side.displayAlertMsg('Password
-    // Changed');     setFormData({         oldPwd: {             value: '',
-    //     isValid: false         },         newPwd: {             value: '',
-    //      isValid: false         }     }, false); }, [])
+
 
     if (loading) {
         return <span>loading spinner</span>
@@ -81,52 +79,35 @@ const FormChangePwd = props => {
 
     if (error) {
         console.log(error);
-        errorMsg = <p>There was an error. Handle it later</p>
+        errorMsg = <p>Incorrect password.</p>
         successMsg = null;
-    } else if (data){
+    } else if (data) {
         successMsg = <p>Password Changed Successfully</p>
-        errorMsg =  null;
-    }
-
-    // this one previously modified the sidebar state - triggers a re-render, data always hits
-    // on re-render how to best fix? create a handleSuccess inside useEffect?
-    if (data) {
-        // side.displayAlertMsg('Password Changed');
-        // setFormData({
-        //     oldPwd: {
-        //         value: '',
-        //         isValid: false
-        //     },
-        //     newPwd: {
-        //         value: '',
-        //         isValid: false
-        //     }
-        // }, false);
+        errorMsg = null;
     }
 
     return (
-    <>
-    <form className="w-6/12" onSubmit={pwdSubmitHandler}>
-        <Input
-            type="password"
-            id="oldPwd"
-            element="input"
-            label="Current Password"
-            validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
-            onInput={inputHandler}></Input>
-        <Input
-            type="password"
-            id="newPwd"
-            element="input"
-            label="New Password"
-            validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
-            onInput={inputHandler}></Input>
-        <Button>Change Password</Button>
-    </form>
-    <br />
-    {successMsg}
-    {errorMsg}
-    </>
+        <React.Fragment>
+            <form className="w-6/12" onSubmit={pwdSubmitHandler}>
+                <Input
+                    type="password"
+                    id="oldPwd"
+                    element="input"
+                    label="Current Password"
+                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
+                    onInput={inputHandler}></Input>
+                <Input
+                    type="password"
+                    id="newPwd"
+                    element="input"
+                    label="New Password"
+                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
+                    onInput={inputHandler}></Input>
+                <Button>Change Password</Button>
+            </form>
+            <br/> {successMsg}
+            {errorMsg}
+        </React.Fragment>
     )
 }
 

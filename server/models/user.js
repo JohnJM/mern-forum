@@ -28,7 +28,7 @@ const userSchema = new Schema({
     },
     colour: {
         type: String,
-        validator: [colorValidator, 'Invalid color hex'],
+        validator: [colorValidator, 'Invalid colour hex'],
         required: false
     }
 

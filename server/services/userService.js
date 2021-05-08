@@ -99,6 +99,8 @@ module.exports.updateColour = async (id, color) => {
                 }
                 return doc;
             })
+        } else {
+            throw Error('user not found.');
         }
     } catch (e) {
         throw e;
