@@ -8,30 +8,6 @@ import BoardIndexNav from '../components/BoardIndexNav';
 
 const Home = () => {
 
-    // const [boardState, setBoardState] = useState({
-    //     boardId: false,
-    //     index: false
-    // })
-
-    
-    // const userSelectedBoard = useCallback((boardId) =>  {
-    //     console.log('on home, user selected ', boardId);
-
-    //     setBoardState({
-    //         boardId: boardId,
-    //         index: 1
-    //     })
-        
-    // }, []);
-
-    // const userSelectedIndex = useCallback((pageNo) => {
-    //     setBoardState({
-    //         boardId: boardState.boardId,
-    //         index: pageNo
-    //     })
-    // }, [])
-
-
     return (
         <>
             <p className="text-right">Home hit. Choose a board below</p>

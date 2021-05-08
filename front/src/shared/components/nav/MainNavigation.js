@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import Backdrop from '../ui/Backdrop';
 import SideDrawer from '../ui/side-drawer/SideDrawer';
-import NavLinks from '../nav/NavLinks';
+import NavLinks from './NavLinks';
 import FormRegister from '../form/FormRegister';
 import {SideDrawerContext} from '../../context/SideDrawerContext'
 import {AuthContext} from '../../context/AuthContext'
@@ -21,7 +21,7 @@ const MainNavigation = props => {
                 )
                 : side.setContent(<FormRegister forSideDrawer/>)
         }
-    }, [])
+    }, [side, auth.isLoggedIn])
 
     return (
         <React.Fragment>
@@ -41,8 +41,6 @@ const MainNavigation = props => {
 
             <nav
                 className="main-navigation__drawer-nav flex justify-between bg-primary px-4 items-center">
-                {/* <span className="mr-auto" onClick={side.toggleOpen}>open sidebar</span> */}
-
                 <div className={`tham tham-e-squeeze tham-w-4`} onClick={side.toggleOpen}>
                     <div className="tham-box">
                         <div className="tham-inner bg-white"/>
