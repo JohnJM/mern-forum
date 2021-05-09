@@ -1,9 +1,6 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
+import React, {useContext, useCallback, useEffect, useState, useRef} from 'react';
 import {AuthContext} from '../../shared/context/AuthContext';
-import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
 import FormChangePwd from '../../shared/components/form/FormChangePwd';
-import ProfileSide from '../../shared/components/profile-side/ProfileSide';
-import Input from '../../shared/components/form/form-elements/Input';
 import axios from 'axios';
 
 import {AppConfig} from '../../App.config';
@@ -11,7 +8,6 @@ import {hexToLightOrDark} from '../../shared/helper/hexToLightOrDark'
 
 const Users = () => {
     const auth = useContext(AuthContext);
-    const side = useContext(SideDrawerContext);
     const userP = useRef();
     const submitBtn = useRef();
 
@@ -26,15 +22,10 @@ const Users = () => {
             userP.current.style.textDecorationColor = auth.loginState.colour;
             submitBtn.current.style.backgroundColor = auth.loginState.colour;
             submitBtn.current.style.color = hexToLightOrDark(auth.loginState.colour, '#ffffff', '#000000');
-            // submitBtn.current.style.color = auth.loginState.colour;
-            // submitBtn.current.style.mixBlendMode = 'difference';
         }
     }, [auth.loginState.colour, showColourChanged])
 
-    // let { uid } = useParams(); useEffect(()=>{     side.setContent(<ProfileSide
-    // />) });
-
-    const handleColourChange = async(e) => {
+    const handleColourChange = useCallback(async(e) => {
         try {
             e.preventDefault();
             let colour = e.target[0].value;
@@ -53,10 +44,10 @@ const Users = () => {
             }
 
         } catch (err) {
-            throw Error('Server Error on colour change.')
+            throw Error('Server Error on colour change.', err)
         }
 
-    }
+    }, [auth])
 
     return (
         <React.Fragment>

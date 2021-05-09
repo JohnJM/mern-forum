@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 import {GetVipContent} from '../../service/VipService';
 import {AuthContext} from '../../shared/context/AuthContext';
@@ -6,27 +6,24 @@ import {AuthContext} from '../../shared/context/AuthContext';
 const Vip = () => {
 
     const auth = useContext(AuthContext);
+    const [vipContent,
+        setVipContent] = useState(null);
 
-    const [vipContent, setVipContent] = useState(null);
-
-    useEffect(() =>{
+    useEffect(() => {
         GetVipContent(auth.loginState.token).then(res => {
             setVipContent(res.data.content);
         }).catch(err => {
-            console.log('error getting VIP content: ', err);
+            throw Error(err);
         })
-    },[]);
+    }, [auth.loginState.token]);
 
-    if (!vipContent){
+    if (!vipContent) {
         return 'loading VIP content...'
-    } 
+    }
 
-    return (
-        <>
-            <p>VIP WORKS - EXCLUSIVE CONTENT HERE : </p>
-            {vipContent}
-        </>
-    )
+    return vipContent;
+        
+    
 
 }
 

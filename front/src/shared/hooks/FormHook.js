@@ -1,6 +1,5 @@
 import { useCallback, useReducer } from 'react';
 
-
 const formReducer = (state, action) => {
     switch(action.type) {
       case 'input_change':
@@ -14,8 +13,7 @@ const formReducer = (state, action) => {
           }
         }
   
-        //console.log(state.inputs); //returns previous state which is spread and then updated
-  
+        //returns previous state which is spread and then updated
         return {
           ...state,//spread to copy existing state obj
           inputs: {
@@ -27,7 +25,6 @@ const formReducer = (state, action) => {
           isValid: formIsValid
         };
 
-
       case 'SET_DATA':
         return {
           inputs: action.inputs,
@@ -36,10 +33,8 @@ const formReducer = (state, action) => {
 
       default: 
        return state;
-  
     }
   }
-
 
 export const useForm = (initInputs, initValidity) => {
     const [formState, dispatch] = useReducer(formReducer,
@@ -65,8 +60,7 @@ export const useForm = (initInputs, initValidity) => {
          inputs: inputdata,
          formIsValid: formValidity
        })
-     })
+     }, [])
 
      return [formState, inputHandler, setFormData] ;
-
 };    

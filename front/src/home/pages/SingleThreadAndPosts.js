@@ -1,9 +1,7 @@
-import React, {useState, useEffect, useCallback, useContext, useRef} from 'react';
-import {useLocation, useParams} from 'react-router-dom';
+import React, {useState, useContext, useRef, useCallback} from 'react';
+import {useParams} from 'react-router-dom';
 import {useQuery} from 'react-query'
-// import Thread from '../../../../server/models/thread';
 import {getOPAndPosts} from '../../service/ThreadService';
-import {getPublicDataById} from '../../service/UserService';
 import SinglePost from '../../home/components/SinglePost';
 import CreatePost from '../../home/components/CreatePost';
 import BoardsNav from '../components/BoardsNav';
@@ -12,38 +10,39 @@ import {SideDrawerContext} from '../../shared/context/SideDrawerContext';
 import {UserRepliesContext} from '../context/UserRepliesContext';
 
 import {AppConfig} from '../../App.config';
-import {useSideDrawer} from '../../shared/hooks/SideDrawerHook';
 import Backdrop from '../../shared/components/ui/Backdrop';
 
-const SingleThreadAndPosts = (props) => {
+const SingleThreadAndPosts = () => {
+
+    const {status, data, refetch} = useQuery(['OPAndPosts', ['thread_id']
+    ], () => getOPAndPosts(thread));
+
     const {board, thread} = useParams();
+    let foundReply = useRef(false);
+
     const [isFullThreadImage,
         setIsFullThreadImage] = useState(false);
     const [highligtedPost,
         setHighlightedPost] = useState(false);
     const [isViewed,
         setIsViewed] = useState(false);
+
     const side = useContext(SideDrawerContext);
     const userReplies = useContext(UserRepliesContext);
 
-    let foundReply = useRef(false);
-
-    const createPostInputHandler = (...post) => {
-        userReplies.addOrUpdateReply(thread, post[1]);
-    }
-
     userReplies
-        .replyArr
-        .forEach(r => {
-            if (r.thread_id === thread) {
-                foundReply.current = r.content;
-            }
-        })
+    .replyArr
+    .forEach(r => {
+        if (r.thread_id === thread) {
+            foundReply.current = r.content;
+        }
+    })
 
-    const setCreatePost = (initContent = false) => {
+    const createPostInputHandler = useCallback((...post) => {
+        userReplies.addOrUpdateReply(thread, post[1]);
+    }, [thread, userReplies])
 
-        // Instead have function with a var
-
+    const setCreatePost = useCallback((initContent = false) => {
         if (!initContent) {
             side.setContent(<CreatePost
                 refresh={refetch}
@@ -66,18 +65,15 @@ const SingleThreadAndPosts = (props) => {
                 thread_id={thread}/>);
             side.toggleOpen();
         }
-    }
+    }, [createPostInputHandler, refetch, side, thread])
 
     let opContent = {};
     let postsArr = [];
 
-    const {status, data, refetch} = useQuery(['OPAndPosts', ['thread_id']
-    ], () => getOPAndPosts(thread));
-
     if (status === 'loading') {
-        return 'loading';
+        return 'Loading...';
     } else if (status === 'error') {
-        return 'error';
+        return 'Error loading data. Please try again later';
     } else {
         opContent = data.data.OP;
         postsArr = data.data.Posts;

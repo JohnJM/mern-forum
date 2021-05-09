@@ -7,6 +7,6 @@ export const getPublicDataById = async (uid) => {
         let user = await axios.get(`${AppConfig.apiUrl}/user/${uid}`);
         return user;
     } catch (err) {
-        throw err;
+        throw Error(err);
     }
 }

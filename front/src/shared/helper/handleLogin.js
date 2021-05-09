@@ -1,6 +1,8 @@
 import SideProfile from '../components/profile-side/ProfileSide';
 
-export const handleLogin = (id, username, token, expirationDate, colour, setTokenExpirationDate, setLoginState, setContent) => {
+export const handleLogin = (user, setTokenExpirationDate, setLoginState, setContent) => {
+    const {id, username, token, expirationDate, colour} = user;
+    
     const tokenExpiry = expirationDate || new Date(new Date().getTime() + (1000 * 60 * 60 * 2));
     setTokenExpirationDate(tokenExpiry);
     

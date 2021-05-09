@@ -1,17 +1,8 @@
 import {useCallback, useReducer} from 'react';
 
-const loggedOutState = {
-    isLogged: false,
-    id: 0,
-    username: "",
-    token: ""
-}
-
 const authReducer = (state, action) => {
     switch (action.type) {
         case 'LOGIN':
-            // console.log(action);
-
             state['isLoggedIn'] = true;
             state['id'] = action.id;
             state['username'] = action.username;
@@ -33,8 +24,6 @@ const authReducer = (state, action) => {
                 storedUser['colour'] = action.colour;
                 localStorage.setItem('user', JSON.stringify(storedUser));
             }
-            
-            console.log(JSON.parse(localStorage.getItem('user') ));
 
             return {
                 ...state,

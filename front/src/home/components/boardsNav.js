@@ -1,12 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
-// import {useSideDrawer} from '../../shared/hooks/SideDrawerHook'
 import {listBoards} from '../../service/BoardService';
-import {AuthContext} from '../../shared/context/AuthContext';
 
 const BoardsNav = () => {
-
-    // const auth = useContext(AuthContext);
 
     let [boardList,
         setBoardList] = useState(null);
@@ -15,8 +11,7 @@ const BoardsNav = () => {
         listBoards().then(res => {
             setBoardList(res.data.boards);
         }).catch(err => {
-            console.log(`error ${err}`);
-
+            throw Error(err);
         })
     }, [])
 
@@ -24,25 +19,26 @@ const BoardsNav = () => {
         return <p className="text-right">loading boards</p>;
     }
 
-
     return (
         <div>
             <ul className="flex justify-end">{boardList.map((board, i) => {
-                // console.log('here, ', board);
-                return (
-                    <li 
-                        className={`mx-3 underline decoration-color-primary cursor-pointer
-                        ${boardList.length === i + 1 ? ' mr-0' : null} 
-                        ${i === 0 ? 'ml-0' : null}`}
-                        key={board._id}
-                    >
-                        <NavLink activeClassName="text-primary active"  to={{pathname: `/board/${board.title}`, state:
-                             {board_id: board._id, board_title: board.title}
-                        }}>
-                            {board.title}
-                        </NavLink>
-                    </li>
-                )
+                    return (
+                        <li
+                            className={`mx-3 underline decoration-color-primary cursor-pointer ${boardList.length === i + 1 && ' mr-0'} ${i === 0 && 'ml-0'}`}
+                            key={board._id}>
+                            <NavLink
+                                activeClassName="text-primary active"
+                                to={{
+                                pathname: `/board/${board.title}`,
+                                state: {
+                                    board_id: board._id,
+                                    board_title: board.title
+                                }
+                            }}>
+                                {board.title}
+                            </NavLink>
+                        </li>
+                    )
                 })}
             </ul>
         </div>

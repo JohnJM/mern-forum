@@ -43,7 +43,13 @@ function App() {
         setColour] = useAuth();
 
     const login = useCallback((id, username, token, expirationDate, colour) => {
-        handleLogin(id, username, token, expirationDate, colour, setTokenExpirationDate, setLoginState, setContent);
+        handleLogin({
+            id,
+            username,
+            token,
+            expirationDate,
+            colour
+        }, setTokenExpirationDate, setLoginState, setContent);
     }, [setContent, setLoginState])
 
     const logout = useCallback(() => {
@@ -87,7 +93,6 @@ function App() {
                     toggleOpen,
                     displayAlertMsg
                 }}>
-                    {/* should really be in deeper nav component */}
                     <UserRepliesContext.Provider
                         value={{
                         replyArr,

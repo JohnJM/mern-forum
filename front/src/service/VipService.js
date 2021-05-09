@@ -3,7 +3,7 @@ import {AppConfig} from '../App.config';
 
 const axios = require('axios');
 
-export const GetVipContent = async (jwt) => {
+export const GetVipContent = async(jwt) => {
 
     //maybe import this
     const headers = {
@@ -19,4 +19,4 @@ export const GetVipContent = async (jwt) => {
     } catch (err) {
         throw err;
     }
-}
+} 

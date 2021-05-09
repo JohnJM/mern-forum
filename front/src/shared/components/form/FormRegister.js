@@ -59,19 +59,12 @@ const FormRegister = props => {
                 setIsRegisterLoading(false);
 
                 if (err.response) {
-
-                    console.log('error. responsse hit', err.response.data.errors.username);
-
                     if (err.response.data.errors.username === 'Username already exists') {
                         side.displayAlertMsg('username already exists', 'danger');
                     }
                 } else {
                     side.displayAlertMsg('Server error - please try again later', 'danger');
                 }
-
-                // todo, add logic and make this appear at top of sidebar - probably need new
-                // dispatch option on sidebar hook
-                // console.log(JSON.parse(err.response.request.response).errors);
             })
     }
 

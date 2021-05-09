@@ -6,8 +6,7 @@ import {SideDrawerContext} from '../../context/SideDrawerContext';
 import FormLogin from '../form/FormLogin';
 import FormRegister from '../form/FormRegister';
 
-// import './NavLinks.scss'; logic for what the nav links are will be in here.
-
+//logic for what the nav links are will be in here.
 const NavLinks = props => {
     const auth = useContext(AuthContext);
     const side = useContext(SideDrawerContext);

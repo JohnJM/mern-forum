@@ -11,8 +11,6 @@ const MainNavigation = props => {
     const side = useContext(SideDrawerContext);
     const auth = useContext(AuthContext);
 
-    //btw I want to try using react query in this project.
-
     useEffect(() => {
         if (!side.content) {
             auth.isLoggedIn
