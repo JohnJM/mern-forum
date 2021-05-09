@@ -11,7 +11,6 @@ module.exports.publicUserInfo_get = (req, res) => {
 
     const { uid } = req.params;
     
-    
     userService.getPublicUserInfoById(uid).then(data => {
         res.status(200).json(data);
     }).catch(err => {
@@ -91,12 +90,7 @@ module.exports.colour_post = async (req, res) => {
 }
 
 module.exports.vippage_get = (req, res) => {
-    // console.log('res . locals', res.locals.user);
-
     //if you can get here you are past the auth :)
-    
-
-    // res.json(res.locals.user).status(200);
-    res.status(200).json({content: 'THIS IS THE VIP CONTENT YOU REQUESTED'})
+    res.status(200).json({content: 'Vip Content.'})
 } 
 

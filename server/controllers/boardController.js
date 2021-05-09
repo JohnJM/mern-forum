@@ -20,7 +20,6 @@ module.exports.index_get = async (req, res) => {
     threadService.getThreadsFromIndex(board, page).then(threads => {
         res.status(200).json(threads);
     }).catch(err => {
-        console.log('error on boardController - index_get', err);
-        res.status(400);
+        res.status(400).json({err});
     })
 }

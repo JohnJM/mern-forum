@@ -1,8 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-// const authController = require('../controllers/authController');
-// const { requireAuth } = require('../middleware/authMiddleware');
 const threadController = require('../controllers/threadController');
 const fileUpload = require('../middleware/file-upload');
 
