@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const e = require('express');
-const {secret} = require('../secretconfig.json');
+// const {secret} = require('../secretconfig.json');
 const User = require('../models/user');
 
 //inside express router middleware we get access to req res :) - check jwt
@@ -20,7 +20,7 @@ const requireAuth = (req, res, next) => {
             .end();
 
     } else {
-        jwt.verify(token, secret, (err, decodedToken) => {
+        jwt.verify(token, `${process.env.JWT_SECRET}`, (err, decodedToken) => {
             if (err) {
                 console.log(err);
                 res

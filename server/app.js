@@ -15,10 +15,9 @@ const multer = require('multer');
 const cookieParser = require('cookie-parser');
 // const bodyParser = require('body-parser');
 
-const { dbURI } = require('./secretconfig');
 
 
-mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@jznr-cluster.nioji.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`, {useNewUrlParser: true, useUnifiedTopology: true})
 .then((res) => console.log('connected to db.'))
 .then (() =>  app.listen(3001, () => console.log('listening on 3001')))
 .catch(err => console.log(err));
