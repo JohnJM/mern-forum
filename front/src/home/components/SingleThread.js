@@ -37,7 +37,7 @@ const SingleThread = props => {
     return <>
         <div className="border-t-2 border-secondary container bg-gray-100 mb-0 py-4 mb-8 flex-row px-4 text-black flex">
             <div className="max-w-250">
-                <img src={`${AppConfig.apiUrl}/${thread.image}`} alt={thread.image.split('/')[2]} />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}/${thread.image}`} alt={thread.image.split('/')[2]} />
             </div>
             <div className="w-3/4 pl-2">
                 <div>

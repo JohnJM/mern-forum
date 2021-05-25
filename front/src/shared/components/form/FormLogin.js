@@ -3,7 +3,6 @@ import {AuthContext} from '../../context/AuthContext';
 import {SideDrawerContext} from '../../context/SideDrawerContext';
 import FormRegister from './FormRegister';
 import Button from './form-elements/Button';
-import {AppConfig} from '../../../App.config';
 import SideDrawer from '../ui/side-drawer/SideDrawer';
 import ProfileSide from '../profile-side/ProfileSide';
 
@@ -41,7 +40,7 @@ const FormLogin = props => {
 
         try {
             side.displayAlertMsg(false);
-            const res = await axios.post(`${AppConfig.apiUrl}/login`, data, headers);
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, data, headers);
             setIsLoginLoading(false);
 
             console.log(res.data);

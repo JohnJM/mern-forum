@@ -7,7 +7,6 @@ import {SideDrawerContext} from '../../context/SideDrawerContext';
 import Input from './form-elements/Input';
 import Button from './form-elements/Button';
 import {VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MAXLENGTH} from '../util/Validators';
-import {AppConfig} from '../../../App.config';
 
 const axios = require('axios');
 
@@ -49,7 +48,7 @@ const FormRegister = props => {
         setIsRegisterLoading(true);
         side.displayAlertMsg(false);
         axios
-            .post(`${AppConfig.apiUrl}/signup`, data, headers)
+            .post(`${process.env.REACT_APP_BACKEND_URL}/signup`, data, headers)
             .then((res) => {
                 console.log(res);
                 side.displayAlertMsg('Account created. you can now sign in with it')

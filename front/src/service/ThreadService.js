@@ -10,7 +10,7 @@ const headers = {
 
 export const GetVipContent = async(jwt) => {
     try {
-        let content = await axios.get(`${AppConfig.apiUrl}/vip`, headers);
+        let content = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/vip`, headers);
         return content;
     } catch (err) {
         throw Error(err);
@@ -20,10 +20,10 @@ export const GetVipContent = async(jwt) => {
 export const getOPAndPosts = async(thread_id) => {
 
     try {
-        let content = await axios.get(`${AppConfig.apiUrl}/thread/${thread_id}`, headers);
+        let content = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/thread/${thread_id}`, headers);
 
         if (content.data.OP.user_id) {
-            content.data.OP.author = await axios.get(`${AppConfig.apiUrl}/user/${content.data.OP.user_id}`);
+            content.data.OP.author = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/${content.data.OP.user_id}`);
 
             content.data.OP.author = content.data.OP.author.data;
         } else {

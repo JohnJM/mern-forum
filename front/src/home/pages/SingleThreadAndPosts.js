@@ -138,7 +138,7 @@ const SingleThreadAndPosts = () => {
                     <img
                         onClick={() => setIsFullThreadImage(!isFullThreadImage)}
                         className={`cursor-pointer ${ !isFullThreadImage && 'max-w-250'}`}
-                        src={`${AppConfig.apiUrl}/${opContent.image}`}
+                        src={`${process.env.REACT_APP_BACKEND_URL}/${opContent.image}`}
                         alt={opContent.subject}/>
                     <p>{opContent.content}</p>
                 </div>

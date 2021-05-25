@@ -68,7 +68,7 @@ const CreatePost = props => {
                 formData["user_id"] = auth.loginState.id;
             }
 
-            const submitPostData = await axios.post(`${AppConfig.apiUrl}/post/create`, formData, {
+            const submitPostData = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/create`, formData, {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*",
                 withCredentials: true

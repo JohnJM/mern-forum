@@ -37,7 +37,7 @@ const FormChangePwd = props => {
             error
         },
         postChangePwd] = useAxios({
-        url: `${AppConfig.apiUrl}/changePwd`,
+        url: `${process.env.REACT_APP_BACKEND_URL}/changePwd`,
         method: 'post',
         headers: AppConfig.defaultHeaders,
         withCredentials: true

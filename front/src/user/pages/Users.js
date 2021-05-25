@@ -3,7 +3,6 @@ import {AuthContext} from '../../shared/context/AuthContext';
 import FormChangePwd from '../../shared/components/form/FormChangePwd';
 import axios from 'axios';
 
-import {AppConfig} from '../../App.config';
 import {hexToLightOrDark} from '../../shared/helper/hexToLightOrDark'
 
 const Users = () => {
@@ -29,7 +28,7 @@ const Users = () => {
         try {
             e.preventDefault();
             let colour = e.target[0].value;
-            const submitData = await axios.post(`${AppConfig.apiUrl}/user/updateColour`, {
+            const submitData = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/updateColour`, {
                 colour,
                 user_id: auth.loginState.id
             }, {

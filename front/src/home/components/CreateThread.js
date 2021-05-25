@@ -45,7 +45,7 @@ const CreateThread = props => {
             }
             formData.append('board_id', props.board_id)
 
-            const data = await axios.post(`${AppConfig.apiUrl}/thread/create`, formData, {
+            const data = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/thread/create`, formData, {
                 'Content-Type': 'multipart/form-data;',
                 "Access-Control-Allow-Origin": "*"
             });
