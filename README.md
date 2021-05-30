@@ -19,3 +19,7 @@ Click username in a thread to highlight all posts by the user.
 Image upload when creating a thread
 
 The project is not currently live, but you can compile and run locally if you add a mongo connect.
+
+TODO:
+add recaptcha v2 into form hook
+add logged in users can follow other users & have their follower count displayed.
