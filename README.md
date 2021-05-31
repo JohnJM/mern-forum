@@ -4,6 +4,7 @@ The mongodb has 4 collections: users, posts, threads & boards.
 I'm using useContext for global state & using react-query (mostly) for data-fetching.
 There are many shared front-end services as well as custom hooks for using the side drawer, a custom auth hook & a custom form hook which checks if a form is valid / invalid.
 I also made a hook to store post content specific to each thread so you can navigate around the site without losing your post content on each thread.
+Tailwind CSS was used for design.
 
 
 Some general features include:
